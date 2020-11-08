@@ -57,3 +57,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Gem for normalize.css
 gem 'normalize-rails', '~> 8.0'
+
+# Ruby implementation of GraphQL
+gem 'graphql', '~> 1.11'
+# GraphiQL can be used to debug and test GraphQL queries
+gem 'graphiql-rails', group: :development
