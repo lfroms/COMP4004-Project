@@ -22,8 +22,8 @@
     "isolatedModules": true,
     "removeComments": true,
     "strictFunctionTypes": true,
-    "rootDir": "app/javascript",
-    "baseUrl": "app/javascript"
+    "rootDir": "app/ui",
+    "baseUrl": "app/ui"
   },
   "exclude": [
     "node_modules",
