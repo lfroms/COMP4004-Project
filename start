@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$1" = "dev" ]; then
+  docker-compose up
+else
+  docker-compose -f docker-compose.simple.yml up
+fi
