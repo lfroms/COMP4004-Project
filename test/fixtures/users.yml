@@ -1,0 +1,11 @@
+admin:
+  name: First User
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+  admin: true
+  approved: true
+
+not_admin_approved:
+  name: Not Admin
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+  admin: false
+  approved: true
