@@ -8,25 +8,24 @@ AllCops:
   TargetRubyVersion: 2.7.2
   NewCops: enable
   Include:
-    - "**/*.rb"
-    - "**/*.gemfile"
-    - "**/*.gemspec"
-    - "**/*.rake"
-    - "**/*.ru"
-    - "**/*.ruby"
-    - "**/*.spec"
-    - "**/*.thor"
-    - "**/.irbrc"
-    - "**/.pryrc"
-    - "**/Gemfile"
-    - "**/Rakefile"
+    - '**/*.rb'
+    - '**/*.gemfile'
+    - '**/*.gemspec'
+    - '**/*.rake'
+    - '**/*.ru'
+    - '**/*.ruby'
+    - '**/*.spec'
+    - '**/*.thor'
+    - '**/.irbrc'
+    - '**/.pryrc'
+    - '**/Gemfile'
+    - '**/Rakefile'
   Exclude:
-    - ".git/**/*"
-    - "bin/*"
-    - "db/**/*"
-    - "node_modules/**/*"
-    - "tmp/**/*"
-    - "vendor/**/*"
+    - '.git/**/*'
+    - 'bin/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
 
 Layout/EmptyLineAfterMagicComment:
   Enabled: false
