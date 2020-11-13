@@ -22,7 +22,7 @@ module JsonWebToken
     test '::decode decodes the token' do
       token = JsonWebToken::Coder.encode({ test: 'hello' })
       expected = 'hello'
-      actual = JsonWebToken::Coder.decode(token)["test"]
+      actual = JsonWebToken::Coder.decode(token)['test']
 
       assert_equal expected, actual
     end
