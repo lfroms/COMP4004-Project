@@ -26,6 +26,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
+  test 'email must be unique' do
+    user1 = User.new(name: 'Lukas', email: 'example@example.com', password: '123456', admin: true, approved: true)
+    user2 = User.new(name: 'Gaby', email: 'example@example.com', password: 'funkyMunky', admin: true, approved: true)
+    assert_not user2.valid?
+  end
+
   test 'password cannot be empty' do
     user = User.new(name: 'Lukas', email: 'example@example.com', password: nil, admin: true, approved: true)
 
