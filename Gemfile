@@ -62,3 +62,6 @@ gem 'normalize-rails', '~> 8.0'
 gem 'graphql', '~> 1.11'
 # GraphiQL can be used to debug and test GraphQL queries
 gem 'graphiql-rails', group: :development
+
+# Json Web Token
+gem 'jwt', '~> 2.2'
