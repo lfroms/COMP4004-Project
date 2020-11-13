@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "strict": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "removeComments": true,
     "strictFunctionTypes": true,
     "rootDir": "app/ui",

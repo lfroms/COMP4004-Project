@@ -2,12 +2,14 @@
   "name": "cms",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.2.5",
     "@babel/preset-react": "^7.12.5",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
     "antd": "^4.8.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "graphql": "^15.4.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -22,11 +24,15 @@
     "@types/react-router-dom": "^5.1.6",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
+    "apollo": "^2.31.1",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "prettier": "^2.1.2",
     "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "apollo:generate": "apollo client:codegen --excludes=node_modules/* --includes=**/*.tsx --endpoint http://localhost:3000/graphql --target typescript --addTypename --tagName=gql --globalTypesFile=app/ui/graphql/global-types.ts graphql"
   }
 }
