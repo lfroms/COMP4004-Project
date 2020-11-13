@@ -23,6 +23,7 @@ AllCops:
   Exclude:
     - '.git/**/*'
     - 'bin/*'
+    - 'db/seeds.rb'
     - 'node_modules/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'

@@ -8,4 +8,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create!(name: 'Jane', email: 'jane@email.com', password: '123456', admin: true, approved: true)
-p "Created #{User.count} user(s)"
+puts "Created #{User.count} user(s)"
