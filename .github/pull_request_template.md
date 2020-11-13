@@ -8,7 +8,7 @@
 
 Resolves [issue #]
 
-### Why did you choose this approach?
+### How did you accomplish this and why did you choose this approach?
 
 <!-- Why have you chosen to implement this in this particular way? -->
 
