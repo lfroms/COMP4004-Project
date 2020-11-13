@@ -1,13 +1,13 @@
 admin:
   name: First User
-  email: example@example.com
+  email: example1@example.com
   password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
   admin: true
   approved: true
 
 not_admin_approved:
   name: Not Admin
-  email: example@example.com
+  email: example2@example.com
   password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
   admin: false
   approved: true
