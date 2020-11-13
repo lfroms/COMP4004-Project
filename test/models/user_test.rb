@@ -27,10 +27,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'email must be unique' do
-    user1 = User.create!(name: 'Lukas', email: 'example@example.com', password: '123456', admin: true, approved: true)
+    User.create!(name: 'Lukas', email: 'example@example.com', password: '123456', admin: true, approved: true)
 
     assert_raises ActiveRecord::RecordInvalid do
-      user2 = User.create!(name: 'Gaby', email: 'example@example.com', password: 'funkyMunky', admin: true, approved: true)
+      User.create!(name: 'Gaby', email: 'example@example.com', password: 'funkyMunky', admin: true, approved: true)
     end
   end
 
