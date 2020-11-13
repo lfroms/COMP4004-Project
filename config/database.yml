@@ -61,8 +61,8 @@ development:
 test:
   <<: *default
   database: <%= ENV.fetch('PG_DATABASE', 'cms_test') %>
-  host: <%= ENV.fetch('PG_HOST',  'localhost') %>
-  username: <%= ENV.fetch('PG_USER', nil) %>
+  host: <%= ENV.fetch('PG_HOST',  'db') %>
+  username: <%= ENV.fetch('PG_USER', 'postgres') %>
   password: <%= ENV.fetch('PG_PASSWORD', nil) %>
   port: <%= ENV.fetch('PG_PORT', 5432) %>
 
