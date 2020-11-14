@@ -6,7 +6,7 @@ module Mutations
     test '#resolve authenticates an existing user and returns a token' do
       query = <<~EOF
         mutation TestMutation {
-          authenticate(input: {email: "example@example.com", password: "password"}) {
+          authenticate(input: {email: "example1@example.com", password: "password"}) {
             token
           }
         }

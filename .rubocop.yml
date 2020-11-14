@@ -24,6 +24,7 @@ AllCops:
     - '.git/**/*'
     - 'bin/*'
     - 'db/seeds.rb'
+    - 'db/schema.rb'
     - 'node_modules/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
