@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Routes } from 'foundation';
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { Frame } from 'components';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -30,7 +31,9 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Routes />
+        <Frame>
+          <Routes />
+        </Frame>
       </Router>
     </ApolloProvider>
   );
