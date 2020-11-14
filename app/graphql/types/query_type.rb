@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 module Types
   class QueryType < Types::BaseObject
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    description 'The queries that can be performed.'
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: 'An example field added by the generator'
-    def test_field
-      'Hello World!'
-    end
+    field :current_user,
+      resolver: Resolvers::CurrentUser,
+      description: 'Specific details about the current user.'
   end
 end
