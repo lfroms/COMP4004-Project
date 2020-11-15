@@ -9,6 +9,6 @@ module Types
 
     field :users,
       resolver: Resolvers::Users,
-      description: 'Specific details on all created users.'
+      description: 'All users in the system.'
   end
 end
