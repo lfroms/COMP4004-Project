@@ -1,0 +1,16 @@
+name: Create Status Check
+description: Create a status check using the GitHub API
+inputs:
+  github_token:
+    description: GitHub token
+    required: true
+  name:
+    description: The name of the status check
+    required: true
+  conclusion:
+    description: The result of the status
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'index.js'
