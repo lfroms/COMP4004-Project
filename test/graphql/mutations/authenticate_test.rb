@@ -18,7 +18,7 @@ module Mutations
       assert_not_nil token
     end
 
-    test '#resolve does not authenticates an nonexistent user and does not return a token' do
+    test '#resolve does not authenticate an nonexistent user and does not return a token' do
       query = <<~EOF
         mutation TestMutation {
           authenticate(input: {email: "fake@fake.com", password: "fake"}) {
@@ -31,6 +31,23 @@ module Mutations
       token = result.dig('data', 'authenticate', 'token')
 
       assert_nil token
+    end
+
+    test '#resolve does not authenticate a user that has not yet been approved' do
+      query = <<~EOF
+        mutation TestMutation {
+          authenticate(input: {email: "example2@example.com", password: "password"}) {
+            token
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      value = result.dig('data', 'authenticate')
+      error_message = result.dig('errors', 0, 'message')
+
+      assert_nil value
+      assert_equal 'This account has not yet been approved. Please try again later.', error_message
     end
   end
 end
