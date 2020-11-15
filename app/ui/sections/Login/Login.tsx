@@ -1,61 +1,56 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import './index.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import  { Redirect } from 'react-router-dom'
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-// import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 export default function Login() {
-  // const groups: NavigationGroup[] = [
-  //   {
-  //     id: 'test_group',
-  //     title: 'Test group',
-  //     icon: <HomeOutlined />,
-  //     items: [
-  //       {
-  //         id: 'first',
-  //         title: 'First test item',
-  //         onSelect: () => console.log('testing'),
-  //       },
-  //     ],
-  //   },
-  // ];
+  const AUTHENTICATE = gql`
+    mutation Authenticate($email: String!, $password: String!) {
+      authenticate(input: {email: $email, password: $password}) {
+        token
+      }
+    }
+  `;
 
-  // const NormalLoginForm = () => {
-  //   const onFinish = (values) => {
-  //     console.log('Received values of form: ', values);
-  //   };
+  const [authenticate, {data}] = useMutation(AUTHENTICATE);
 
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  if (data?.authenticate?.token) {
+    localStorage.setItem('token', data.authenticate.token)
+    return <Redirect to='/courses'/>
+  }
+
+  if (data?.authenticate) {
+    console.log("Invalid login")
+  }
+
+  const onFinish = (values: {email: String, password: String}) => {
+    authenticate({variables: {email: values.email, password: values.password}})
   }
 
   return (
     <Form
-      name="normal_login"
+      name="login"
       className="login-form"
-      initialValues={{
-        remember: true,
-      }}
       onFinish={onFinish}
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please input your email!',
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
         rules={[
           {
             required: true,
-            message: 'Please input your Password!',
+            message: 'Please input your password!',
           },
         ]}
       >
@@ -64,15 +59,6 @@ export default function Login() {
           type="password"
           placeholder="Password"
         />
-      </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-
-        {/* <a className="login-form-forgot" href="">
-          Forgot password
-        </a> */}
       </Form.Item>
 
       <Form.Item>
