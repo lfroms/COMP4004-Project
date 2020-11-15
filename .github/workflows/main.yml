@@ -71,9 +71,12 @@ jobs:
           rubocop_command_prefix: bundle exec
 
       - name: Install PostgreSQL 13 client
+        if: ${{ always() }}
         run: sudo apt-get -yqq install libpq-dev
 
       - name: Unit tests
+        id: unit_tests
+        if: ${{ always() }}
         env:
           PG_DATABASE: postgres
           PG_HOST: localhost
@@ -87,9 +90,9 @@ jobs:
           bundle exec rails test
 
       - name: Report results from unit tests
-        if: ${{ success() }}
+        if: ${{ always() }}
         uses: ./.github/actions/create-status-check
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           name: Unit tests
-          conclusion: success
+          conclusion: ${{ steps.unit_tests.conclusion }}
