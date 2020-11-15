@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Home, Login } from 'sections';
 import { PrivateRoute } from './components';
 
+
 export default function Routes() {
   return (
     <Switch>
@@ -10,6 +11,8 @@ export default function Routes() {
 
       <PrivateRoute exact path="/courses" component={Home} />
       <Redirect path="*" to="/courses" />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/administrators" component={AdminIndex} />
     </Switch>
   );
 }
