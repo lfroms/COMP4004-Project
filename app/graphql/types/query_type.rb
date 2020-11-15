@@ -10,5 +10,11 @@ module Types
     field :users,
       resolver: Resolvers::Users,
       description: 'All users in the system.'
+
+    field :user,
+      resolver: Resolvers::SpecificUser,
+      description: 'Specific details about a given user.' do
+        argument :id, String, required: true
+      end
   end
 end
