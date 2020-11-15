@@ -6,5 +6,9 @@ module Types
     field :current_user,
       resolver: Resolvers::CurrentUser,
       description: 'Specific details about the current user.'
+
+    field :users,
+      resolver: Resolvers::Users,
+      description: 'Specific details on all created users.'
   end
 end
