@@ -1,0 +1,17 @@
+.Frame {
+  display: flex;
+  background: #fff !important;
+}
+
+.Logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.GlobalNav {
+  height: 100vh;
+  position: sticky !important;
+  align-self: flex-start;
+  top: 0;
+}
