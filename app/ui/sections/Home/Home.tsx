@@ -12,7 +12,8 @@ export default function Home() {
     }
   `;
 
-  const {data} = useQuery(GET_CUR_USER);
+  const {data, loading} = useQuery(GET_CUR_USER);
+
   const groups: NavigationGroup[] = [
     {
       id: 'test_group',
@@ -27,6 +28,10 @@ export default function Home() {
       ],
     },
   ];
+
+  if (loading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <Page

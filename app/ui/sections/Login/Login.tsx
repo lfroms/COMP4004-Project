@@ -1,7 +1,7 @@
 import React from 'react';
 import  { Redirect } from 'react-router-dom'
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { gql, useMutation } from '@apollo/client';
 
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
 
   const onFinish = (values: {email: String, password: String}) => {
     authenticate({variables: {email: values.email, password: values.password}})
-  }
+  };
 
   return (
     <Form
