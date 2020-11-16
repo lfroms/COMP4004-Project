@@ -14,15 +14,14 @@ export default function Routes() {
 
   const {data} = useQuery(GET_CUR_USER);
 
-    if (data?.currentUser) {
-      return (
+    if (!data?.currentUser) {
+      return <Route component={Login} />
+    }
+
+    return (
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/courses" component={Home} />
       </Switch>
-      )
-    }
-   else {
-    return <Redirect to='/'/>
-   }
+    )
 }
