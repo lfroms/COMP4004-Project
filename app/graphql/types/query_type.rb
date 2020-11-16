@@ -14,7 +14,7 @@ module Types
     field :user,
       resolver: Resolvers::SpecificUser,
       description: 'Specific details about a given user.' do
-        argument :id, String, required: true
+        argument :id, Integer, required: true
       end
   end
 end
