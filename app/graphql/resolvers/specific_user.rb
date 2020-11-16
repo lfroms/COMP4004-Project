@@ -4,7 +4,7 @@ module Resolvers
     type Types::UserType, null: true
 
     def resolve(id:)
-      User.find(id)
+      User.find_by(id: id)
     end
   end
 end
