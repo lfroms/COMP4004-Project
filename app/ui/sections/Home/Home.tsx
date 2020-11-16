@@ -12,7 +12,7 @@ export default function Home() {
     }
   `;
 
-  const {data, loading} = useQuery(GET_CUR_USER);
+  const { data, loading } = useQuery(GET_CUR_USER);
 
   const groups: NavigationGroup[] = [
     {
@@ -30,7 +30,7 @@ export default function Home() {
   ];
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (

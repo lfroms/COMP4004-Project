@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Home, Login } from 'sections';
 import { gql, useQuery } from '@apollo/client';
 
@@ -12,16 +12,16 @@ export default function Routes() {
     }
   `;
 
-  const {data} = useQuery(GET_CUR_USER);
+  const { data } = useQuery(GET_CUR_USER);
 
-    if (!data?.currentUser) {
-      return <Route component={Login} />
-    }
+  if (!data?.currentUser) {
+    return <Route component={Login} />;
+  }
 
-    return (
-      <Switch>
-        <Route exact path="/" component={Login} />
-        <Route exact path="/courses" component={Home} />
-      </Switch>
-    )
+  return (
+    <Switch>
+      <Redirect exact from="/" to="/courses" />
+      <Route exact path="/courses" component={Home} />
+    </Switch>
+  );
 }

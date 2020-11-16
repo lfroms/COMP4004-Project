@@ -17,6 +17,7 @@ export default function Login() {
 
   if (data?.authenticate?.token) {
     localStorage.setItem('token', data.authenticate.token);
+
     return <Redirect to="/courses" />;
   }
 
@@ -24,7 +25,7 @@ export default function Login() {
     console.log('Invalid login');
   }
 
-  const onFinish = (values: { email: String; password: String }) => {
+  const onFinish = (values: { email: string; password: string }) => {
     authenticate({ variables: { email: values.email, password: values.password } });
   };
 
