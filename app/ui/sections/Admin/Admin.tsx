@@ -1,31 +1,13 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
 import { HomeOutlined } from '@ant-design/icons';
-import { gql, useQuery } from '@apollo/client';
 import { Divider } from 'antd';
+import { Redirect, Switch } from 'react-router-dom';
+import { PrivateRoute } from '../../foundation/Routes/components';
+
+import { Users } from './sections';
 
 export default function Admin() {
-  const GET_ALL_USERS = gql`
-    query Users {
-      users {
-        edges {
-          node {
-            name
-            email
-            approved
-            admin
-          }
-        }
-      }
-    }
-  `;
-
-  const { data } = useQuery(GET_ALL_USERS);
-
-  if (data) {
-    console.log(data);
-  }
-
   const groups: NavigationGroup[] = [
     {
       id: 'test_group',
@@ -42,16 +24,20 @@ export default function Admin() {
   ];
 
   return (
-    <Page
-      title="Administrators"
-      subtitle="test"
-      groups={groups}
-      defaultOpenGroupId="test_group"
-      defaultSelectedItemId="first"
-    >
-      <Divider orientation="left">Administrators</Divider>
-
-      <div>Admin index</div>
-    </Page>
+    <>
+      <Switch>
+        <PrivateRoute exact path="/admin/users" component={Users} />
+        <Redirect path="/admin" to="/admin/users" />
+      </Switch>
+      <Page
+        title="Admin"
+        subtitle="test"
+        groups={groups}
+        defaultOpenGroupId="test_group"
+        defaultSelectedItemId="first"
+      >
+        <Divider orientation="left">Administrators</Divider>
+      </Page>
+    </>
   );
 }

@@ -9,8 +9,7 @@ export default function Routes() {
       <Route exact path="/login" component={Login} />
 
       <PrivateRoute exact path="/courses" component={Home} />
-      <PrivateRoute exact path="/admin/users" component={Admin} />
-      <Redirect path="/admin" to="/admin/users" />
+      <PrivateRoute exact path="/admin" component={Admin} />
       <Redirect path="*" to="/courses" />
     </Switch>
   );
