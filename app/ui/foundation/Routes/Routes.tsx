@@ -1,8 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Home, Login } from 'sections';
+import { Admin, Home, Login } from 'sections';
 import { PrivateRoute } from './components';
-
 
 export default function Routes() {
   return (
@@ -10,9 +9,9 @@ export default function Routes() {
       <Route exact path="/login" component={Login} />
 
       <PrivateRoute exact path="/courses" component={Home} />
+      <PrivateRoute exact path="/admin/users" component={Admin} />
+      <Redirect path="/admin" to="/admin/users" />
       <Redirect path="*" to="/courses" />
-      <Route exact path="/" component={Home} />
-      <Route exact path="/administrators" component={AdminIndex} />
     </Switch>
   );
 }
