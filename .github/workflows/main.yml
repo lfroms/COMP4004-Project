@@ -5,60 +5,19 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+    paths:
+      - '**.tsx'
+      - '**.scss'
+      - '**.ts'
+      - '**.js'
+      - '**.rb'
+      - '**.erb'
+      - '**.yml'
+      - '**.lock'
+      - '**.json'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v1
-
-      - name: Set up Ruby
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-
-      - name: Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '10.x'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Cache Ruby gems
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Cache Node modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-modules-
-
-      - name: Bundle install
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-
-      - name: Yarn install
-        run: yarn install
-
-      - name: Lint Typescript/SCSS
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint: true
-          eslint_extensions: 'js,ts,tsx'
-          eslint_dir: app/ui
-          rubocop: true
-          rubocop_command_prefix: bundle exec
-
-  test:
+  checks:
     runs-on: ubuntu-latest
     services:
       db:
@@ -114,7 +73,7 @@ jobs:
       - name: Install PostgreSQL 13 client
         run: sudo apt-get -yqq install libpq-dev
 
-      - name: Unit tests
+      - name: Rails tests
         env:
           PG_DATABASE: postgres
           PG_HOST: localhost
@@ -126,3 +85,14 @@ jobs:
         run: |
           bundle exec rails db:setup
           bundle exec rails test
+
+      - name: Lint source code
+        if: ${{ always() }}
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint: true
+          eslint_extensions: 'js,ts,tsx'
+          eslint_dir: app/ui
+          rubocop: true
+          rubocop_command_prefix: bundle exec
