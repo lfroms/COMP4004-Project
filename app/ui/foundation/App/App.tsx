@@ -10,13 +10,17 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  const token = window.localStorage.getItem('token');
+  // FIXME: It would be great if we could get the token using the `useToken` hook instead.
+  // See https://github.com/lfroms/COMP4004-Project/pull/109
+  const parsedToken = token ? JSON.parse(token) : undefined;
+
+  const authorization = token && { Authorization: `Bearer ${parsedToken}` };
 
   return {
     headers: {
       ...headers,
-      Authorization: token ? `Bearer ${token}` : '',
+      ...authorization,
       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
     },
   };
