@@ -16,8 +16,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('token'),
+      Authorization: token ? `Bearer ${token}` : '',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
     },
   };
 });

@@ -1,8 +1,19 @@
+import React from 'react';
 import { HomeOutlined } from '@ant-design/icons';
 import { NavigationGroup, Page } from 'components';
-import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 
 export default function Home() {
+  const GET_CUR_USER = gql`
+    query CurrentUser {
+      currentUser {
+        name
+      }
+    }
+  `;
+
+  const { data, loading } = useQuery(GET_CUR_USER);
+
   const groups: NavigationGroup[] = [
     {
       id: 'test_group',
@@ -18,6 +29,10 @@ export default function Home() {
     },
   ];
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <Page
       title="Home"
@@ -26,7 +41,7 @@ export default function Home() {
       defaultOpenGroupId="test_group"
       defaultSelectedItemId="first"
     >
-      <div>Hello world!</div>
+      {data?.currentUser && <div>Hello {data.currentUser.name}!</div>}
     </Page>
   );
 }
