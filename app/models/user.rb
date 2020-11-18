@@ -2,6 +2,9 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_many :user_groups, dependent: :destroy
+  has_many :groups, through: :user_groups
+
   validates :name, presence: true
   validates :email, format: URI::MailTo::EMAIL_REGEXP, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }

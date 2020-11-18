@@ -1,0 +1,7 @@
+self_enrolling:
+  name: Self-enrolling
+  can_self_enroll: true
+
+not_self_enrolling:
+  name: Not self-enrolling
+  can_self_enroll: false
