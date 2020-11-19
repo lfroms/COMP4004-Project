@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 import { AdminGroupsQuery, AdminGroupsQuery_groups_nodes } from './graphql/AdminGroupsQuery';
 
 export default function Groups() {
-  const ALL_USERS = gql`
+  const ALL_GROUPS = gql`
     query AdminGroupsQuery {
       groups {
         nodes {
@@ -19,7 +19,7 @@ export default function Groups() {
     }
   `;
 
-  const { data } = useQuery<AdminGroupsQuery>(ALL_USERS);
+  const { data } = useQuery<AdminGroupsQuery>(ALL_GROUPS);
 
   const columns = [
     {
