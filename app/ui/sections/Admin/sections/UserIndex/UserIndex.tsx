@@ -5,7 +5,7 @@ import { Button, Divider, Table, Tag } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 import { AdminUsersQuery, AdminUsersQuery_users_nodes } from './graphql/AdminUsersQuery';
 
-export default function Users() {
+export default function UserIndex() {
   const ALL_USERS = gql`
     query AdminUsersQuery {
       users {

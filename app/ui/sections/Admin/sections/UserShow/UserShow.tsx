@@ -27,8 +27,6 @@ export default function UserDetails() {
     variables: { id: userId },
   });
   const user = data?.user;
-  console.log(userId);
-  console.log(user);
 
   return (
     <>

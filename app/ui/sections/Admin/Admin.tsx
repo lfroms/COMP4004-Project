@@ -3,7 +3,7 @@ import { NavigationGroup, Page } from 'components';
 import { UserOutlined } from '@ant-design/icons';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import { Groups, UserDetails, Users } from './sections';
+import { Groups, UserIndex, UserShow } from './sections';
 
 export default function Admin() {
   const history = useHistory();
@@ -37,8 +37,8 @@ export default function Admin() {
       defaultSelectedItemId={location.pathname}
     >
       <Switch>
-        <Route exact path="/admin/users" component={Users} />
-        <Route exact path="/admin/users/:userId" component={UserDetails} />
+        <Route exact path="/admin/users" component={UserIndex} />
+        <Route exact path="/admin/users/:userId" component={UserShow} />
         <Route exact path="/admin/groups" component={Groups} />
         <Redirect path="/admin" to="/admin/users" />
       </Switch>
