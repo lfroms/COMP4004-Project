@@ -18,7 +18,7 @@ interface Item {
 
 interface Props {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   onBack?: () => void;
   groups: Group[];
   defaultSelectedItemId: string;
@@ -40,7 +40,7 @@ export default function Page(props: Props) {
   const submenus = groups.map(group => (
     <Menu.SubMenu key={group.id} icon={group.icon} title={group.title}>
       {group.items.map(item => (
-        <Menu.Item key={item.id} onSelect={item.onSelect}>
+        <Menu.Item key={item.id} onClick={item.onSelect}>
           {item.title}
         </Menu.Item>
       ))}
