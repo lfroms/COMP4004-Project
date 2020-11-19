@@ -27,6 +27,11 @@ export default function Groups() {
       dataIndex: 'name',
       key: 'name',
     },
+    {
+      title: 'Users',
+      dataIndex: ['users', 'nodes', 'length'],
+      key: 'users',
+    },
   ];
 
   const groups = data?.groups.nodes?.filter(group => !!group) ?? [];
