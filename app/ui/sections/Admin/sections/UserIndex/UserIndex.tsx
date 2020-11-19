@@ -1,13 +1,15 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Divider, Table, Tag } from 'antd';
+import { Divider, Table, Tag } from 'antd';
 import { gql, useQuery } from '@apollo/client';
-import { AdminUsersQuery, AdminUsersQuery_users_nodes } from './graphql/AdminUsersQuery';
+import {
+  AdminUserIndexQuery,
+  AdminUserIndexQuery_users_nodes,
+} from './graphql/AdminUserIndexQuery';
 
 export default function UserIndex() {
   const ALL_USERS = gql`
-    query AdminUsersQuery {
+    query AdminUserIndexQuery {
       users {
         nodes {
           id
@@ -20,7 +22,7 @@ export default function UserIndex() {
     }
   `;
 
-  const { data } = useQuery<AdminUsersQuery>(ALL_USERS);
+  const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
   const history = useHistory();
 
   const columns = [
@@ -28,11 +30,6 @@ export default function UserIndex() {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: AdminUsersQuery_users_nodes) => (
-        <Button type="link" onClick={() => history.push(`/admin/users/${record.id}`)}>
-          {text}
-        </Button>
-      ),
     },
     {
       title: 'Email',
@@ -60,8 +57,11 @@ export default function UserIndex() {
       <Divider orientation="left">Users</Divider>
       <Table
         columns={columns}
-        dataSource={users as AdminUsersQuery_users_nodes[]}
+        dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
+        onRow={record => ({
+          onClick: () => history.push(`/admin/users/${record.id}`),
+        })}
       />
     </>
   );

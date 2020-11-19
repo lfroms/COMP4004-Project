@@ -34,7 +34,9 @@ export default function Admin() {
       title="Admin"
       groups={groups}
       defaultOpenGroupId="users_and_groups"
-      defaultSelectedItemId={location.pathname}
+      defaultSelectedItemId={
+        location.pathname.includes('/admin/users') ? '/admin/users' : location.pathname
+      }
     >
       <Switch>
         <Route exact path="/admin/users" component={UserIndex} />

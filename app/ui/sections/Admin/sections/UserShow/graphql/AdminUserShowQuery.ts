@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: UserDetailsQuery
+// GraphQL query operation: AdminUserShowQuery
 // ====================================================
 
-export interface UserDetailsQuery_user {
+export interface AdminUserShowQuery_user {
   __typename: "User";
   name: string;
   email: string;
@@ -15,13 +15,13 @@ export interface UserDetailsQuery_user {
   admin: boolean;
 }
 
-export interface UserDetailsQuery {
+export interface AdminUserShowQuery {
   /**
    * Specific details about a given user.
    */
-  user: UserDetailsQuery_user | null;
+  user: AdminUserShowQuery_user | null;
 }
 
-export interface UserDetailsQueryVariables {
+export interface AdminUserShowQueryVariables {
   id: string;
 }

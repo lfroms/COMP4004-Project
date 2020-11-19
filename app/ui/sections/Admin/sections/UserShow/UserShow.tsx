@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { UserDetailsQuery } from './graphql/UserDetailsQuery';
+import { AdminUserShowQuery } from './graphql/AdminUserShowQuery';
 import { Col, PageHeader, Row, Statistic } from 'antd';
 
 interface ParamType {
@@ -13,7 +13,7 @@ export default function UserDetails() {
   const history = useHistory();
 
   const SINGLE_USER = gql`
-    query UserDetailsQuery($id: ID!) {
+    query AdminUserShowQuery($id: ID!) {
       user(id: $id) {
         name
         email
@@ -23,7 +23,7 @@ export default function UserDetails() {
     }
   `;
 
-  const { data } = useQuery<UserDetailsQuery>(SINGLE_USER, {
+  const { data } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
     variables: { id: userId },
   });
   const user = data?.user;
