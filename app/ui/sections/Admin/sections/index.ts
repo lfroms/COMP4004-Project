@@ -1,2 +1,3 @@
-export * from './Users';
+export * from './UserIndex';
+export * from './UserShow';
 export * from './Groups';

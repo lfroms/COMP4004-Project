@@ -1,13 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Divider, Table, Tag } from 'antd';
 import { gql, useQuery } from '@apollo/client';
-import { AdminUsersQuery, AdminUsersQuery_users_nodes } from './graphql/AdminUsersQuery';
+import {
+  AdminUserIndexQuery,
+  AdminUserIndexQuery_users_nodes,
+} from './graphql/AdminUserIndexQuery';
 
-export default function Users() {
+export default function UserIndex() {
   const ALL_USERS = gql`
-    query AdminUsersQuery {
+    query AdminUserIndexQuery {
       users {
         nodes {
+          id
           name
           email
           approved
@@ -17,7 +22,8 @@ export default function Users() {
     }
   `;
 
-  const { data } = useQuery<AdminUsersQuery>(ALL_USERS);
+  const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
+  const history = useHistory();
 
   const columns = [
     {
@@ -51,8 +57,11 @@ export default function Users() {
       <Divider orientation="left">Users</Divider>
       <Table
         columns={columns}
-        dataSource={users as AdminUsersQuery_users_nodes[]}
+        dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
+        onRow={record => ({
+          onClick: () => history.push(`/admin/users/${record.id}`),
+        })}
       />
     </>
   );
