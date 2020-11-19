@@ -9,6 +9,7 @@
 
 export interface AdminUsersQuery_users_nodes {
   __typename: "User";
+  id: string;
   name: string;
   email: string;
   approved: boolean;
