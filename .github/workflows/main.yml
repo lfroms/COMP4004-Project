@@ -5,16 +5,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    paths:
-      - '**.tsx'
-      - '**.scss'
-      - '**.ts'
-      - '**.js'
-      - '**.rb'
-      - '**.erb'
-      - '**.yml'
-      - '**.lock'
-      - '**.json'
 
 jobs:
   checks:
