@@ -1,27 +1,23 @@
 import React from 'react';
 import { Divider, Table, Tag } from 'antd';
 import { gql, useQuery } from '@apollo/client';
+import { AdminUsersQuery, AdminUsersQuery_users_nodes } from './graphql/AdminUsersQuery';
 
 export default function Users() {
   const ALL_USERS = gql`
-    query Users {
+    query AdminUsersQuery {
       users {
-        edges {
-          node {
-            name
-            email
-            approved
-            admin
-          }
+        nodes {
+          name
+          email
+          approved
+          admin
         }
       }
     }
   `;
 
-  const { data } = useQuery(ALL_USERS);
-
-  const users = data?.users.edges.map((user: { node: any }) => user.node);
-  console.log(users);
+  const { data } = useQuery<AdminUsersQuery>(ALL_USERS);
 
   const columns = [
     {
@@ -35,29 +31,43 @@ export default function Users() {
       key: 'email',
     },
     {
-      title: 'Approval status',
+      title: 'Status',
       dataIndex: 'approved',
       key: 'approved',
-      // eslint-disable-next-line react/display-name
-      render: (approved: any) => {
-        return approved ? <Tag color="green">Approved</Tag> : <Tag color="red">Not approved</Tag>;
-      },
+      render: renderStatusTag,
     },
     {
-      title: 'Admin status',
+      title: 'Type',
       dataIndex: 'admin',
       key: 'admin',
-      // eslint-disable-next-line react/display-name
-      render: (admin: any) => {
-        return admin ? <Tag color="magenta">Admin</Tag> : <Tag color="geekblue">Non Admin</Tag>;
-      },
+      render: renderTypeTag,
     },
   ];
+
+  const users = data?.users.nodes?.filter(user => !!user) ?? [];
 
   return (
     <>
       <Divider orientation="left">Users</Divider>
-      <Table columns={columns} dataSource={users} pagination={false} />
+      <Table
+        columns={columns}
+        dataSource={users as AdminUsersQuery_users_nodes[]}
+        pagination={false}
+      />
     </>
   );
 }
+
+const renderStatusTag = (approved: boolean) => {
+  const label = approved ? 'Approved' : 'Pending';
+  const color = approved ? 'green' : 'orange';
+
+  return <Tag color={color}>{label}</Tag>;
+};
+
+const renderTypeTag = (admin: boolean) => {
+  const label = admin ? 'Admin' : 'Standard';
+  const color = admin ? 'magenta' : 'geekblue';
+
+  return <Tag color={color}>{label}</Tag>;
+};

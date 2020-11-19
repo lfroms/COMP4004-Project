@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Users
+// GraphQL query operation: AdminUsersQuery
 // ====================================================
 
-export interface Users_users_edges_node {
+export interface AdminUsersQuery_users_nodes {
   __typename: "User";
   name: string;
   email: string;
@@ -15,25 +15,17 @@ export interface Users_users_edges_node {
   admin: boolean;
 }
 
-export interface Users_users_edges {
-  __typename: "UserEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: Users_users_edges_node | null;
-}
-
-export interface Users_users {
+export interface AdminUsersQuery_users {
   __typename: "UserConnection";
   /**
-   * A list of edges.
+   * A list of nodes.
    */
-  edges: (Users_users_edges | null)[] | null;
+  nodes: (AdminUsersQuery_users_nodes | null)[] | null;
 }
 
-export interface Users {
+export interface AdminUsersQuery {
   /**
    * All users in the system.
    */
-  users: Users_users | null;
+  users: AdminUsersQuery_users;
 }

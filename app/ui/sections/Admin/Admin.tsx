@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Users } from './sections';
@@ -15,6 +15,18 @@ export default function Admin() {
         {
           id: 'first',
           title: 'First test item',
+          onSelect: () => console.log('testing'),
+        },
+      ],
+    },
+    {
+      id: 'user_group',
+      title: 'Users',
+      icon: <UserOutlined />,
+      items: [
+        {
+          id: 'second',
+          title: 'second test item',
           onSelect: () => console.log('testing'),
         },
       ],
