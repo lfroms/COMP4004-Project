@@ -2,7 +2,7 @@
 require 'test_helper'
 
 module Resolvers
-  class UsersTest < ActiveSupport::TestCase
+  class UserTest < ActiveSupport::TestCase
     test '#resolve returns specified user' do
       user_id = User.last.id
       query = <<~EOF

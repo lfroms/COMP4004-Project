@@ -16,5 +16,9 @@ module Types
       description: 'Specific details about a given user.' do
         argument :id, ID, required: true
       end
+
+    field :groups,
+      resolver: Resolvers::Groups,
+      description: 'All groups in the system.'
   end
 end

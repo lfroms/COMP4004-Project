@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Home, Login } from 'sections';
+import { Admin, Home, Login } from 'sections';
 import { PrivateRoute } from './components';
 
 export default function Routes() {
@@ -9,6 +9,7 @@ export default function Routes() {
       <Route exact path="/login" component={Login} />
 
       <PrivateRoute exact path="/courses" component={Home} />
+      <PrivateRoute path="/admin" component={Admin} />
       <Redirect path="*" to="/courses" />
     </Switch>
   );
