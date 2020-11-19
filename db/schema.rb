@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_210206) do
+ActiveRecord::Schema.define(version: 2020_11_19_215143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 2020_11_19_210206) do
     t.boolean "can_self_enroll", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "prerequisites", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "prerequisite_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_prerequisites_on_course_id"
+    t.index ["prerequisite_id"], name: "index_prerequisites_on_prerequisite_id"
   end
 
   create_table "user_groups", force: :cascade do |t|
@@ -49,6 +58,8 @@ ActiveRecord::Schema.define(version: 2020_11_19_210206) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "prerequisites", "courses"
+  add_foreign_key "prerequisites", "courses", column: "prerequisite_id"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
 end
