@@ -1,33 +1,29 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
-import { HomeOutlined, UserOutlined } from '@ant-design/icons';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import { Users } from './sections';
+import { Groups, Users } from './sections';
 
 export default function Admin() {
+  const history = useHistory();
+  const location = useLocation();
+
   const groups: NavigationGroup[] = [
     {
-      id: 'test_group',
-      title: 'Test group',
-      icon: <HomeOutlined />,
-      items: [
-        {
-          id: 'first',
-          title: 'First test item',
-          onSelect: () => console.log('testing'),
-        },
-      ],
-    },
-    {
-      id: 'user_group',
-      title: 'Users',
+      id: 'users_and_groups',
+      title: 'Users and groups',
       icon: <UserOutlined />,
       items: [
         {
-          id: 'second',
-          title: 'second test item',
-          onSelect: () => console.log('testing'),
+          id: '/admin/users',
+          title: 'Users',
+          onSelect: () => history.push('/admin/users'),
+        },
+        {
+          id: '/admin/groups',
+          title: 'Groups',
+          onSelect: () => history.push('/admin/groups'),
         },
       ],
     },
@@ -36,13 +32,13 @@ export default function Admin() {
   return (
     <Page
       title="Admin"
-      subtitle="test"
       groups={groups}
-      defaultOpenGroupId="test_group"
-      defaultSelectedItemId="first"
+      defaultOpenGroupId="users_and_groups"
+      defaultSelectedItemId={location.pathname}
     >
       <Switch>
         <Route exact path="/admin/users" component={Users} />
+        <Route exact path="/admin/groups" component={Groups} />
         <Redirect path="/admin" to="/admin/users" />
       </Switch>
     </Page>
