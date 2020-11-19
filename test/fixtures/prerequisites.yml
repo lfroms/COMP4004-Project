@@ -1,3 +1,3 @@
 one:
   course: quality_assurance
-  requires_course: object_oriented
+  prerequisite: object_oriented
