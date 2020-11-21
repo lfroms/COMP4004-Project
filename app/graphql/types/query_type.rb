@@ -50,5 +50,17 @@ module Types
       description: 'Specific details about a given offering.' do
         argument :id, ID, required: true
       end
+
+    field :offerings,
+      resolver: Resolvers::Offerings,
+      description: 'Specific details about a given offering.' do
+        argument :id, ID, required: true
+      end
+
+    field :offerings_for_term,
+      resolver: Resolvers::OfferingsForTerm,
+      description: 'Specific details about a given offering.' do
+        argument :id, ID, required: true
+      end
   end
 end
