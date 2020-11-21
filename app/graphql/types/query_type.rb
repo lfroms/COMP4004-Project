@@ -36,5 +36,9 @@ module Types
       description: 'Specific details about a given course.' do
         argument :id, ID, required: true
       end
+
+    field :terms,
+      resolver: Resolvers::Terms,
+      description: 'All terms in the system'
   end
 end
