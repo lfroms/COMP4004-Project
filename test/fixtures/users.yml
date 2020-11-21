@@ -11,3 +11,10 @@ not_admin_approved:
   password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
   admin: false
   approved: false
+
+not_admin:
+  name: Not Admin
+  email: example3@example.com
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+  admin: false
+  approved: true
