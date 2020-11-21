@@ -44,6 +44,10 @@ module Types
     field :term,
       resolver: Resolvers::SpecificTerm,
       description: 'Specific details about a given term.' do
+
+    field :offering,
+      resolver: Resolvers::SpecificOffering,
+      description: 'Specific details about a given offering.' do
         argument :id, ID, required: true
       end
   end
