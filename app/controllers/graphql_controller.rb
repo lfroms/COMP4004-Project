@@ -22,7 +22,7 @@ class GraphqlController < ApplicationController
   private
 
   def current_user
-    @current_user ||= JsonWebToken::UserAuthenticator.validate(request.headers)
+    JsonWebToken::UserAuthenticator.validate(request.headers)
   end
 
   # Handle variables in form data, JSON body, or a blank value

@@ -16,7 +16,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       user = result.dig('data', 'deleteUser', 'user')
 
       assert_not_nil user
@@ -28,16 +28,54 @@ module Mutations
         mutation TestMutation {
           deleteUser(input: {id: 0}) {
             user {
-              name
+              id
             }
           }
         }
       EOF
 
-      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = result.dig('data', 'deleteUser', 'user')
 
       assert_nil value
+    end
+
+    test '#resolve does not delete a user if the user is not authenticated' do
+      user_to_delete = User.last
+
+      query = <<~EOF
+        mutation DeleteUser {
+          deleteUser(input: {id: #{user_to_delete.id}}) {
+            user {
+              id
+            }
+          }
+        }
+      EOF
+
+      CmsSchema.execute(query, context: {}, variables: {}).to_h
+      user = User.find_by(id: user_to_delete.id)
+
+      assert user.present?
+    end
+
+    test '#resolve does not delete a user if the current user is not an admin' do
+      user_to_delete = User.last
+
+      query = <<~EOF
+        mutation DeleteUser {
+          deleteUser(input: {id: #{user_to_delete.id}}) {
+            user {
+              id
+            }
+          }
+        }
+      EOF
+
+      CmsSchema.execute(query, context: { current_user: users(:not_admin_approved) }, variables: {}).to_h
+      user = User.find_by(id: user_to_delete.id)
+
+      assert user.present?
     end
   end
 end
