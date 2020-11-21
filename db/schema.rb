@@ -39,11 +39,11 @@ ActiveRecord::Schema.define(version: 2020_11_21_153210) do
   end
 
   create_table "terms", force: :cascade do |t|
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.datetime "registration_deadline"
-    t.datetime "withdrawal_deadline"
-    t.datetime "financial_deadline"
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.datetime "registration_deadline", null: false
+    t.datetime "withdrawal_deadline", null: false
+    t.datetime "financial_deadline", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
