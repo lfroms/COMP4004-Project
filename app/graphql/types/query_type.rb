@@ -20,5 +20,11 @@ module Types
     field :groups,
       resolver: Resolvers::Groups,
       description: 'All groups in the system.'
+
+    field :group,
+      resolver: Resolvers::SpecificGroup,
+      description: 'Specific details about a given group.' do
+        argument :id, ID, required: true
+      end
   end
 end
