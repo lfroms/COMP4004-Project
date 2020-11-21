@@ -21,6 +21,11 @@ class Term < ApplicationRecord
         errors.add(:financial_deadline,
           'financial_deadline must be within the bounds of start_date to end_date of the term')
       end
+
+      if registration_deadline > end_date
+        errors.add(:registration_deadline,
+          'registration_deadlne must be before the end_date of the term')
+      end
     end
   end
 
@@ -29,6 +34,6 @@ class Term < ApplicationRecord
   end
 
   def deadlines_present?
-    withdrawal_deadline.presence && financial_deadline.presence
+    withdrawal_deadline.presence && financial_deadline.presence && registration_deadline.presence
   end
 end
