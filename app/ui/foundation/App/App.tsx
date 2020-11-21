@@ -1,7 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Routes } from 'foundation';
-import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  InMemoryCache,
+  createHttpLink,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Frame } from 'components';
 
@@ -26,8 +32,23 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const tokenMiddleware = new ApolloLink((operation, forward) => {
+  return forward(operation).map(response => {
+    const invalidToken = response.errors?.some(
+      error => error.extensions?.reason === 'invalidToken'
+    );
+
+    if (invalidToken) {
+      window.localStorage.removeItem('token');
+      window.location.reload();
+    }
+
+    return response;
+  });
+});
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(tokenMiddleware).concat(httpLink),
   cache: new InMemoryCache(),
 });
 
