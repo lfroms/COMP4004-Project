@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_11_21_192248) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["course_id"], name: "index_offerings_on_course_id"
+    t.index ["section", "term_id", "course_id"], name: "index_offerings_on_section_and_term_id_and_course_id", unique: true
     t.index ["term_id"], name: "index_offerings_on_term_id"
   end
 
