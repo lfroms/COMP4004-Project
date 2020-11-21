@@ -2,11 +2,11 @@
 class CreateTerms < ActiveRecord::Migration[6.0]
   def change
     create_table(:terms) do |t|
-      t.datetime(:start_date)
-      t.datetime(:end_date)
-      t.datetime(:registration_deadline)
-      t.datetime(:withdrawal_deadline)
-      t.datetime(:financial_deadline)
+      t.datetime(:start_date, null: false)
+      t.datetime(:end_date, null: false)
+      t.datetime(:registration_deadline, null: false)
+      t.datetime(:withdrawal_deadline, null: false)
+      t.datetime(:financial_deadline, null: false)
 
       t.timestamps
     end
