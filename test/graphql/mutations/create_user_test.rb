@@ -21,6 +21,24 @@ module Mutations
       assert_equal user.email, 'fake@fake.com'
     end
 
+    test '#resolve does not create a new user if the user is not authenticated' do
+      query = <<~EOF
+        mutation CreateUser {
+          createUser(input: {name: "Test User", email: "fake@fake.com", password: "password", admin: false}) {
+            user {
+              id
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      id = result.dig('data', 'createUser', 'user', 'id')
+      user = User.find_by(id: id)
+
+      assert_nil user
+    end
+
     test '#resolve does not create a new user if the current user is not an admin' do
       query = <<~EOF
         mutation CreateUser {
