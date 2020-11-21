@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 module Mutations
   class CreateUser < BaseMutation
+    include Authenticatable
+
     field :user, Types::UserType, null: false
 
     argument :name, String, required: true
@@ -8,11 +10,10 @@ module Mutations
     argument :password, String, required: true
     argument :admin, Boolean, required: true
 
-    def ready?(*)
-      context[:current_user]&.admin
-    end
-
     def resolve(name:, email:, password:, admin:)
+      assert_authenticated!
+      assert_admin_user!
+
       user = User.create(name: name, email: email, password: password, admin: admin)
 
       {
