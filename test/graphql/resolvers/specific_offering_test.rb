@@ -24,7 +24,7 @@ module Resolvers
 
     test '#resolve returns nil when specified offering does not exist' do
       query = <<~EOF
-        query Users {
+        query Offering {
           offering(id: 0) {
             section
             course_id
