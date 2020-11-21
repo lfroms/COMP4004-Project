@@ -2,42 +2,42 @@
 require 'test_helper'
 
 module Resolvers
-  class SpecificGroupTest < ActiveSupport::TestCase
-    test '#resolve returns specified group' do
-      group_id = groups(:self_enrolling).id
+  class SpecificCourseTest < ActiveSupport::TestCase
+    test '#resolve returns specified course' do
+      course_id = courses(:quality_assurance).id
       query = <<~EOF
-        query Group {
-          group(id: #{group_id}) {
+        query Course {
+          course(id: #{course_id}) {
             name
           }
         }
       EOF
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
-      group = results.dig('data', 'group')
-      assert_equal groups(:self_enrolling).name, group['name']
+      course = results.dig('data', 'course')
+      assert_equal courses(:quality_assurance).name, course['name']
     end
 
-    test '#resolve returns nil when specified group does not exist' do
+    test '#resolve returns nil when specified course does not exist' do
       query = <<~EOF
-        query Group {
-          group(id: 0) {
+        query Course {
+          course(id: 0) {
             name
           }
         }
       EOF
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
-      value = results.dig('data', 'group')
+      value = results.dig('data', 'course')
 
       assert_nil value
     end
 
     test '#resolve returns nil if the current user is not authenticated' do
-      group_id = groups(:self_enrolling).id
+      course_id = courses(:quality_assurance).id
       query = <<~EOF
-        query Group {
-          group(id: #{group_id}) {
+        query Course {
+          course(id: #{course_id}) {
             name
           }
         }
@@ -45,14 +45,14 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: {}, variables: {}).to_h
 
-      assert_nil results.dig('data', 'group')
+      assert_nil results.dig('data', 'course')
     end
 
     test '#resolve returns nil if the current user is not an admin' do
-      group_id = groups(:self_enrolling).id
+      course_id = courses(:quality_assurance).id
       query = <<~EOF
-        query Group {
-          group(id: #{group_id}) {
+        query Course {
+          course(id: #{course_id}) {
             name
           }
         }
@@ -60,7 +60,7 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:not_admin_approved) }, variables: {}).to_h
 
-      assert_nil results.dig('data', 'group')
+      assert_nil results.dig('data', 'course')
     end
   end
 end
