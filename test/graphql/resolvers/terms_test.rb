@@ -18,7 +18,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       terms = results.dig('data', 'terms', 'nodes')
 
       assert_equal 2, terms.length

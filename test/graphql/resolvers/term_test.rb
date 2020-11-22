@@ -17,7 +17,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       term = results.dig('data', 'term')
       assert_equal terms(:one).start_date, term['startDate']
       assert_equal terms(:one).end_date, term['endDate']
@@ -39,7 +39,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = results.dig('data', 'term')
 
       assert_nil value
