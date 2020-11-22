@@ -4,7 +4,7 @@ require 'test_helper'
 module Resolvers
   class SpecificUserTest < ActiveSupport::TestCase
     test '#resolve returns specified user' do
-      user_id = User.last.id
+      user_id = users(:not_admin).id
       query = <<~EOF
         query Users {
           user(id: #{user_id}) {
@@ -16,8 +16,8 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       user = results.dig('data', 'user')
-      assert_equal users(:admin).name, user['name']
-      assert_equal users(:admin).email, user['email']
+      assert_equal users(:not_admin).name, user['name']
+      assert_equal users(:not_admin).email, user['email']
     end
 
     test '#resolve returns nil when specified user does not exist' do
