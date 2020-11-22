@@ -3,12 +3,12 @@ require 'test_helper'
 
 class TermTest < ActiveSupport::TestCase
   test 'term can be created with all fields present' do
-    term = Term.new(
+    term = Term.create(
       start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
+      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6)
     )
 
     assert term.valid?
