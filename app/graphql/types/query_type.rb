@@ -26,5 +26,25 @@ module Types
       description: 'Specific details about a given group.' do
         argument :id, ID, required: true
       end
+
+    field :courses,
+      resolver: Resolvers::Courses,
+      description: 'All courses in the system.'
+
+    field :course,
+      resolver: Resolvers::SpecificCourse,
+      description: 'Specific details about a given course.' do
+        argument :id, ID, required: true
+      end
+
+    field :terms,
+      resolver: Resolvers::Terms,
+      description: 'All terms in the system'
+
+    field :term,
+      resolver: Resolvers::SpecificTerm,
+      description: 'Specific details about a given term.' do
+        argument :id, ID, required: true
+      end
   end
 end
