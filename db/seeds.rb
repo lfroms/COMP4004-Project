@@ -9,3 +9,12 @@
 
 User.create!(name: 'Jane', email: 'jane@email.com', password: '123456', admin: true, approved: true)
 puts "Created #{User.count} user(s)"
+term = Term.create!(
+  start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
+  end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
+  registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
+  withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
+  financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
+)
+course = Course.create!(name: 'Software Quality Assurance', code: 'COMP 4004')
+Offering.create!(section: 'A', course: course, term: term)

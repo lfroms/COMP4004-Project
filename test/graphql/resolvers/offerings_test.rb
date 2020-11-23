@@ -2,15 +2,14 @@
 require 'test_helper'
 
 module Resolvers
-  class CoursesTest < ActiveSupport::TestCase
-    test '#resolve returns all courses' do
+  class OfferingsTest < ActiveSupport::TestCase
+    test '#resolve returns all offerings' do
       query = <<~EOF
-        query Courses {
-          courses {
+        query Offerings {
+          offerings {
             edges {
               node {
-                id
-                name
+                section
               }
             }
           }
@@ -18,20 +17,18 @@ module Resolvers
       EOF
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
-      courses = results.dig('data', 'courses', 'edges')
+      offerings = results.dig('data', 'offerings', 'edges')
 
-      assert_equal 2, courses.length
-      assert_equal courses(:quality_assurance).name, courses[0]['node']['name']
-      assert_equal courses(:object_oriented).name, courses[1]['node']['name']
+      assert_equal 3, offerings.length
     end
 
     test '#resolve does not return anything if the current user is not authenticated' do
       query = <<~EOF
-        query Courses {
-          courses {
+        query Offerings {
+          offerings {
             edges {
               node {
-                id
+                section
               }
             }
           }
@@ -44,11 +41,11 @@ module Resolvers
 
     test '#resolve does not return anything if the current user is not an admin' do
       query = <<~EOF
-        query Courses {
-          courses {
+        query Offerings {
+          offerings {
             edges {
               node {
-                id
+                section
               }
             }
           }
