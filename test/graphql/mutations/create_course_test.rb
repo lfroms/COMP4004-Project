@@ -75,7 +75,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin_approved) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       id = result.dig('data', 'createCourse', 'course', 'id')
       course = Course.find_by(id: id)
 

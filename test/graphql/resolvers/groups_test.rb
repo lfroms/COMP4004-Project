@@ -55,7 +55,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: { current_user: users(:not_admin_approved) }, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       assert_nil results['data']
     end
   end
