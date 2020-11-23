@@ -36,7 +36,7 @@ module Mutations
     test '#resolve does not authenticate a user that has not yet been approved' do
       query = <<~EOF
         mutation TestMutation {
-          authenticate(input: {email: "example2@example.com", password: "password"}) {
+          authenticate(input: {email: "example3@example.com", password: "password"}) {
             token
           }
         }

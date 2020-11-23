@@ -46,5 +46,15 @@ module Types
       description: 'Specific details about a given term.' do
         argument :id, ID, required: true
       end
+
+    field :offerings,
+      resolver: Resolvers::Offerings,
+      description: 'All offerings in the system.'
+
+    field :offering,
+      resolver: Resolvers::SpecificOffering,
+      description: 'Specific details about a given offering.' do
+        argument :id, ID, required: true
+      end
   end
 end
