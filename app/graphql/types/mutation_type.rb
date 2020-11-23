@@ -10,6 +10,5 @@ module Types
 
     field :create_offering, mutation: Mutations::CreateOffering
     field :delete_offering, mutation: Mutations::DeleteOffering
-
   end
 end
