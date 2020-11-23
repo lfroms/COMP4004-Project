@@ -72,7 +72,7 @@ module Mutations
         }
       EOF
 
-      CmsSchema.execute(query, context: { current_user: users(:not_admin_approved) }, variables: {}).to_h
+      CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       course = Course.find_by(id: course_to_delete.id)
 
       assert course.present?
