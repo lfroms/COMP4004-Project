@@ -31,8 +31,7 @@ export default function Admin() {
       id: 'terms',
       title: 'Terms',
       icon: <CalendarOutlined />,
-      onClick: () => history.push('/admin/terms'),
-      items: [],
+      onSelect: () => history.push('/admin/terms'),
     },
   ];
 
@@ -40,8 +39,8 @@ export default function Admin() {
     <Page
       title="Admin"
       groups={groups}
-      defaultOpenGroupId="users_and_groups"
-      defaultSelectedItemId={
+      initialOpenGroupIds={['users_and_groups']}
+      selectedItemId={
         location.pathname.includes('/admin/users') ? '/admin/users' : location.pathname
       }
     >

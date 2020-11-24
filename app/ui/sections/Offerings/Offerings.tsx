@@ -31,7 +31,7 @@ export default function Offerings() {
       id: 'terms',
       title: 'Terms',
       icon: <CalendarOutlined />,
-      onClick: () => history.push('/admin/terms'),
+      onSelect: () => history.push('/admin/terms'),
       items: [],
     },
   ];
@@ -40,8 +40,8 @@ export default function Offerings() {
     <Page
       title="Course Directory"
       groups={groups}
-      defaultOpenGroupId="users_and_groups"
-      defaultSelectedItemId={
+      initialOpenGroupIds={['users_and_groups']}
+      selectedItemId={
         location.pathname.includes('/admin/users') ? '/admin/users' : location.pathname
       }
     >

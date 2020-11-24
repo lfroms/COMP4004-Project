@@ -31,8 +31,8 @@ export default function EnrollmentIndex() {
     <Page
       title="Courses"
       groups={groups}
-      defaultOpenGroupId="users_and_groups"
-      defaultSelectedItemId={
+      initialOpenGroupIds={['users_and_groups']}
+      selectedItemId={
         location.pathname.includes('/admin/users') ? '/admin/users' : location.pathname
       }
     >
