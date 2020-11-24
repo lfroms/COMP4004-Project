@@ -2,7 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { BookOutlined, ControlOutlined } from '@ant-design/icons';
+import { BookOutlined, CalendarOutlined, ControlOutlined } from '@ant-design/icons';
 import { FrameQuery } from './graphql/FrameQuery';
 
 import * as styles from './Frame.module.scss';
@@ -13,7 +13,8 @@ interface Props {
 
 enum MenuItem {
   'admin',
-  'courses',
+  'enrollments',
+  'offerings',
 }
 
 export default function Frame(props: Props) {
@@ -44,9 +45,10 @@ export default function Frame(props: Props) {
 
   const getSelectedKey: () => MenuItem = () => {
     if (pathnameMatches('/admin')) return MenuItem.admin;
-    if (pathnameMatches('/courses')) return MenuItem.courses;
+    if (pathnameMatches('/courses/all')) return MenuItem.offerings;
+    if (pathnameMatches('/courses')) return MenuItem.enrollments;
 
-    return MenuItem.courses;
+    return MenuItem.offerings;
   };
 
   const adminItem = data?.currentUser?.admin ? (
@@ -68,11 +70,19 @@ export default function Frame(props: Props) {
           {adminItem}
 
           <Menu.Item
-            key={MenuItem.courses}
+            key={MenuItem.enrollments}
             icon={<BookOutlined />}
             onClick={() => history.push('/courses')}
           >
             Courses
+          </Menu.Item>
+
+          <Menu.Item
+            key={MenuItem.offerings}
+            icon={<CalendarOutlined />}
+            onClick={() => history.push('/courses/all')}
+          >
+            Course Directory
           </Menu.Item>
         </Menu>
       </Layout.Sider>
