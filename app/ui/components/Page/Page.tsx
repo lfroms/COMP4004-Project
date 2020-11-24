@@ -8,6 +8,7 @@ export interface Group {
   icon: React.ReactNode;
   title: string;
   items: Item[];
+  onClick?(): void;
 }
 
 interface Item {
@@ -38,7 +39,7 @@ export default function Page(props: Props) {
   } = props;
 
   const submenus = groups.map(group => (
-    <Menu.SubMenu key={group.id} icon={group.icon} title={group.title}>
+    <Menu.SubMenu key={group.id} icon={group.icon} title={group.title} onTitleClick={group.onClick}>
       {group.items.map(item => (
         <Menu.Item key={item.id} onClick={item.onSelect}>
           {item.title}
