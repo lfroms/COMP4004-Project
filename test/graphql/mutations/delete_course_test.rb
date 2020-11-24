@@ -4,7 +4,7 @@ require 'test_helper'
 module Mutations
   class DeleteCourseTest < ActiveSupport::TestCase
     test '#resolve deletes and returns specified course' do
-      course_to_delete = Course.first
+      course_to_delete = courses(:quality_assurance)
 
       query = <<~EOF
         mutation TestMutation {
@@ -41,7 +41,7 @@ module Mutations
     end
 
     test '#resolve does not delete a course if the user is not authenticated' do
-      course_to_delete = Course.first
+      course_to_delete = courses(:quality_assurance)
 
       query = <<~EOF
         mutation Deletecourse {
@@ -60,7 +60,7 @@ module Mutations
     end
 
     test '#resolve does not delete a course if the current user is not an admin' do
-      course_to_delete = Course.first
+      course_to_delete = courses(:quality_assurance)
 
       query = <<~EOF
         mutation Deletecourse {
