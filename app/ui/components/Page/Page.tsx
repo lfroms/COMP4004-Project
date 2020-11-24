@@ -22,8 +22,8 @@ interface Props {
   subtitle?: string;
   onBack?: () => void;
   groups: Group[];
-  selectedItemId: string;
-  initialOpenGroupIds: string[];
+  selectedItemId?: string;
+  initialOpenGroupIds?: string[];
   children: React.ReactNode;
 }
 
@@ -56,7 +56,7 @@ export default function Page(props: Props) {
         <Menu
           mode="inline"
           defaultOpenKeys={initialOpenGroupIds}
-          selectedKeys={[selectedItemId]}
+          selectedKeys={selectedItemId ? [selectedItemId] : undefined}
           style={{ height: '100%', border: 'none' }}
         >
           {submenus}
