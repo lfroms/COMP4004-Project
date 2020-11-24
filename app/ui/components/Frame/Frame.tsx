@@ -1,9 +1,11 @@
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { BookOutlined, ControlOutlined } from '@ant-design/icons';
 
 import * as styles from './Frame.module.scss';
+import { FrameQuery } from './graphql/FrameQuery';
 
 interface Props {
   children: React.ReactNode;
@@ -15,15 +17,24 @@ enum MenuItem {
 }
 
 export default function Frame(props: Props) {
+  const USER_IS_ADMIN = gql`
+    query FrameQuery {
+      currentUser {
+        admin
+      }
+    }
+  `;
+
   const { children } = props;
   const location = useLocation();
   const history = useHistory();
+  const { data } = useQuery<FrameQuery>(USER_IS_ADMIN);
 
   const pathnameMatches = (string: string) => {
     return location.pathname.includes(string);
   };
 
-  if (pathnameMatches('/login')) {
+  if (!data?.currentUser) {
     return (
       <div className={styles.Frame}>
         <Layout.Content>{children}</Layout.Content>
@@ -38,19 +49,24 @@ export default function Frame(props: Props) {
     return MenuItem.courses;
   };
 
+  const adminItem = data?.currentUser?.admin ? (
+    <Menu.Item
+      key={MenuItem.admin}
+      icon={<ControlOutlined />}
+      onClick={() => history.push('/admin')}
+    >
+      Admin
+    </Menu.Item>
+  ) : null;
+
   return (
     <div className={styles.Frame}>
       <Layout.Sider collapsed theme="dark" className={styles.GlobalNav}>
         <div className={styles.Logo} />
 
         <Menu theme="dark" mode="inline" selectedKeys={[getSelectedKey().toString()]}>
-          <Menu.Item
-            key={MenuItem.admin}
-            icon={<ControlOutlined />}
-            onClick={() => history.push('/admin')}
-          >
-            Admin
-          </Menu.Item>
+          {adminItem}
+
           <Menu.Item
             key={MenuItem.courses}
             icon={<BookOutlined />}
