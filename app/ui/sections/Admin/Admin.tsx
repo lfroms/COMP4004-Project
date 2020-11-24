@@ -3,7 +3,7 @@ import { NavigationGroup, Page } from 'components';
 import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import { Groups, TermIndex, UserIndex, UserShow } from './sections';
+import { Groups, TermIndex, TermShow, UserIndex, UserShow } from './sections';
 
 export default function Admin() {
   const history = useHistory();
@@ -50,6 +50,7 @@ export default function Admin() {
         <Route exact path="/admin/users/:userId" component={UserShow} />
         <Route exact path="/admin/groups" component={Groups} />
         <Route exact path="/admin/terms" component={TermIndex} />
+        <Route exact path="/admin/terms/:termId" component={TermShow} />
         <Redirect path="/admin" to="/admin/users" />
       </Switch>
     </Page>
