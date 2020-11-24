@@ -3,9 +3,9 @@ import { gql, useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { BookOutlined, ControlOutlined } from '@ant-design/icons';
+import { FrameQuery } from './graphql/FrameQuery';
 
 import * as styles from './Frame.module.scss';
-import { FrameQuery } from './graphql/FrameQuery';
 
 interface Props {
   children: React.ReactNode;
@@ -34,7 +34,7 @@ export default function Frame(props: Props) {
     return location.pathname.includes(string);
   };
 
-  if (!data?.currentUser) {
+  if (pathnameMatches('/login')) {
     return (
       <div className={styles.Frame}>
         <Layout.Content>{children}</Layout.Content>
