@@ -13,8 +13,6 @@ module Mutations
       assert_authenticated!
       assert_admin_user!
 
-      # course = Course.find(course_id)
-      # term = Term.find(term_id)
       offering = Offering.create!(section: section, course_id: course_id, term_id: term_id)
 
       {
