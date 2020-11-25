@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Divider, Table, Tag } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 import {
@@ -23,13 +23,15 @@ export default function UserIndex() {
   `;
 
   const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
-  const history = useHistory();
 
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      render: (text: any, record: AdminUserIndexQuery_users_nodes) => (
+        <Link to={`/admin/users/${record.id}`}>{text}</Link>
+      ),
     },
     {
       title: 'Email',
@@ -59,9 +61,6 @@ export default function UserIndex() {
         columns={columns}
         dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
-        onRow={record => ({
-          onClick: () => history.push(`/admin/users/${record.id}`),
-        })}
       />
     </>
   );
