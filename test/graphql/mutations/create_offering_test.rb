@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'test_helper'
 module Mutations
   class CreateOfferingTest < ActiveSupport::TestCase
     test '#resolve creates a new offering and saves it to the database' do
