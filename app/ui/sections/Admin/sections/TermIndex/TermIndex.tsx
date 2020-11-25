@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client';
 import { Divider, Table } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   AdminTermIndexQuery,
@@ -25,13 +25,15 @@ export default function TermIndex() {
   `;
 
   const { data } = useQuery<AdminTermIndexQuery>(ALL_TERMS);
-  const history = useHistory();
 
   const columns = [
     {
       title: 'Start date',
       dataIndex: 'startDate',
       key: 'startDate',
+      render: (text: any, record: AdminTermIndexQuery_terms_nodes) => (
+        <Link to={`/admin/terms/${record.id}`}>{text}</Link>
+      ),
     },
     {
       title: 'End date',
@@ -64,9 +66,6 @@ export default function TermIndex() {
         columns={columns}
         dataSource={terms as AdminTermIndexQuery_terms_nodes[]}
         pagination={false}
-        onRow={record => ({
-          onClick: () => history.push(`/admin/terms/${record.id}`),
-        })}
       />
     </>
   );

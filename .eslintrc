@@ -43,6 +43,7 @@
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-empty-function": "off",
       "react/prop-types": "off",
+      "react/display-name": "off",
       "prefer-const": "error",
       "newline-before-return": "error",
       "no-trailing-spaces": "error",
