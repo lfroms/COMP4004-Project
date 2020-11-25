@@ -4,6 +4,8 @@ class Term < ApplicationRecord
   validate :validate_start_end, if: :start_end_present?
   validate :validate_deadlines, if: :deadlines_present?
 
+  has_many :offerings, dependent: :destroy
+
   def validate_start_end
     if start_date > end_date
       errors.add(:start_date, 'start_date must be before end_date')
