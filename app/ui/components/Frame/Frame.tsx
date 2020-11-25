@@ -7,6 +7,14 @@ import { FrameQuery } from './graphql/FrameQuery';
 
 import * as styles from './Frame.module.scss';
 
+const USER_IS_ADMIN = gql`
+  query FrameQuery {
+    currentUser {
+      admin
+    }
+  }
+`;
+
 interface Props {
   children: React.ReactNode;
 }
@@ -20,14 +28,6 @@ enum MenuItem {
 export default function Frame(props: Props) {
   const { children } = props;
 
-  const USER_IS_ADMIN = gql`
-    query FrameQuery {
-      currentUser {
-        admin
-      }
-    }
-  `;
-
   const history = useHistory();
   const location = useLocation();
   const { data } = useQuery<FrameQuery>(USER_IS_ADMIN);
@@ -35,14 +35,6 @@ export default function Frame(props: Props) {
   const pathnameMatches = (string: string) => {
     return location.pathname.includes(string);
   };
-
-  if (pathnameMatches('/login')) {
-    return (
-      <div className={styles.Frame}>
-        <Layout.Content>{children}</Layout.Content>
-      </div>
-    );
-  }
 
   const getSelectedKey: () => MenuItem = () => {
     if (pathnameMatches('/admin')) return MenuItem.admin;
