@@ -14,10 +14,12 @@ interface Props {
 enum MenuItem {
   'admin',
   'enrollments',
-  'offerings',
+  'terms',
 }
 
 export default function Frame(props: Props) {
+  const { children } = props;
+
   const USER_IS_ADMIN = gql`
     query FrameQuery {
       currentUser {
@@ -26,9 +28,8 @@ export default function Frame(props: Props) {
     }
   `;
 
-  const { children } = props;
-  const location = useLocation();
   const history = useHistory();
+  const location = useLocation();
   const { data } = useQuery<FrameQuery>(USER_IS_ADMIN);
 
   const pathnameMatches = (string: string) => {
@@ -45,10 +46,10 @@ export default function Frame(props: Props) {
 
   const getSelectedKey: () => MenuItem = () => {
     if (pathnameMatches('/admin')) return MenuItem.admin;
-    if (pathnameMatches('/courses/all')) return MenuItem.offerings;
+    if (pathnameMatches('/terms')) return MenuItem.terms;
     if (pathnameMatches('/courses')) return MenuItem.enrollments;
 
-    return MenuItem.offerings;
+    return MenuItem.terms;
   };
 
   const adminItem = data?.currentUser?.admin ? (
@@ -78,9 +79,9 @@ export default function Frame(props: Props) {
           </Menu.Item>
 
           <Menu.Item
-            key={MenuItem.offerings}
+            key={MenuItem.terms}
             icon={<CalendarOutlined />}
-            onClick={() => history.push('/courses/all')}
+            onClick={() => history.push('/terms')}
           >
             Course Directory
           </Menu.Item>

@@ -38,12 +38,18 @@ const tokenMiddleware = new ApolloLink((operation, forward) => {
       error => error.extensions?.reason === 'invalidToken'
     );
 
-    if (invalidToken) {
-      window.localStorage.removeItem('token');
+    if (!window.localStorage.getItem('token')) {
+      // If there is no token, reload. Nothing to reset.
+      window.location.reload();
 
-      if (!window.location.pathname.includes('login')) {
-        window.location.reload();
-      }
+      return response;
+    }
+
+    if (invalidToken) {
+      // If there is a token and it is invalid, remove it and reset the store. The query will be retriggered,
+      // resulting in a jump back to line 43 where the window will be reloaded.
+      window.localStorage.removeItem('token');
+      client.resetStore();
     }
 
     return response;

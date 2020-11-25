@@ -15,6 +15,7 @@ export default function UserDetails() {
   const SINGLE_USER = gql`
     query AdminUserShowQuery($id: ID!) {
       user(id: $id) {
+        id
         name
         email
         approved

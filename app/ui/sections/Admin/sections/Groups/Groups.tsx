@@ -8,6 +8,7 @@ export default function Groups() {
     query AdminGroupsQuery {
       groups {
         nodes {
+          id
           name
           users {
             nodes {

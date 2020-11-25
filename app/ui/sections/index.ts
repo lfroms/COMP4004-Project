@@ -1,4 +1,4 @@
 export * from './Login';
 export * from './Admin';
 export * from './Enrollments';
-export * from './Offerings';
+export * from './Terms';

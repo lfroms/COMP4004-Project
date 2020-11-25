@@ -15,6 +15,7 @@ export default function TermShow() {
   const SINGLE_TERM = gql`
     query AdminTermShowQuery($id: ID!) {
       term(id: $id) {
+        id
         startDate
         endDate
         financialDeadline
