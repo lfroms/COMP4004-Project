@@ -11,7 +11,7 @@ module Mutations
       assert_authenticated!
       assert_admin_user!
 
-      offering = Offering.find(id)
+      offering = Offering.find_by(id: id)
 
       {
         offering: offering&.destroy,
