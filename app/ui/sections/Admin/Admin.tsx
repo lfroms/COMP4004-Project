@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
-import { UserOutlined } from '@ant-design/icons';
+import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import { Groups, UserIndex, UserShow } from './sections';
+import { Groups, TermIndex, TermShow, UserIndex, UserShow } from './sections';
 
 export default function Admin() {
   const history = useHistory();
@@ -27,6 +27,13 @@ export default function Admin() {
         },
       ],
     },
+    {
+      id: 'terms',
+      title: 'Terms',
+      icon: <CalendarOutlined />,
+      onClick: () => history.push('/admin/terms'),
+      items: [],
+    },
   ];
 
   return (
@@ -42,6 +49,8 @@ export default function Admin() {
         <Route exact path="/admin/users" component={UserIndex} />
         <Route exact path="/admin/users/:userId" component={UserShow} />
         <Route exact path="/admin/groups" component={Groups} />
+        <Route exact path="/admin/terms" component={TermIndex} />
+        <Route exact path="/admin/terms/:termId" component={TermShow} />
         <Redirect path="/admin" to="/admin/users" />
       </Switch>
     </Page>

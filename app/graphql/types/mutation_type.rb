@@ -7,6 +7,7 @@ module Types
     field :delete_user, mutation: Mutations::DeleteUser
 
     field :create_course, mutation: Mutations::CreateCourse
+    field :delete_course, mutation: Mutations::DeleteCourse
 
     field :create_offering, mutation: Mutations::CreateOffering
     field :delete_offering, mutation: Mutations::DeleteOffering
