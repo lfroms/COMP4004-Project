@@ -5,3 +5,7 @@ quality_assurance:
 object_oriented:
   name: Object-Oriented Software Engineering
   code: COMP 3004
+
+just_another_course:
+  name: Just Another Course
+  code: JANC 1010
