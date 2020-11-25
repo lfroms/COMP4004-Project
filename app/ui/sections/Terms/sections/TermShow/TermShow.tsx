@@ -54,7 +54,7 @@ export default function TermShow() {
           id: `${term.id}`,
           title: createTermName(term.startDate, term.endDate),
           icon: <CalendarOutlined />,
-          onSelect: () => history.push(`/terms/${term.id}`),
+          onSelect: () => history.push(`/terms/${term.id}/courses`),
         };
       })
       .filter(Boolean) as NavigationGroup[]) ?? [];

@@ -6,6 +6,7 @@ export default function Terms() {
   return (
     <Switch>
       <Route exact path="/terms/:termId?" component={TermShow} />
+      <Route exact path="/terms/:termId/courses" component={TermShow} />
     </Switch>
   );
 }
