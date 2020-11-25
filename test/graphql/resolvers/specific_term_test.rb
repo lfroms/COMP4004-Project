@@ -2,9 +2,9 @@
 require 'test_helper'
 
 module Resolvers
-  class TermTest < ActiveSupport::TestCase
+  class SpecificTermTest < ActiveSupport::TestCase
     test '#resolve returns specified term' do
-      term_id = Term.last.id
+      term_id = terms(:one).id
       query = <<~EOF
         query Term {
           term(id: #{term_id}) {
@@ -40,6 +40,27 @@ module Resolvers
       EOF
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      value = results.dig('data', 'term')
+
+      assert_nil value
+    end
+
+    test '#resolve does not return anything if the current user is not authenticated' do
+      term_id = terms(:one)
+
+      query = <<~EOF
+        query Term {
+          term(id: #{term_id}) {
+            startDate
+            endDate
+            financialDeadline
+            registrationDeadline
+            withdrawalDeadline
+          }
+        }
+      EOF
+
+      results = CmsSchema.execute(query, context: {}, variables: {}).to_h
       value = results.dig('data', 'term')
 
       assert_nil value
