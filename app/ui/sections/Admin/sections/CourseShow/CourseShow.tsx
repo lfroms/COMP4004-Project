@@ -9,24 +9,24 @@ interface ParamType {
   courseId: string;
 }
 
-export default function CourseShow() {
-  const { courseId } = useParams<ParamType>();
-
-  const SINGLE_COURSE = gql`
-    query AdminCourseShowQuery($id: ID!) {
-      course(id: $id) {
-        id
-        code
-        name
-        prerequisites {
-          nodes {
-            id
-            code
-          }
+const SINGLE_COURSE = gql`
+  query AdminCourseShowQuery($id: ID!) {
+    course(id: $id) {
+      id
+      code
+      name
+      prerequisites {
+        nodes {
+          id
+          code
         }
       }
     }
-  `;
+  }
+`;
+
+export default function CourseShow() {
+  const { courseId } = useParams<ParamType>();
 
   const { data } = useQuery<AdminCourseShowQuery>(SINGLE_COURSE, {
     variables: { id: courseId },

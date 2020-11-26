@@ -9,8 +9,7 @@ import {
   AdminCourseIndexQuery_courses_nodes,
 } from './graphql/AdminCourseIndexQuery';
 
-export default function CourseIndex() {
-  const ALL_COURSES = gql`
+const ALL_COURSES = gql`
     query AdminCourseIndexQuery {
       courses {
         nodes {
@@ -22,6 +21,7 @@ export default function CourseIndex() {
     }
   `;
 
+export default function CourseIndex() {
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
 
   if (!data) {
