@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Divider, Popconfirm, Table, Tag } from 'antd';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -35,20 +35,12 @@ const DELETE_USER = gql`
 `;
 
 export default function UserIndex() {
-  const [focusedUserId, setFocusedUserId] = useState<string>('');
-
   const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
-  const [deleteUser] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
+  const [deleteUser, { loading }] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
-  const handleConfirm = () => {
-    deleteUser({ variables: { id: focusedUserId } });
-  };
-
-  const handleCancel = () => {
-    setFocusedUserId('');
-  };
+  const handleConfirmDelete = (id: string) => () => deleteUser({ variables: { id } });
 
   const columns = [
     {
@@ -81,19 +73,14 @@ export default function UserIndex() {
       key: 'action',
       render: (record: AdminUserIndexQuery_users_nodes) => (
         <Popconfirm
+          placement="rightBottom"
           title="Are you sure you want to delete this user?"
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
+          onConfirm={handleConfirmDelete(record.id)}
           okText="Confirm"
+          okButtonProps={{ loading }}
           cancelText="Cancel"
         >
-          <Button
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setFocusedUserId(record.id);
-            }}
-          />
+          <Button danger icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
