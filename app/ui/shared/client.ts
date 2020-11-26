@@ -59,6 +59,11 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   ]),
   cache,
   typeDefs,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 });
 
 export default client;

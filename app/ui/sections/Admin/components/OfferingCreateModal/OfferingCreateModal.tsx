@@ -40,12 +40,7 @@ export default function OfferingCreateModal(props: Props) {
         courseId: data.courseId,
         termId: data.termId,
       },
-      refetchQueries: [
-        'AdminTermIndexQuery',
-        'AdminTermShowQuery',
-        'TermShowQuery',
-        'AdminOfferingIndexQuery',
-      ],
+      refetchQueries: ['TermShowQuery', 'AdminTermShowQuery', 'AdminOfferingIndexQuery'],
       awaitRefetchQueries: true,
     });
 
