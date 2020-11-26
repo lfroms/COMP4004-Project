@@ -44,36 +44,26 @@ export default function OfferingIndex() {
           </Tag>
         </Link>
       ),
-      sorter: (
-        first: AdminOfferingIndexQuery_offerings_nodes,
-        second: AdminOfferingIndexQuery_offerings_nodes
-      ) => first.section.localeCompare(second.section),
+      sorter: (first, second) => first.section.localeCompare(second.section),
       sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Course',
-      dataIndex: 'course',
-      render: (_value: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
-        <Link to={`/admin/courses/${record.course.id}`}>{record.course.code}</Link>
-      ),
-      sorter: (
-        first: AdminOfferingIndexQuery_offerings_nodes,
-        second: AdminOfferingIndexQuery_offerings_nodes
-      ) => first.course.code.localeCompare(second.course.code),
+      dataIndex: ['course', 'code'],
+      render: (text, record) => <Link to={`/admin/courses/${record.course.id}`}>{text}</Link>,
+      sorter: (first, second) => first.course.code.localeCompare(second.course.code),
       sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Term',
       dataIndex: 'term',
-      render: (_value: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
+      render: (text, record) => (
         <Link to={`/admin/terms/${record.term.id}`}>
           {createTermName(record.term.startDate, record.term.endDate)}
         </Link>
       ),
-      sorter: (
-        first: AdminOfferingIndexQuery_offerings_nodes,
-        second: AdminOfferingIndexQuery_offerings_nodes
-      ) => new Date(first.term.startDate).getTime() - new Date(second.term.startDate).getTime(),
+      sorter: (first, second) =>
+        new Date(first.term.startDate).getTime() - new Date(second.term.startDate).getTime(),
       sortDirections: ['ascend', 'descend'],
     },
     {
@@ -81,9 +71,7 @@ export default function OfferingIndex() {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: (_text: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
-        <Link to={`/admin/offerings/${record.id}`}>View</Link>
-      ),
+      render: (_text, record) => <Link to={`/admin/offerings/${record.id}`}>View</Link>,
     },
   ];
 
