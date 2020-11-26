@@ -1,13 +1,14 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Divider, Table, Tag } from 'antd';
+import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
+import { createTermName } from 'helpers';
 
 import {
   AdminOfferingIndexQuery,
   AdminOfferingIndexQuery_offerings_nodes,
 } from './graphql/AdminOfferingIndexQuery';
-import { createTermName } from 'helpers';
 
 export default function OfferingIndex() {
   const ALL_OFFERINGS = gql`
@@ -30,9 +31,9 @@ export default function OfferingIndex() {
     }
   `;
 
-  const { data } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
+  const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
 
-  const columns = [
+  const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
     {
       title: 'Section',
       dataIndex: 'section',
@@ -43,6 +44,11 @@ export default function OfferingIndex() {
           </Tag>
         </Link>
       ),
+      sorter: (
+        first: AdminOfferingIndexQuery_offerings_nodes,
+        second: AdminOfferingIndexQuery_offerings_nodes
+      ) => first.section.localeCompare(second.section),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Course',
@@ -50,6 +56,11 @@ export default function OfferingIndex() {
       render: (_value: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
         <Link to={`/admin/courses/${record.course.id}`}>{record.course.code}</Link>
       ),
+      sorter: (
+        first: AdminOfferingIndexQuery_offerings_nodes,
+        second: AdminOfferingIndexQuery_offerings_nodes
+      ) => first.course.code.localeCompare(second.course.code),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Term',
@@ -59,13 +70,16 @@ export default function OfferingIndex() {
           {createTermName(record.term.startDate, record.term.endDate)}
         </Link>
       ),
+      sorter: (
+        first: AdminOfferingIndexQuery_offerings_nodes,
+        second: AdminOfferingIndexQuery_offerings_nodes
+      ) => new Date(first.term.startDate).getTime() - new Date(second.term.startDate).getTime(),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Actions',
       key: 'actions',
-      // NOTE: @lfroms
-      // For some reason the type checker doesn't understand 'right' even though it is a valid input.
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 100,
       render: (_text: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
         <Link to={`/admin/offerings/${record.id}`}>View</Link>
@@ -82,6 +96,7 @@ export default function OfferingIndex() {
         columns={columns}
         dataSource={offerings as AdminOfferingIndexQuery_offerings_nodes[]}
         pagination={false}
+        loading={loading}
       />
     </>
   );
