@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Descriptions, Divider, Tag } from 'antd';
+import { Descriptions, Divider, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
@@ -89,9 +89,11 @@ export default function TermShow() {
 
   return (
     <>
-      <Divider orientation="left">{createTermName(term.startDate, term.endDate)} term</Divider>
+      <Typography.Title level={2}>
+        {createTermName(term.startDate, term.endDate)} term
+      </Typography.Title>
 
-      <Descriptions title="Term details">
+      <Descriptions>
         <Descriptions.Item label="Start date">
           {createFriendlyDate(term.startDate)}
         </Descriptions.Item>
