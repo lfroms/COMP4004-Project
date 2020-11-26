@@ -13,14 +13,6 @@ export interface AdminCourseShowQuery_prerequisites_nodes {
   code: string;
 }
 
-// export interface AdminCourseShowQuery_courses_nodes {
-//   __typename: "Course";
-//   id: string;
-//   code: string;
-//   name: string;
-//   prerequisites: AdminCourseShowQuery_courses_nodes_prerequisites;
-// }
-
 export interface AdminCourseShowQuery_prerequisites {
   __typename: "CourseConnection";
   /**
@@ -39,7 +31,7 @@ export interface AdminCourseShowQuery_course {
 
 export interface AdminCourseShowQuery {
   /**
-   * Specific course
+   * A specific course
    */
   course: AdminCourseShowQuery_course
 }

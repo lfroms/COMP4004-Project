@@ -34,22 +34,28 @@ export default function CourseShow() {
   });
 
   if (!data) {
-    return <div>Course not found</div>
+    return <div>Course not found</div>;
   }
 
   const course = data.course;
 
   const prerequisites = course.prerequisites.nodes;
 
-  const prereqCodes = prerequisites && prerequisites.length > 0 ? prerequisites.map(prereq => prereq?.code) : ["None"];
+  const prereqCodes =
+    prerequisites && prerequisites.length > 0
+      ? prerequisites.map(prereq => prereq?.code)
+      : ['None'];
 
   return (
     <>
-    <PageHeader title={`${course.code}`} onBack={() => history.push(`/admin/courses/${courseId}`)} />
-    <Descriptions>
-      <Descriptions.Item label="Title">{course.name}</Descriptions.Item>
-      <Descriptions.Item label="Prerequisites">{prereqCodes.toString()}</Descriptions.Item>
-    </Descriptions>
+      <PageHeader
+        title={`${course.code}`}
+        onBack={() => history.push(`/admin/courses/${courseId}`)}
+      />
+      <Descriptions>
+        <Descriptions.Item label="Title">{course.name}</Descriptions.Item>
+        <Descriptions.Item label="Prerequisites">{prereqCodes.toString()}</Descriptions.Item>
+      </Descriptions>
     </>
   );
 }

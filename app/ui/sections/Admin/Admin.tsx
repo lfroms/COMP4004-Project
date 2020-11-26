@@ -4,7 +4,8 @@ import { BookOutlined, CalendarOutlined, ClockCircleOutlined, UserOutlined } fro
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import {
-  CourseIndex, CourseShow,
+  CourseIndex,
+  CourseShow,
   Groups,
   OfferingIndex,
   OfferingShow,
@@ -57,7 +58,7 @@ export default function Admin() {
       title: 'Courses',
       icon: <BookOutlined />,
       onSelect: () => history.push('/admin/courses'),
-    }
+    },
   ];
 
   const getSelectedKey = () => {
