@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Table, Tag, Typography } from 'antd';
+import { AppstoreAddOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Table, Tag, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
+import { OfferingCreateModal } from 'sections/Admin/components';
 
 import {
   AdminOfferingIndexQuery,
   AdminOfferingIndexQuery_offerings_nodes,
 } from './graphql/AdminOfferingIndexQuery';
+
+import * as styles from './OfferingIndex.module.scss';
 
 const ALL_OFFERINGS = gql`
   query AdminOfferingIndexQuery {
@@ -31,6 +35,7 @@ const ALL_OFFERINGS = gql`
 `;
 
 export default function OfferingIndex() {
+  const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
 
   const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
@@ -79,12 +84,31 @@ export default function OfferingIndex() {
 
   return (
     <>
-      <Typography.Title level={2}>All course offerings</Typography.Title>
+      <Row align="middle" gutter={12}>
+        <Col flex={1}>
+          <Typography.Title level={2}>All course offerings</Typography.Title>
+        </Col>
+        <Col>
+          <Button
+            icon={<AppstoreAddOutlined />}
+            onClick={() => setOfferingCreateModalVisible(true)}
+            className={styles.AddOfferingButton}
+          >
+            New course offering
+          </Button>
+        </Col>
+      </Row>
+
       <Table
         columns={columns}
         dataSource={offerings as AdminOfferingIndexQuery_offerings_nodes[]}
         pagination={false}
         loading={loading}
+      />
+
+      <OfferingCreateModal
+        visible={offeringCreateModalVisible}
+        onRequestClose={() => setOfferingCreateModalVisible(false)}
       />
     </>
   );

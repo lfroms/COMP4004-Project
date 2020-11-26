@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Descriptions, Divider, Tag, Typography } from 'antd';
+import { AppstoreAddOutlined } from '@ant-design/icons';
+import { Button, Col, Descriptions, Divider, Row, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
+import { OfferingCreateModal } from 'sections/Admin/components';
+
 import {
   AdminTermShowQuery,
   AdminTermShowQuery_term_offerings_nodes,
@@ -38,6 +41,7 @@ const TERM = gql`
 `;
 
 export default function TermShow() {
+  const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
   const { termId } = useParams<ParamType>();
 
   const { data, loading } = useQuery<AdminTermShowQuery>(TERM, {
@@ -109,13 +113,31 @@ export default function TermShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <Divider orientation="left">Course offerings</Divider>
+      <Row align="middle" gutter={12}>
+        <Col flex={1}>
+          <Divider orientation="left">Course offerings</Divider>
+        </Col>
+        <Col>
+          <Button
+            icon={<AppstoreAddOutlined />}
+            onClick={() => setOfferingCreateModalVisible(true)}
+          >
+            New course offering
+          </Button>
+        </Col>
+      </Row>
 
       <Table
         columns={columns}
         dataSource={term.offerings.nodes as AdminTermShowQuery_term_offerings_nodes[]}
         pagination={false}
         loading={loading}
+      />
+
+      <OfferingCreateModal
+        visible={offeringCreateModalVisible}
+        onRequestClose={() => setOfferingCreateModalVisible(false)}
+        initialTermId={termId}
       />
     </>
   );
