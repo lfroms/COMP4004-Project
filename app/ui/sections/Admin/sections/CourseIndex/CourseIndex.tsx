@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { AppstoreAddOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Table, Tag, Typography } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Col, Popconfirm, Row, Table, Tag, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { CourseCreateModal } from 'sections/Admin/components';
@@ -12,6 +12,7 @@ import {
 } from './graphql/AdminCourseIndexQuery';
 
 import * as styles from './CourseIndex.module.scss';
+import { AdminCourseIndexCourseDeletionMutation } from './graphql/AdminCourseIndexCourseDeletionMutation';
 
 const ALL_COURSES = gql`
   query AdminCourseIndexQuery {
@@ -25,10 +26,28 @@ const ALL_COURSES = gql`
   }
 `;
 
+const DELETE_COURSE = gql`
+  mutation AdminCourseIndexCourseDeletionMutation($id: ID!) {
+    deleteCourse(input: { id: $id }) {
+      course {
+        name
+        code
+      }
+    }
+  }
+`;
+
 export default function CourseIndex() {
   const [courseCreateModalVisible, setCourseCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
+  const [deleteCourse, { loading: deleteLoading }] = useMutation<
+    AdminCourseIndexCourseDeletionMutation
+  >(DELETE_COURSE, {
+    refetchQueries: [{ query: ALL_COURSES }],
+  });
+
+  const handleConfirmDelete = (id: string) => () => deleteCourse({ variables: { id } });
 
   const columns: ColumnType<AdminCourseIndexQuery_courses_nodes>[] = [
     {
@@ -50,6 +69,22 @@ export default function CourseIndex() {
       render: (text, record) => <Link to={`/admin/courses/${record.id}`}>{text}</Link>,
       sorter: (first, second) => first.name.localeCompare(second.name),
       sortDirections: ['ascend', 'descend'],
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_value, record) => (
+        <Popconfirm
+          placement="rightBottom"
+          title="Are you sure you want to delete this course?"
+          onConfirm={handleConfirmDelete(record.id)}
+          okText="Confirm"
+          okButtonProps={{ loading: deleteLoading }}
+          cancelText="Cancel"
+        >
+          <Button danger icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
     },
   ];
 
