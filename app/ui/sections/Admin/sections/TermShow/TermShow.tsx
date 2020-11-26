@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined } from '@ant-design/icons';
 import { Button, Col, Descriptions, Divider, Row, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
+import { OfferingCreateModal } from 'sections/Admin/components';
+
 import {
   AdminTermShowQuery,
   AdminTermShowQuery_term_offerings_nodes,
 } from './graphql/AdminTermShowQuery';
-import { OfferingCreateModal } from 'sections/Admin/components';
-import { AppstoreAddOutlined } from '@ant-design/icons';
 
 interface ParamType {
   termId: string;
