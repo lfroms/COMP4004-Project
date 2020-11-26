@@ -29,12 +29,6 @@ export default function CourseEditForm(props: Props) {
   const { name, onSubmit } = props;
   const { data } = useQuery<CourseEditFormQuery>(PREREQUISITES);
 
-  // const prerequisiteOptions = data?.courses.nodes?.map((prerequisite, index) => (
-  //   <Option key={`prerequisite-select-${index}`} value={prerequisite?.id ?? 0}>
-  //     {prerequisite?.code}
-  //   </Option>
-  // ));
-
   const { Option } = Select;
 
   return (
