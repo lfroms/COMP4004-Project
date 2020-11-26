@@ -1,6 +1,8 @@
-import { gql, useQuery } from '@apollo/client';
-import { Divider, Table } from 'antd';
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { Table, Typography } from 'antd';
+import { ColumnType } from 'antd/lib/table';
+import { createFriendlyDate, createTermName } from 'helpers';
 import { Link } from 'react-router-dom';
 
 import {
@@ -8,64 +10,73 @@ import {
   AdminTermIndexQuery_terms_nodes,
 } from './graphql/AdminTermIndexQuery';
 
-export default function TermIndex() {
-  const ALL_TERMS = gql`
-    query AdminTermIndexQuery {
-      terms {
-        nodes {
-          id
-          startDate
-          endDate
-          financialDeadline
-          registrationDeadline
-          withdrawalDeadline
-        }
+const ALL_TERMS = gql`
+  query AdminTermIndexQuery {
+    terms {
+      nodes {
+        id
+        startDate
+        endDate
+        financialDeadline
+        registrationDeadline
+        withdrawalDeadline
       }
     }
-  `;
+  }
+`;
 
-  const { data } = useQuery<AdminTermIndexQuery>(ALL_TERMS);
+export default function TermIndex() {
+  const { data, loading } = useQuery<AdminTermIndexQuery>(ALL_TERMS);
 
-  const columns = [
+  const columns: ColumnType<AdminTermIndexQuery_terms_nodes>[] = [
+    {
+      dataIndex: 'name',
+      render: (value, record) => (
+        <Link to={`/admin/terms/${record.id}`}>
+          {createTermName(record.startDate, record.endDate)}
+        </Link>
+      ),
+    },
     {
       title: 'Start date',
       dataIndex: 'startDate',
-      key: 'startDate',
-      render: (text: any, record: AdminTermIndexQuery_terms_nodes) => (
-        <Link to={`/admin/terms/${record.id}`}>{text}</Link>
-      ),
+      render: value => createFriendlyDate(value),
+      sorter: (first, second) =>
+        new Date(first.startDate).getTime() - new Date(second.startDate).getTime(),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'End date',
       dataIndex: 'endDate',
-      key: 'endDate',
+      render: value => createFriendlyDate(value),
     },
     {
       title: 'Financial deadline',
       dataIndex: 'financialDeadline',
-      key: 'financialDeadline',
+      render: value => createFriendlyDate(value),
     },
     {
       title: 'Withdrawal deadline',
       dataIndex: 'withdrawalDeadline',
-      key: 'withdrawalDeadline',
+      render: value => createFriendlyDate(value),
     },
     {
       title: 'Registration deadline',
       dataIndex: 'registrationDeadline',
-      key: 'registrationDeadline',
+      render: value => createFriendlyDate(value),
     },
   ];
 
-  const terms = data?.terms.nodes?.filter(term => !!term) ?? [];
+  const terms = data?.terms.nodes?.filter(Boolean) ?? [];
 
   return (
     <>
-      <Divider orientation="left">Terms</Divider>
+      <Typography.Title level={2}>Terms</Typography.Title>
       <Table
         columns={columns}
         dataSource={terms as AdminTermIndexQuery_terms_nodes[]}
         pagination={false}
+        loading={loading}
       />
     </>
   );
