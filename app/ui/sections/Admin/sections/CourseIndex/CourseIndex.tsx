@@ -10,23 +10,19 @@ import {
 } from './graphql/AdminCourseIndexQuery';
 
 const ALL_COURSES = gql`
-    query AdminCourseIndexQuery {
-      courses {
-        nodes {
-          id
-          code
-          name
-        }
+  query AdminCourseIndexQuery {
+    courses {
+      nodes {
+        id
+        code
+        name
       }
     }
-  `;
+  }
+`;
 
 export default function CourseIndex() {
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
-
-  if (!data) {
-    return <div>Courses not found</div>;
-  }
 
   const columns: ColumnType<AdminCourseIndexQuery_courses_nodes>[] = [
     {
@@ -51,7 +47,7 @@ export default function CourseIndex() {
     },
   ];
 
-  const courses = data.courses.nodes?.filter(Boolean) ?? [];
+  const courses = data?.courses.nodes?.filter(Boolean) ?? [];
 
   return (
     <>

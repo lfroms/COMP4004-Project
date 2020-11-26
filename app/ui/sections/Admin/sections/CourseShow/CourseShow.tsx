@@ -33,14 +33,16 @@ export default function CourseShow() {
   });
 
   const course = data?.course;
-  
+
   if (!course) {
     return null;
   }
 
   const prerequisites = course.prerequisites.nodes;
 
-  const prerequisiteCodes = prerequisites?.map(prerequisite => prerequisite?.code).join(', ') ?? 'None';
+  const prerequisiteCodes = prerequisites?.length
+    ? prerequisites.map(prerequisite => prerequisite?.code).join(', ')
+    : 'None';
 
   return (
     <>
@@ -48,7 +50,7 @@ export default function CourseShow() {
 
       <Descriptions>
         <Descriptions.Item label="Title">{course.name}</Descriptions.Item>
-        <Descriptions.Item label="Prerequisites">{prereqCodes.toString()}</Descriptions.Item>
+        <Descriptions.Item label="Prerequisites">{prerequisiteCodes}</Descriptions.Item>
       </Descriptions>
     </>
   );
