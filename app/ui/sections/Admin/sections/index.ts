@@ -7,4 +7,3 @@ export * from './OfferingIndex';
 export * from './OfferingShow';
 export * from './CourseIndex';
 export * from './CourseShow';
-export * from './OfferingCreate';
