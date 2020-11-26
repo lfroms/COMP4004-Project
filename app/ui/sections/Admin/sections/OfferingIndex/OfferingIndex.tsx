@@ -50,23 +50,15 @@ const DELETE_OFFERING = gql`
 
 export default function OfferingIndex() {
   const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
-  const [focusedOfferingId, setFocusedOfferingId] = useState('');
 
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
-  const [deleteOffering] = useMutation<AdminOfferingIndexOfferingDeletionMutation>(
-    DELETE_OFFERING,
-    {
-      refetchQueries: [{ query: ALL_OFFERINGS }],
-    }
-  );
+  const [deleteOffering, { loading: deleteLoading }] = useMutation<
+    AdminOfferingIndexOfferingDeletionMutation
+  >(DELETE_OFFERING, {
+    refetchQueries: [{ query: ALL_OFFERINGS }],
+  });
 
-  const handleDeletionConfirm = () => {
-    deleteOffering({ variables: { id: focusedOfferingId } });
-  };
-
-  const handleDeletionCancel = () => {
-    setFocusedOfferingId('');
-  };
+  const handleConfirmDelete = (id: string) => () => deleteOffering({ variables: { id } });
 
   const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
     {
@@ -110,19 +102,14 @@ export default function OfferingIndex() {
         <Space size="middle">
           <Link to={`/admin/offerings/${record.id}`}>View</Link>
           <Popconfirm
-            title="Are you sure you want to delete this user?"
-            onConfirm={handleDeletionConfirm}
-            onCancel={handleDeletionCancel}
+            title="Are you sure you want to delete this offering?"
+            placement="rightBottom"
+            onConfirm={handleConfirmDelete(record.id)}
             okText="Confirm"
             cancelText="Cancel"
+            okButtonProps={{ loading: deleteLoading }}
           >
-            <Button
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                setFocusedOfferingId(record.id);
-              }}
-            />
+            <Button danger icon={<DeleteOutlined />} />
           </Popconfirm>
         </Space>
       ),
