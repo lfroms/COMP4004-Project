@@ -37,7 +37,7 @@ export default function OfferingIndex() {
     {
       title: 'Section',
       dataIndex: 'section',
-      render: (text: any, record: AdminOfferingIndexQuery_offerings_nodes) => (
+      render: (text, record) => (
         <Link to={`/admin/offerings/${record.id}`}>
           <Tag color="blue" style={{ cursor: 'pointer' }}>
             {text}
