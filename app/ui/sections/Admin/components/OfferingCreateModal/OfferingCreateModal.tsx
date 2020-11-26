@@ -1,9 +1,13 @@
 import React from 'react';
 import { Button, Modal } from 'antd';
 import { OfferingEditForm, OfferingEditFormData } from '..';
+import { gql, useMutation } from '@apollo/client';
+import {
+  CreateOfferingModalMutation,
+  CreateOfferingModalMutationVariables,
+} from './graphql/CreateOfferingModalMutation';
 
 const FORM_NAME = 'offeringCreateForm';
-
 interface Props {
   visible: boolean;
   onRequestClose?: () => void;
@@ -11,13 +15,35 @@ interface Props {
   initialTermId?: string;
 }
 
+const CREATE_OFFERING = gql`
+  mutation CreateOfferingModalMutation($termId: ID!, $courseId: ID!, $section: String!) {
+    createOffering(input: { termId: $termId, courseId: $courseId, section: $section }) {
+      offering {
+        id
+      }
+    }
+  }
+`;
+
 export default function OfferingCreateModal(props: Props) {
   const { visible, onRequestClose, initialCourseId, initialTermId } = props;
 
-  const handleFormSubmit = (data: OfferingEditFormData) => {
-    console.log(data);
-    // run mutation
-    // refetchqueries on all queries that fetch offerings (directly and indirectly)
+  const [createOffering, { loading }] = useMutation<
+    CreateOfferingModalMutation,
+    CreateOfferingModalMutationVariables
+  >(CREATE_OFFERING);
+
+  const handleFormSubmit = async (data: OfferingEditFormData) => {
+    await createOffering({
+      variables: {
+        section: data.section,
+        courseId: data.courseId,
+        termId: data.termId,
+      },
+      refetchQueries: ['AdminTermIndexQuery', 'AdminTermShowQuery', 'TermShowQuery'],
+      awaitRefetchQueries: true,
+    });
+
     onRequestClose?.();
   };
 
@@ -31,7 +57,7 @@ export default function OfferingCreateModal(props: Props) {
         <Button key="cancel" onClick={onRequestClose}>
           Cancel
         </Button>,
-        <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary">
+        <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
           Create
         </Button>,
       ]}
