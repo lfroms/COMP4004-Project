@@ -4,9 +4,17 @@ import { gql, useQuery } from '@apollo/client';
 import { OfferingEditFormQuery } from './graphql/OfferingEditFormQuery';
 import { createTermName } from 'helpers';
 
+export interface OfferingEditFormData {
+  section: string;
+  courseId: string;
+  termId: string;
+}
+
 interface Props {
+  name: string;
   initialCourseId?: string;
   initialTermId?: string;
+  onSubmit: (data: OfferingEditFormData) => void;
 }
 
 const COURSES_TERMS = gql`
@@ -28,7 +36,7 @@ const COURSES_TERMS = gql`
 `;
 
 export default function OfferingEditForm(props: Props) {
-  const { initialCourseId, initialTermId } = props;
+  const { name, initialCourseId, initialTermId, onSubmit } = props;
   const { data } = useQuery<OfferingEditFormQuery>(COURSES_TERMS);
 
   const courseOptions = data?.courses.nodes?.map((course, index) => (
@@ -44,7 +52,7 @@ export default function OfferingEditForm(props: Props) {
   ));
 
   return (
-    <Form name="offeringEdit">
+    <Form name={name} onFinish={onSubmit}>
       <Form.Item
         name="termId"
         hasFeedback
@@ -72,7 +80,7 @@ export default function OfferingEditForm(props: Props) {
             message: 'You must enter a section',
           },
           {
-            pattern: /[A-Z]{1}/,
+            pattern: /^[A-Z]{1}$/,
             message: 'Section must be a single letter from A - Z',
           },
         ]}

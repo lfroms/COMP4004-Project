@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Modal } from 'antd';
-import { OfferingEditForm } from '..';
+import { OfferingEditForm, OfferingEditFormData } from '..';
+
+const FORM_NAME = 'offeringCreateForm';
 
 interface Props {
   visible: boolean;
@@ -12,7 +14,8 @@ interface Props {
 export default function OfferingCreateModal(props: Props) {
   const { visible, onRequestClose, initialCourseId, initialTermId } = props;
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (data: OfferingEditFormData) => {
+    console.log(data);
     // run mutation
     // refetchqueries on all queries that fetch offerings (directly and indirectly)
     onRequestClose?.();
@@ -22,19 +25,23 @@ export default function OfferingCreateModal(props: Props) {
     <Modal
       title="New course offering"
       visible={visible}
-      onOk={handleFormSubmit}
       onCancel={onRequestClose}
       destroyOnClose
       footer={[
         <Button key="cancel" onClick={onRequestClose}>
           Cancel
         </Button>,
-        <Button form="offeringEdit" key="submit" htmlType="submit" type="primary">
+        <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary">
           Create
         </Button>,
       ]}
     >
-      <OfferingEditForm initialCourseId={initialCourseId} initialTermId={initialTermId} />
+      <OfferingEditForm
+        name={FORM_NAME}
+        onSubmit={handleFormSubmit}
+        initialCourseId={initialCourseId}
+        initialTermId={initialTermId}
+      />
     </Modal>
   );
 }
