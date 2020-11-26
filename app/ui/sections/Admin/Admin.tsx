@@ -47,7 +47,7 @@ export default function Admin() {
     },
     {
       id: 'offerings',
-      title: 'Course Offerings',
+      title: 'Course offerings',
       icon: <ClockCircleOutlined />,
       onSelect: () => history.push('/admin/offerings'),
     },
