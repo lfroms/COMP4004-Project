@@ -53,13 +53,14 @@ export default function OfferingEditForm(props: Props) {
     <Form name="offeringEdit" onFinish={onFinish}>
       <Form.Item
         name="section"
+        hasFeedback
         rules={[
           {
             required: true,
             message: 'You must enter a section',
           },
           {
-            pattern: /[A-Z]/,
+            pattern: /[A-Z]{1}/,
             message: 'Section must be a single letter from A - Z',
           },
         ]}

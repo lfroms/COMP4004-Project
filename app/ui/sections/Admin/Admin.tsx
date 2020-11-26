@@ -12,6 +12,7 @@ import {
   CourseIndex,
   CourseShow,
   Groups,
+  OfferingCreate,
   OfferingIndex,
   OfferingShow,
   TermIndex,
@@ -90,6 +91,7 @@ export default function Admin() {
         <Route exact path="/admin/terms" component={TermIndex} />
         <Route exact path="/admin/terms/:termId" component={TermShow} />
         <Route exact path="/admin/offerings" component={OfferingIndex} />
+        <Route exact path="/admin/offerings/new" component={OfferingCreate} />
         <Route exact path="/admin/offerings/:offeringId" component={OfferingShow} />
         <Route exact path="/admin/courses" component={CourseIndex} />
         <Route exact path="/admin/courses/:courseId" component={CourseShow} />
