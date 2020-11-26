@@ -32,12 +32,8 @@ export default function CourseShow() {
     variables: { id: courseId },
   });
 
-  if (!data) {
-    return <div>Course not found</div>;
-  }
-
-  const course = data.course;
-
+  const course = data?.course;
+  
   if (!course) {
     return null;
   }

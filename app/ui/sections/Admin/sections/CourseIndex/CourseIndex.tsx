@@ -51,7 +51,7 @@ export default function CourseIndex() {
     },
   ];
 
-  const courses = data.courses.nodes?.filter(course => !!course) ?? [];
+  const courses = data.courses.nodes?.filter(Boolean) ?? [];
 
   return (
     <>
