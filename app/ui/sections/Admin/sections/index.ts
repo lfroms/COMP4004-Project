@@ -5,3 +5,5 @@ export * from './TermIndex';
 export * from './TermShow';
 export * from './OfferingIndex';
 export * from './OfferingShow';
+export * from './CourseIndex';
+export * from './CourseShow';

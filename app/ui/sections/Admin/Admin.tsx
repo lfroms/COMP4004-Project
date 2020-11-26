@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
-import { CalendarOutlined, ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, CalendarOutlined, ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import {
+  CourseIndex, CourseShow,
   Groups,
   OfferingIndex,
   OfferingShow,
@@ -51,6 +52,12 @@ export default function Admin() {
       icon: <ClockCircleOutlined />,
       onSelect: () => history.push('/admin/offerings'),
     },
+    {
+      id: 'courses',
+      title: 'Courses',
+      icon: <BookOutlined />,
+      onSelect: () => history.push('/admin/courses'),
+    }
   ];
 
   const getSelectedKey = () => {
@@ -58,6 +65,7 @@ export default function Admin() {
     if (pathnameMatches('/admin/groups')) return 'groups';
     if (pathnameMatches('/admin/terms')) return 'terms';
     if (pathnameMatches('/admin/offerings')) return 'offerings';
+    if (pathnameMatches('/admin/courses')) return 'courses';
 
     return 'users';
   };
@@ -77,6 +85,9 @@ export default function Admin() {
         <Route exact path="/admin/terms/:termId" component={TermShow} />
         <Route exact path="/admin/offerings" component={OfferingIndex} />
         <Route exact path="/admin/offerings/:offeringId" component={OfferingShow} />
+        <Route exact path="/admin/courses" component={CourseIndex} />
+        <Route exact path="/admin/courses/:courseId" component={CourseShow} />
+
         <Redirect path="/admin" to="/admin/users" />
       </Switch>
     </Page>
