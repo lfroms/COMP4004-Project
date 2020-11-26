@@ -10,27 +10,27 @@ import {
   AdminOfferingIndexQuery_offerings_nodes,
 } from './graphql/AdminOfferingIndexQuery';
 
-export default function OfferingIndex() {
-  const ALL_OFFERINGS = gql`
-    query AdminOfferingIndexQuery {
-      offerings {
-        nodes {
+const ALL_OFFERINGS = gql`
+  query AdminOfferingIndexQuery {
+    offerings {
+      nodes {
+        id
+        section
+        course {
           id
-          section
-          course {
-            id
-            code
-          }
-          term {
-            id
-            startDate
-            endDate
-          }
+          code
+        }
+        term {
+          id
+          startDate
+          endDate
         }
       }
     }
-  `;
+  }
+`;
 
+export default function OfferingIndex() {
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
 
   const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
