@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { AppstoreAddOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Table, Tag, Typography } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
@@ -13,6 +13,7 @@ import {
 } from './graphql/AdminOfferingIndexQuery';
 
 import * as styles from './OfferingIndex.module.scss';
+import { AdminOfferingIndexOfferingDeletionMutation } from './graphql/AdminOfferingIndexOfferingDeletionMutation';
 
 const ALL_OFFERINGS = gql`
   query AdminOfferingIndexQuery {
@@ -34,9 +35,30 @@ const ALL_OFFERINGS = gql`
   }
 `;
 
+const DELETE_OFFERING = gql`
+  mutation AdminOfferingIndexOfferingDeletionMutation($id: ID!) {
+    deleteOffering(input: { id: $id }) {
+      offering {
+        course {
+          name
+        }
+        section
+      }
+    }
+  }
+`;
+
 export default function OfferingIndex() {
   const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
+
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
+  const [deleteOffering, { loading: deleteLoading }] = useMutation<
+    AdminOfferingIndexOfferingDeletionMutation
+  >(DELETE_OFFERING, {
+    refetchQueries: [{ query: ALL_OFFERINGS }],
+  });
+
+  const handleConfirmDelete = (id: string) => () => deleteOffering({ variables: { id } });
 
   const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
     {
@@ -76,7 +98,21 @@ export default function OfferingIndex() {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: (_text, record) => <Link to={`/admin/offerings/${record.id}`}>View</Link>,
+      render: (_text, record) => (
+        <Space size="middle">
+          <Link to={`/admin/offerings/${record.id}`}>View</Link>
+          <Popconfirm
+            title="Are you sure you want to delete this offering?"
+            placement="rightBottom"
+            onConfirm={handleConfirmDelete(record.id)}
+            okText="Confirm"
+            cancelText="Cancel"
+            okButtonProps={{ loading: deleteLoading }}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </Space>
+      ),
     },
   ];
 
