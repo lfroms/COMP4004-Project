@@ -9,6 +9,7 @@
 
 export interface AdminUserShowQuery_user {
   __typename: "User";
+  id: string;
   name: string;
   email: string;
   approved: boolean;

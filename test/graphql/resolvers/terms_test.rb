@@ -28,5 +28,25 @@ module Resolvers
       assert_equal terms(:one).registration_deadline, terms[0]['registrationDeadline']
       assert_equal terms(:one).withdrawal_deadline, terms[0]['withdrawalDeadline']
     end
+
+    test '#resolve does not return anything if the current user is not authenticated' do
+      query = <<~EOF
+        query Terms {
+          terms {
+            nodes {
+              startDate
+              endDate
+              financialDeadline
+              registrationDeadline
+              withdrawalDeadline
+            }
+          }
+        }
+      EOF
+
+      results = CmsSchema.execute(query, context: {}, variables: {}).to_h
+
+      assert_nil results.dig('data', 'terms')
+    end
   end
 end

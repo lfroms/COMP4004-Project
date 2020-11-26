@@ -4,17 +4,17 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: HomeQuery
+// GraphQL query operation: FrameQuery
 // ====================================================
 
-export interface HomeQuery_currentUser {
+export interface FrameQuery_currentUser {
   __typename: "User";
-  name: string;
+  admin: boolean;
 }
 
-export interface HomeQuery {
+export interface FrameQuery {
   /**
    * Specific details about the current user.
    */
-  currentUser: HomeQuery_currentUser | null;
+  currentUser: FrameQuery_currentUser | null;
 }

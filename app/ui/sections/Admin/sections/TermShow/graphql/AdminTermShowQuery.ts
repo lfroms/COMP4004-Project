@@ -9,6 +9,7 @@
 
 export interface AdminTermShowQuery_term {
   __typename: "Term";
+  id: string;
   startDate: any;
   endDate: any;
   financialDeadline: any;
