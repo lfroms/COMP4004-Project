@@ -1,28 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Divider, Table, Tag } from 'antd';
-import { gql, useQuery } from '@apollo/client';
+import { Button, Divider, Popconfirm, Table, Tag } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AdminUserIndexQuery,
   AdminUserIndexQuery_users_nodes,
 } from './graphql/AdminUserIndexQuery';
+import { AdminUserIndexUserDeletionMutation } from './graphql/AdminUserIndexUserDeletionMutation';
+import { DeleteOutlined } from '@ant-design/icons';
 
-export default function UserIndex() {
-  const ALL_USERS = gql`
-    query AdminUserIndexQuery {
-      users {
-        nodes {
-          id
-          name
-          email
-          approved
-          admin
-        }
+const ALL_USERS = gql`
+  query AdminUserIndexQuery {
+    users {
+      nodes {
+        id
+        name
+        email
+        approved
+        admin
       }
     }
-  `;
+  }
+`;
 
+const DELETE_USER = gql`
+  mutation AdminUserIndexUserDeletionMutation($id: ID!) {
+    deleteUser(input: { id: $id }) {
+      user {
+        name
+        email
+      }
+    }
+  }
+`;
+
+export default function UserIndex() {
   const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
+  const [deleteUser, { loading }] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
+    refetchQueries: [{ query: ALL_USERS }],
+  });
+
+  const handleConfirmDelete = (id: string) => () => deleteUser({ variables: { id } });
 
   const columns = [
     {
@@ -49,6 +67,22 @@ export default function UserIndex() {
       dataIndex: 'admin',
       key: 'admin',
       render: renderTypeTag,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (record: AdminUserIndexQuery_users_nodes) => (
+        <Popconfirm
+          placement="rightBottom"
+          title="Are you sure you want to delete this user?"
+          onConfirm={handleConfirmDelete(record.id)}
+          okText="Confirm"
+          okButtonProps={{ loading }}
+          cancelText="Cancel"
+        >
+          <Button danger icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
     },
   ];
 
