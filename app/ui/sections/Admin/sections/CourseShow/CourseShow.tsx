@@ -40,10 +40,7 @@ export default function CourseShow() {
 
   const prerequisites = course.prerequisites.nodes;
 
-  const prereqCodes =
-    prerequisites && prerequisites.length > 0
-      ? prerequisites.map(prereq => prereq?.code)
-      : ['None'];
+  const prerequisiteCodes = prerequisites?.map(prerequisite => prerequisite?.code).join(', ') ?? 'None';
 
   return (
     <>
