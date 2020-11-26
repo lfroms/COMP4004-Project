@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Divider, Table, Tag } from 'antd';
+import { Table, Tag, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
@@ -79,7 +79,7 @@ export default function OfferingIndex() {
 
   return (
     <>
-      <Divider orientation="left">All Course Offerings</Divider>
+      <Typography.Title level={2}>All course offerings</Typography.Title>
       <Table
         columns={columns}
         dataSource={offerings as AdminOfferingIndexQuery_offerings_nodes[]}

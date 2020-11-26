@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Descriptions, Divider } from 'antd';
+import { Descriptions, Typography } from 'antd';
 
 import { AdminOfferingShowQuery } from './graphql/AdminOfferingShowQuery';
 import { createTermName } from 'helpers';
@@ -44,10 +44,11 @@ export default function OfferingShow() {
 
   return (
     <>
-      <Divider orientation="left">
+      <Typography.Title level={2}>
         {offering.course.code} {offering.section}
-      </Divider>
-      <Descriptions title="Offering details">
+      </Typography.Title>
+
+      <Descriptions>
         <Descriptions.Item label="Section">{offering.section}</Descriptions.Item>
         <Descriptions.Item label="Course name">{offering.course.name}</Descriptions.Item>
         <Descriptions.Item label="Course code">{offering.course.code}</Descriptions.Item>
