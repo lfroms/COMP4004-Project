@@ -24,7 +24,7 @@ export interface AdminCourseIndexQuery_courses {
 
 export interface AdminCourseIndexQuery {
   /**
-   * All courses in the system
+   * All courses in the system.
    */
   courses: AdminCourseIndexQuery_courses;
 }

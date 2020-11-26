@@ -4,21 +4,21 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: CourseShowQuery
+// GraphQL query operation: AdminCourseShowQuery
 // ====================================================
 
-export interface AdminCourseShowQuery_prerequisites_nodes {
+export interface AdminCourseShowQuery_course_prerequisites_nodes {
   __typename: "Course";
   id: string;
   code: string;
 }
 
-export interface AdminCourseShowQuery_prerequisites {
+export interface AdminCourseShowQuery_course_prerequisites {
   __typename: "CourseConnection";
   /**
    * A list of nodes.
    */
-  nodes: (AdminCourseShowQuery_prerequisites_nodes | null)[] | null;
+  nodes: (AdminCourseShowQuery_course_prerequisites_nodes | null)[] | null;
 }
 
 export interface AdminCourseShowQuery_course {
@@ -26,12 +26,16 @@ export interface AdminCourseShowQuery_course {
   id: string;
   code: string;
   name: string;
-  prerequisites: AdminCourseShowQuery_prerequisites;
+  prerequisites: AdminCourseShowQuery_course_prerequisites;
 }
 
 export interface AdminCourseShowQuery {
   /**
-   * A specific course
+   * Specific details about a given course.
    */
-  course: AdminCourseShowQuery_course
+  course: AdminCourseShowQuery_course | null;
+}
+
+export interface AdminCourseShowQueryVariables {
+  id: string;
 }

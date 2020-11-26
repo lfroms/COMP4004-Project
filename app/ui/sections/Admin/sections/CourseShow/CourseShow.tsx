@@ -39,6 +39,10 @@ export default function CourseShow() {
 
   const course = data.course;
 
+  if (!course) {
+    return null;
+  }
+
   const prerequisites = course.prerequisites.nodes;
 
   const prereqCodes =
