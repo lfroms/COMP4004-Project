@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Divider, Modal, Table, Tag } from 'antd';
+import { Button, Divider, Popconfirm, Table, Tag } from 'antd';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AdminUserIndexQuery,
@@ -9,51 +9,45 @@ import {
 import { AdminUserIndexUserDeletionMutation } from './graphql/AdminUserIndexUserDeletionMutation';
 import { DeleteOutlined } from '@ant-design/icons';
 
+const ALL_USERS = gql`
+  query AdminUserIndexQuery {
+    users {
+      nodes {
+        id
+        name
+        email
+        approved
+        admin
+      }
+    }
+  }
+`;
+
+const DELETE_USER = gql`
+  mutation AdminUserIndexUserDeletionMutation($id: ID!) {
+    deleteUser(input: { id: $id }) {
+      user {
+        name
+        email
+      }
+    }
+  }
+`;
+
 export default function UserIndex() {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<AdminUserIndexQuery_users_nodes>();
-
-  const ALL_USERS = gql`
-    query AdminUserIndexQuery {
-      users {
-        nodes {
-          id
-          name
-          email
-          approved
-          admin
-        }
-      }
-    }
-  `;
-
-  const DELETE_USER = gql`
-    mutation AdminUserIndexUserDeletionMutation($id: ID!) {
-      deleteUser(input: { id: $id }) {
-        user {
-          name
-          email
-        }
-      }
-    }
-  `;
+  const [focusedUserId, setFocusedUserId] = useState<string>('');
 
   const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
-  const [deleteUser, { loading: mutationLoading }] = useMutation<
-    AdminUserIndexUserDeletionMutation
-  >(DELETE_USER, {
+  const [deleteUser] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
   const handleConfirm = () => {
-    console.log(userToDelete);
-    deleteUser({ variables: { id: userToDelete?.id } });
-    setDeleteModalOpen(false);
+    deleteUser({ variables: { id: focusedUserId } });
   };
 
   const handleCancel = () => {
-    setUserToDelete(undefined);
-    setDeleteModalOpen(false);
+    setFocusedUserId('');
   };
 
   const columns = [
@@ -86,15 +80,21 @@ export default function UserIndex() {
       title: 'Action',
       key: 'action',
       render: (record: AdminUserIndexQuery_users_nodes) => (
-        <Button
-          type="primary"
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => {
-            setUserToDelete(record);
-            setDeleteModalOpen(true);
-          }}
-        />
+        <Popconfirm
+          title="Are you sure you want to delete this user?"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+          okText="Confirm"
+          cancelText="Cancel"
+        >
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setFocusedUserId(record.id);
+            }}
+          />
+        </Popconfirm>
       ),
     },
   ];
@@ -109,28 +109,6 @@ export default function UserIndex() {
         dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
       />
-      <Modal
-        title="Confirm deletion"
-        visible={deleteModalOpen}
-        onOk={handleConfirm}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="back" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            danger
-            key="submit"
-            type="primary"
-            loading={mutationLoading}
-            onClick={handleConfirm}
-          >
-            Confirm
-          </Button>,
-        ]}
-      >
-        {`Are you sure you want to delete ${userToDelete?.name}?`}
-      </Modal>
     </>
   );
 }
