@@ -7,7 +7,6 @@ module Resolvers
 
     def resolve
       assert_authenticated!
-      assert_admin_user!
 
       Term.all
     end

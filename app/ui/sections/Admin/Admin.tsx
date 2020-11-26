@@ -9,19 +9,23 @@ export default function Admin() {
   const history = useHistory();
   const location = useLocation();
 
+  const pathnameMatches = (string: string) => {
+    return location.pathname.includes(string);
+  };
+
   const groups: NavigationGroup[] = [
     {
-      id: 'users_and_groups',
+      id: 'usersGroups',
       title: 'Users and groups',
       icon: <UserOutlined />,
       items: [
         {
-          id: '/admin/users',
+          id: 'users',
           title: 'Users',
           onSelect: () => history.push('/admin/users'),
         },
         {
-          id: '/admin/groups',
+          id: 'groups',
           title: 'Groups',
           onSelect: () => history.push('/admin/groups'),
         },
@@ -31,19 +35,24 @@ export default function Admin() {
       id: 'terms',
       title: 'Terms',
       icon: <CalendarOutlined />,
-      onClick: () => history.push('/admin/terms'),
-      items: [],
+      onSelect: () => history.push('/admin/terms'),
     },
   ];
+
+  const getSelectedKey = () => {
+    if (pathnameMatches('/admin/users')) return 'users';
+    if (pathnameMatches('/admin/groups')) return 'groups';
+    if (pathnameMatches('/admin/terms')) return 'terms';
+
+    return 'users';
+  };
 
   return (
     <Page
       title="Admin"
       groups={groups}
-      defaultOpenGroupId="users_and_groups"
-      defaultSelectedItemId={
-        location.pathname.includes('/admin/users') ? '/admin/users' : location.pathname
-      }
+      initialOpenGroupIds={['usersGroups']}
+      selectedItemId={getSelectedKey()}
     >
       <Switch>
         <Route exact path="/admin/users" component={UserIndex} />

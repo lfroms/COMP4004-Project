@@ -22,6 +22,7 @@ export interface AdminGroupsQuery_groups_nodes_users {
 
 export interface AdminGroupsQuery_groups_nodes {
   __typename: "Group";
+  id: string;
   name: string;
   users: AdminGroupsQuery_groups_nodes_users;
 }

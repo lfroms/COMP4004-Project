@@ -20,9 +20,10 @@ module Resolvers
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       courses = results.dig('data', 'courses', 'edges')
 
-      assert_equal 2, courses.length
+      assert_equal 3, courses.length
       assert_equal courses(:quality_assurance).name, courses[0]['node']['name']
       assert_equal courses(:object_oriented).name, courses[1]['node']['name']
+      assert_equal courses(:just_another_course).name, courses[2]['node']['name']
     end
 
     test '#resolve does not return anything if the current user is not authenticated' do

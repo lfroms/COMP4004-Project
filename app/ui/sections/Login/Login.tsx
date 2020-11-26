@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { gql, useMutation } from '@apollo/client';
-import { useToken } from 'hooks';
+import { useAuthState } from 'hooks';
+
 import { AuthenticateMutation } from './graphql/AuthenticateMutation';
 
 import * as styles from './Login.module.scss';
@@ -17,8 +18,8 @@ export default function Login() {
     }
   `;
 
-  const [token, setToken] = useToken();
   const [authenticate, { data }] = useMutation<AuthenticateMutation>(AUTHENTICATE);
+  const [authenticated, setAuthenticated] = useAuthState();
 
   useEffect(() => {
     const hasData = !!data?.authenticate;
@@ -34,14 +35,14 @@ export default function Login() {
       return;
     }
 
-    setToken(receivedToken);
+    setAuthenticated(true, receivedToken);
   }, [data?.authenticate?.token]);
 
   const handleFinish = (values: { email: string; password: string }) => {
     authenticate({ variables: { email: values.email, password: values.password } });
   };
 
-  if (token) {
+  if (authenticated) {
     return <Redirect to="/courses" />;
   }
 

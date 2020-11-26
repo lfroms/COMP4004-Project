@@ -34,6 +34,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "apollo:generate": "apollo client:codegen --excludes=node_modules/* --includes=**/*.tsx --endpoint http://localhost:3000/graphql --target typescript --addTypename --tagName=gql --globalTypesFile=app/ui/graphql/global-types.ts graphql"
+    "apollo:generate": "apollo client:codegen --excludes=node_modules/* --includes=app/ui/**/*.ts* --endpoint http://localhost:3000/graphql --target typescript --addTypename --tagName=gql --globalTypesFile=app/ui/graphql/global-types.ts graphql"
   }
 }

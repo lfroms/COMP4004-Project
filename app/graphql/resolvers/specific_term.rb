@@ -7,7 +7,6 @@ module Resolvers
 
     def resolve(id:)
       assert_authenticated!
-      assert_admin_user!
 
       Term.find_by(id: id)
     end
