@@ -1,7 +1,8 @@
-import { gql, useQuery } from '@apollo/client';
-import { Divider, Table } from 'antd';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Table, Tag, Typography } from 'antd';
+import { ColumnType } from 'antd/lib/table/interface';
+import { Link } from 'react-router-dom';
 
 import {
   AdminCourseIndexQuery,
@@ -21,34 +22,48 @@ export default function CourseIndex() {
     }
   `;
 
-  const { data } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
-  const history = useHistory();
+  const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
 
-  const columns = [
+  if (!data) {
+    return <div>Courses not found</div>;
+  }
+
+  const columns: ColumnType<AdminCourseIndexQuery_courses_nodes>[] = [
     {
       title: 'Code',
       dataIndex: 'code',
-      key: 'code',
+      render: (text, record) => (
+        <Link to={`/admin/courses/${record.id}`}>
+          <Tag color="blue" style={{ cursor: 'pointer' }}>
+            {text}
+          </Tag>
+        </Link>
+      ),
+      sorter: (first, second) => first.code.localeCompare(second.code),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Title',
       dataIndex: 'name',
-      key: 'name',
+      render: (text, record) => (
+        <Link to={`/admin/courses/${record.id}`}>
+            {text}
+        </Link>
+      ),
+      sorter: (first, second) => first.name.localeCompare(second.name),
+      sortDirections: ['ascend', 'descend'],
     },
   ];
 
-  const courses = data?.courses.nodes?.filter(course => !!course) ?? [];
+  const courses = data.courses.nodes?.filter(course => !!course) ?? [];
 
   return (
     <>
-      <Divider orientation="left">Courses</Divider>
-      <Table
+      <Typography.Title level={2}>All courses</Typography.Title>      <Table
         columns={columns}
         dataSource={courses as AdminCourseIndexQuery_courses_nodes[]}
         pagination={false}
-        onRow={record => ({
-          onClick: () => history.push(`/admin/courses/${record.id}`),
-        })}
+        loading={loading}
       />
     </>
   );
