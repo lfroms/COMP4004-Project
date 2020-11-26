@@ -7,6 +7,28 @@
 // GraphQL query operation: AdminTermShowQuery
 // ====================================================
 
+export interface AdminTermShowQuery_term_offerings_nodes_course {
+  __typename: "Course";
+  id: string;
+  code: string;
+  name: string;
+}
+
+export interface AdminTermShowQuery_term_offerings_nodes {
+  __typename: "Offering";
+  id: string;
+  section: string;
+  course: AdminTermShowQuery_term_offerings_nodes_course;
+}
+
+export interface AdminTermShowQuery_term_offerings {
+  __typename: "OfferingConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (AdminTermShowQuery_term_offerings_nodes | null)[] | null;
+}
+
 export interface AdminTermShowQuery_term {
   __typename: "Term";
   id: string;
@@ -15,6 +37,7 @@ export interface AdminTermShowQuery_term {
   financialDeadline: any;
   registrationDeadline: any;
   withdrawalDeadline: any;
+  offerings: AdminTermShowQuery_term_offerings;
 }
 
 export interface AdminTermShowQuery {
