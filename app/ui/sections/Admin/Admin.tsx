@@ -1,6 +1,11 @@
 import React from 'react';
 import { NavigationGroup, Page } from 'components';
-import { BookOutlined, CalendarOutlined, ClockCircleOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  BookOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import {

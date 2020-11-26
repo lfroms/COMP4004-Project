@@ -45,11 +45,7 @@ export default function CourseIndex() {
     {
       title: 'Title',
       dataIndex: 'name',
-      render: (text, record) => (
-        <Link to={`/admin/courses/${record.id}`}>
-            {text}
-        </Link>
-      ),
+      render: (text, record) => <Link to={`/admin/courses/${record.id}`}>{text}</Link>,
       sorter: (first, second) => first.name.localeCompare(second.name),
       sortDirections: ['ascend', 'descend'],
     },
@@ -59,7 +55,8 @@ export default function CourseIndex() {
 
   return (
     <>
-      <Typography.Title level={2}>All courses</Typography.Title>      <Table
+      <Typography.Title level={2}>All courses</Typography.Title>{' '}
+      <Table
         columns={columns}
         dataSource={courses as AdminCourseIndexQuery_courses_nodes[]}
         pagination={false}

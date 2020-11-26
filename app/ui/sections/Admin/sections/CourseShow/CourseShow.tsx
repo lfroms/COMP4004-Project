@@ -51,9 +51,7 @@ export default function CourseShow() {
 
   return (
     <>
-      <Typography.Title level={2}>
-        {course.code}
-      </Typography.Title>
+      <Typography.Title level={2}>{course.code}</Typography.Title>
 
       <Descriptions>
         <Descriptions.Item label="Title">{course.name}</Descriptions.Item>
