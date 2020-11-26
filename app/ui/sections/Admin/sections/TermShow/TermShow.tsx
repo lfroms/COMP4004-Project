@@ -1,8 +1,8 @@
+import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Descriptions, Divider, Tag } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
-import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   AdminTermShowQuery,
@@ -96,7 +96,7 @@ export default function TermShow() {
           {createFriendlyDate(term.startDate)}
         </Descriptions.Item>
         <Descriptions.Item label="End date">{createFriendlyDate(term.endDate)}</Descriptions.Item>
-        <Descriptions.Item label="Financial desdline">
+        <Descriptions.Item label="Financial deadline">
           {createFriendlyDate(term.financialDeadline)}
         </Descriptions.Item>
         <Descriptions.Item label="Registration deadline">
