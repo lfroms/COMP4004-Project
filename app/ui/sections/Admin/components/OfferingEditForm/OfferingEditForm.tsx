@@ -4,6 +4,11 @@ import { gql, useQuery } from '@apollo/client';
 import { OfferingEditFormQuery } from './graphql/OfferingEditFormQuery';
 import { createTermName } from 'helpers';
 
+interface Props {
+  initialCourseId?: string;
+  initialTermId?: string;
+}
+
 const COURSES_TERMS = gql`
   query OfferingEditFormQuery {
     courses {
@@ -22,7 +27,8 @@ const COURSES_TERMS = gql`
   }
 `;
 
-export default function OfferingEditForm() {
+export default function OfferingEditForm(props: Props) {
+  const { initialCourseId, initialTermId } = props;
   const { data } = useQuery<OfferingEditFormQuery>(COURSES_TERMS);
 
   const courseOptions = data?.courses.nodes?.map((course, index) => (
@@ -42,6 +48,7 @@ export default function OfferingEditForm() {
       <Form.Item
         name="termId"
         hasFeedback
+        initialValue={initialTermId}
         rules={[{ required: true, message: 'You must select a term' }]}
       >
         <Select placeholder="Select a term">{termOptions}</Select>
@@ -50,6 +57,7 @@ export default function OfferingEditForm() {
       <Form.Item
         name="courseId"
         hasFeedback
+        initialValue={initialCourseId}
         rules={[{ required: true, message: 'You must select a course' }]}
       >
         <Select placeholder="Select a course">{courseOptions}</Select>

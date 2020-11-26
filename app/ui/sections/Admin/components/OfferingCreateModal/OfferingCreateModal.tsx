@@ -5,10 +5,12 @@ import { OfferingEditForm } from '..';
 interface Props {
   visible: boolean;
   onRequestClose?: () => void;
+  initialCourseId?: string;
+  initialTermId?: string;
 }
 
 export default function OfferingCreateModal(props: Props) {
-  const { visible, onRequestClose } = props;
+  const { visible, onRequestClose, initialCourseId, initialTermId } = props;
 
   const handleFormSubmit = () => {
     // run mutation
@@ -32,7 +34,7 @@ export default function OfferingCreateModal(props: Props) {
         </Button>,
       ]}
     >
-      <OfferingEditForm />
+      <OfferingEditForm initialCourseId={initialCourseId} initialTermId={initialTermId} />
     </Modal>
   );
 }

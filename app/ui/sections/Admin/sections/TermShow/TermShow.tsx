@@ -136,6 +136,7 @@ export default function TermShow() {
       <OfferingCreateModal
         visible={offeringCreateModalVisible}
         onRequestClose={() => setOfferingCreateModalVisible(false)}
+        initialTermId={termId}
       />
     </>
   );
