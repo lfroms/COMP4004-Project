@@ -70,7 +70,12 @@ export default function Login() {
               },
             ]}
           >
-            <Input id="login_password_field" prefix={<LockOutlined />} type="password" placeholder="Password" />
+            <Input
+              id="login_password_field"
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
           </Form.Item>
 
           <Form.Item>
