@@ -11,9 +11,12 @@ import {
   AdminOfferingIndexQuery,
   AdminOfferingIndexQuery_offerings_nodes,
 } from './graphql/AdminOfferingIndexQuery';
+import {
+  AdminOfferingIndexOfferingDeletionMutation,
+  AdminOfferingIndexOfferingDeletionMutationVariables,
+} from './graphql/AdminOfferingIndexOfferingDeletionMutation';
 
 import * as styles from './OfferingIndex.module.scss';
-import { AdminOfferingIndexOfferingDeletionMutation } from './graphql/AdminOfferingIndexOfferingDeletionMutation';
 
 const ALL_OFFERINGS = gql`
   query AdminOfferingIndexQuery {
@@ -52,10 +55,10 @@ export default function OfferingIndex() {
   const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
-  const [
-    deleteOffering,
-    { loading: deleteLoading },
-  ] = useMutation<AdminOfferingIndexOfferingDeletionMutation>(DELETE_OFFERING, {
+  const [deleteOffering, { loading: deleteLoading }] = useMutation<
+    AdminOfferingIndexOfferingDeletionMutation,
+    AdminOfferingIndexOfferingDeletionMutationVariables
+  >(DELETE_OFFERING, {
     refetchQueries: [{ query: ALL_OFFERINGS }],
   });
 

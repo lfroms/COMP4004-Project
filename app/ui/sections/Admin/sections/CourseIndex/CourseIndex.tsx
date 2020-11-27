@@ -10,9 +10,12 @@ import {
   AdminCourseIndexQuery,
   AdminCourseIndexQuery_courses_nodes,
 } from './graphql/AdminCourseIndexQuery';
+import {
+  AdminCourseIndexCourseDeletionMutation,
+  AdminCourseIndexCourseDeletionMutationVariables,
+} from './graphql/AdminCourseIndexCourseDeletionMutation';
 
 import * as styles from './CourseIndex.module.scss';
-import { AdminCourseIndexCourseDeletionMutation } from './graphql/AdminCourseIndexCourseDeletionMutation';
 
 const ALL_COURSES = gql`
   query AdminCourseIndexQuery {
@@ -41,10 +44,10 @@ export default function CourseIndex() {
   const [courseCreateModalVisible, setCourseCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
-  const [
-    deleteCourse,
-    { loading: deleteLoading },
-  ] = useMutation<AdminCourseIndexCourseDeletionMutation>(DELETE_COURSE, {
+  const [deleteCourse, { loading: deleteLoading }] = useMutation<
+    AdminCourseIndexCourseDeletionMutation,
+    AdminCourseIndexCourseDeletionMutationVariables
+  >(DELETE_COURSE, {
     refetchQueries: [{ query: ALL_COURSES }],
   });
 

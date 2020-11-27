@@ -9,7 +9,10 @@ import {
   AdminUserIndexQuery,
   AdminUserIndexQuery_users_nodes,
 } from './graphql/AdminUserIndexQuery';
-import { AdminUserIndexUserDeletionMutation } from './graphql/AdminUserIndexUserDeletionMutation';
+import {
+  AdminUserIndexUserDeletionMutation,
+  AdminUserIndexUserDeletionMutationVariables,
+} from './graphql/AdminUserIndexUserDeletionMutation';
 
 const ALL_USERS = gql`
   query AdminUserIndexQuery {
@@ -39,10 +42,10 @@ const DELETE_USER = gql`
 export default function UserIndex() {
   const { data, loading } = useQuery<AdminUserIndexQuery>(ALL_USERS);
 
-  const [
-    deleteUser,
-    { loading: deleteUserLoading },
-  ] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
+  const [deleteUser, { loading: deleteUserLoading }] = useMutation<
+    AdminUserIndexUserDeletionMutation,
+    AdminUserIndexUserDeletionMutationVariables
+  >(DELETE_USER, {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
