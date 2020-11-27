@@ -55,20 +55,28 @@ export default function UserIndex() {
       render: (text: any, record: AdminUserIndexQuery_users_nodes) => (
         <Link to={`/admin/users/${record.id}`}>{text}</Link>
       ),
+      sorter: (first, second) => first.name.localeCompare(second.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Email',
       dataIndex: 'email',
+      sorter: (first, second) => first.email.localeCompare(second.email),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Status',
       dataIndex: 'approved',
       render: renderStatusTag,
+      sorter: (first, second) => (first.approved ? 1 : 0) - (second.approved ? 1 : 0),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Type',
       dataIndex: 'admin',
       render: renderTypeTag,
+      sorter: (first, second) => (first.admin ? 1 : 0) - (second.admin ? 1 : 0),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Action',
