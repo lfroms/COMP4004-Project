@@ -6,6 +6,8 @@
 # files.
 
 require 'cucumber/rails'
+require 'selenium-webdriver'
+require 'database_cleaner/active_record'
 
 # frozen_string_literal: true
 
@@ -13,6 +15,24 @@ require 'cucumber/rails'
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
 # Capybara.default_selector = :xpath
+
+Capybara.app_host = 'http://web:3000'
+
+Capybara.register_driver(:selenium_chrome) do |app|
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :remote,
+    desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+      'goog:chromeOptions' => {
+        detach: true,
+        args: [
+          'window-size=1024,768',
+        ],
+      }
+    ),
+    url: ENV['HUB_URL']
+  )
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -34,7 +54,8 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.allow_remote_database_url = true
 rescue NameError
   raise 'You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it.'
 end

@@ -82,7 +82,7 @@ export default function CourseIndex() {
           okButtonProps={{ loading: deleteLoading }}
           cancelText="Cancel"
         >
-          <Button danger icon={<DeleteOutlined />} />
+          <Button danger id="delete_course" icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
@@ -98,6 +98,7 @@ export default function CourseIndex() {
         </Col>
         <Col>
           <Button
+            id="new_course"
             icon={<AppstoreAddOutlined />}
             onClick={() => setCourseCreateModalVisible(true)}
             className={styles.AddCourseButton}

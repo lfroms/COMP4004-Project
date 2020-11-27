@@ -48,6 +48,18 @@ services:
     depends_on:
       - db
       - webpack
+      - chrome
     environment:
       PG_PASSWORD: password
+      HUB_URL: http://chrome:4444/wd/hub
       WEBPACKER_DEV_SERVER_HOST: webpack
+
+  chrome:
+    image: selenium/standalone-chrome-debug
+    networks:
+      - pnet
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - /dev/shm:/dev/shm

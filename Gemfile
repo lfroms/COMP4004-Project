@@ -33,6 +33,7 @@ group :development, :test do
 
   gem 'rubocop', '~> 1.2'
   gem 'rubocop-rails', '~> 2.8'
+  gem 'database_cleaner-active_record'
 end
 
 group :development do
@@ -55,7 +56,6 @@ end
 
 group :test do
   gem 'cucumber-rails', require: false
-  gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

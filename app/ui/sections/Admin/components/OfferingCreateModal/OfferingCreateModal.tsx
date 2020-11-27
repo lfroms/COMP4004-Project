@@ -57,7 +57,7 @@ export default function OfferingCreateModal(props: Props) {
         <Button key="cancel" onClick={onRequestClose}>
           Cancel
         </Button>,
-        <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
+        <Button id="offering_create_submit" form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
           Create
         </Button>,
       ]}
