@@ -53,16 +53,16 @@ export default function Admin() {
       onSelect: () => history.push('/admin/terms'),
     },
     {
-      id: 'offerings',
-      title: 'Course offerings',
-      icon: <ClockCircleOutlined />,
-      onSelect: () => history.push('/admin/offerings'),
-    },
-    {
       id: 'courses',
       title: 'Courses',
       icon: <BookOutlined />,
       onSelect: () => history.push('/admin/courses'),
+    },
+    {
+      id: 'offerings',
+      title: 'Course offerings',
+      icon: <ClockCircleOutlined />,
+      onSelect: () => history.push('/admin/offerings'),
     },
   ];
 
