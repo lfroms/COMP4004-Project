@@ -33,3 +33,16 @@ services:
       - db
     environment:
       PG_PASSWORD: password
+      HUB_URL: http://chrome:4444/wd/hub
+
+  chrome:
+    image: selenium/standalone-chrome-debug
+    depends_on:
+      - web
+    networks:
+      - pnet
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - /dev/shm:/dev/shm

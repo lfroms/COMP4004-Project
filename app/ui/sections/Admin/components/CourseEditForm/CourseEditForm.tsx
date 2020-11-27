@@ -44,7 +44,7 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Input placeholder="Code" />
+        <Input id="course_code_field" placeholder="Code" />
       </Form.Item>
 
       <Form.Item
@@ -57,7 +57,7 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Input placeholder="Name" />
+        <Input id="course_name_field" placeholder="Name" />
       </Form.Item>
 
       <Form.Item
@@ -69,7 +69,7 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Select mode="multiple" placeholder="Prerequisites">
+        <Select id="course_prerequisites_select" mode="multiple" placeholder="Prerequisites">
           {data?.courses.nodes?.map((prerequisite, index) => (
             <Option key={`prerequisite-select-${index}`} value={prerequisite?.id ?? 0}>
               {prerequisite?.code}

@@ -130,6 +130,7 @@ export default function OfferingIndex() {
         </Col>
         <Col>
           <Button
+            id="new_offering"
             icon={<AppstoreAddOutlined />}
             onClick={() => setOfferingCreateModalVisible(true)}
             className={styles.AddOfferingButton}
