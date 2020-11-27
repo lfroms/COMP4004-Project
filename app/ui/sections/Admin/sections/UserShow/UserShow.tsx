@@ -1,28 +1,27 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AdminUserShowQuery } from './graphql/AdminUserShowQuery';
-import { Col, PageHeader, Row, Statistic } from 'antd';
+import { Descriptions, Typography } from 'antd';
 
 interface ParamType {
   userId: string;
 }
 
+const SINGLE_USER = gql`
+  query AdminUserShowQuery($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      email
+      approved
+      admin
+    }
+  }
+`;
+
 export default function UserDetails() {
   const { userId } = useParams<ParamType>();
-  const history = useHistory();
-
-  const SINGLE_USER = gql`
-    query AdminUserShowQuery($id: ID!) {
-      user(id: $id) {
-        id
-        name
-        email
-        approved
-        admin
-      }
-    }
-  `;
 
   const { data } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
     variables: { id: userId },
@@ -31,19 +30,11 @@ export default function UserDetails() {
 
   return (
     <>
-      <PageHeader
-        title={user?.name}
-        subTitle={user?.approved ? 'Approved' : 'Pending'}
-        onBack={() => history.push('/admin/users')}
-      />
-      <Row gutter={16}>
-        <Col span={12}>
-          <Statistic title="Email" value={`${user?.email}`} />
-        </Col>
-        <Col span={12}>
-          <Statistic title="Type" value={user?.admin ? 'Admin' : 'Standard'} />
-        </Col>
-      </Row>
+      <Typography.Title level={2}>{user?.name}</Typography.Title>
+      <Descriptions>
+        <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
+        <Descriptions.Item label="Type">{user?.admin ? 'Admin' : 'Standard'}</Descriptions.Item>
+      </Descriptions>
     </>
   );
 }
