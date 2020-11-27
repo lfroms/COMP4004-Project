@@ -41,9 +41,10 @@ export default function CourseIndex() {
   const [courseCreateModalVisible, setCourseCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
-  const [deleteCourse, { loading: deleteLoading }] = useMutation<
-    AdminCourseIndexCourseDeletionMutation
-  >(DELETE_COURSE, {
+  const [
+    deleteCourse,
+    { loading: deleteLoading },
+  ] = useMutation<AdminCourseIndexCourseDeletionMutation>(DELETE_COURSE, {
     refetchQueries: [{ query: ALL_COURSES }],
   });
 
@@ -94,7 +95,7 @@ export default function CourseIndex() {
     <>
       <Row align="middle" gutter={12}>
         <Col flex={1}>
-          <Typography.Title level={2}>All courses</Typography.Title>{' '}
+          <Typography.Title level={2}>Courses</Typography.Title>
         </Col>
         <Col>
           <Button

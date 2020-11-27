@@ -123,7 +123,7 @@ export default function OfferingIndex() {
     <>
       <Row align="middle" gutter={12}>
         <Col flex={1}>
-          <Typography.Title level={2}>All course offerings</Typography.Title>
+          <Typography.Title level={2}>Course offerings</Typography.Title>
         </Col>
         <Col>
           <Button
