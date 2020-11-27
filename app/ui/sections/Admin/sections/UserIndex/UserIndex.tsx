@@ -1,13 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Divider, Popconfirm, Table, Tag } from 'antd';
+import { Button, Popconfirm, Table, Tag, Typography } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
+
 import {
   AdminUserIndexQuery,
   AdminUserIndexQuery_users_nodes,
 } from './graphql/AdminUserIndexQuery';
-import { AdminUserIndexUserDeletionMutation } from './graphql/AdminUserIndexUserDeletionMutation';
-import { DeleteOutlined } from '@ant-design/icons';
+import {
+  AdminUserIndexUserDeletionMutation,
+  AdminUserIndexUserDeletionMutationVariables,
+} from './graphql/AdminUserIndexUserDeletionMutation';
 
 const ALL_USERS = gql`
   query AdminUserIndexQuery {
@@ -35,49 +40,57 @@ const DELETE_USER = gql`
 `;
 
 export default function UserIndex() {
-  const { data } = useQuery<AdminUserIndexQuery>(ALL_USERS);
-  const [deleteUser, { loading }] = useMutation<AdminUserIndexUserDeletionMutation>(DELETE_USER, {
+  const { data, loading } = useQuery<AdminUserIndexQuery>(ALL_USERS);
+
+  const [deleteUser, { loading: deleteUserLoading }] = useMutation<
+    AdminUserIndexUserDeletionMutation,
+    AdminUserIndexUserDeletionMutationVariables
+  >(DELETE_USER, {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
   const handleConfirmDelete = (id: string) => () => deleteUser({ variables: { id } });
 
-  const columns = [
+  const columns: ColumnType<AdminUserIndexQuery_users_nodes>[] = [
     {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
       render: (text: any, record: AdminUserIndexQuery_users_nodes) => (
         <Link to={`/admin/users/${record.id}`}>{text}</Link>
       ),
+      sorter: (first, second) => first.name.localeCompare(second.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Email',
       dataIndex: 'email',
-      key: 'email',
+      sorter: (first, second) => first.email.localeCompare(second.email),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Status',
       dataIndex: 'approved',
-      key: 'approved',
       render: renderStatusTag,
+      sorter: (first, second) => (first.approved ? 1 : 0) - (second.approved ? 1 : 0),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Type',
       dataIndex: 'admin',
-      key: 'admin',
       render: renderTypeTag,
+      sorter: (first, second) => (first.admin ? 1 : 0) - (second.admin ? 1 : 0),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Action',
       key: 'action',
-      render: (record: AdminUserIndexQuery_users_nodes) => (
+      render: (_value, record) => (
         <Popconfirm
           placement="rightBottom"
           title="Are you sure you want to delete this user?"
           onConfirm={handleConfirmDelete(record.id)}
           okText="Confirm"
-          okButtonProps={{ loading }}
+          okButtonProps={{ loading: deleteUserLoading }}
           cancelText="Cancel"
         >
           <Button danger icon={<DeleteOutlined />} />
@@ -86,15 +99,16 @@ export default function UserIndex() {
     },
   ];
 
-  const users = data?.users.nodes?.filter(user => !!user) ?? [];
+  const users = data?.users.nodes?.filter(Boolean) ?? [];
 
   return (
     <>
-      <Divider orientation="left">Users</Divider>
+      <Typography.Title level={2}>Users</Typography.Title>
       <Table
         columns={columns}
         dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
+        loading={loading}
       />
     </>
   );

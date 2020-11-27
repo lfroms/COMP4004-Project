@@ -10,9 +10,12 @@ import {
   AdminCourseIndexQuery,
   AdminCourseIndexQuery_courses_nodes,
 } from './graphql/AdminCourseIndexQuery';
+import {
+  AdminCourseIndexCourseDeletionMutation,
+  AdminCourseIndexCourseDeletionMutationVariables,
+} from './graphql/AdminCourseIndexCourseDeletionMutation';
 
 import * as styles from './CourseIndex.module.scss';
-import { AdminCourseIndexCourseDeletionMutation } from './graphql/AdminCourseIndexCourseDeletionMutation';
 
 const ALL_COURSES = gql`
   query AdminCourseIndexQuery {
@@ -42,7 +45,8 @@ export default function CourseIndex() {
 
   const { data, loading } = useQuery<AdminCourseIndexQuery>(ALL_COURSES);
   const [deleteCourse, { loading: deleteLoading }] = useMutation<
-    AdminCourseIndexCourseDeletionMutation
+    AdminCourseIndexCourseDeletionMutation,
+    AdminCourseIndexCourseDeletionMutationVariables
   >(DELETE_COURSE, {
     refetchQueries: [{ query: ALL_COURSES }],
   });
@@ -94,7 +98,7 @@ export default function CourseIndex() {
     <>
       <Row align="middle" gutter={12}>
         <Col flex={1}>
-          <Typography.Title level={2}>All courses</Typography.Title>{' '}
+          <Typography.Title level={2}>Courses</Typography.Title>
         </Col>
         <Col>
           <Button
