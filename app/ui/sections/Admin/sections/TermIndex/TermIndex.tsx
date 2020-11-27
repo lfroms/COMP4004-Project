@@ -1,14 +1,17 @@
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { Table, Typography } from 'antd';
-import { ColumnType } from 'antd/lib/table';
+import React, { useState } from 'react';import { gql, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Table, Typography } from 'antd';
 import { createFriendlyDate, createTermName } from 'helpers';
+import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
+import { TermCreateModal } from 'sections/Admin/components';
 
 import {
   AdminTermIndexQuery,
   AdminTermIndexQuery_terms_nodes,
 } from './graphql/AdminTermIndexQuery';
+
+import * as styles from './TermIndex.module.scss';
 
 const ALL_TERMS = gql`
   query AdminTermIndexQuery {
@@ -26,6 +29,7 @@ const ALL_TERMS = gql`
 `;
 
 export default function TermIndex() {
+  const [termCreateModalVisible, setTermCreateModalVisible] = useState(false);
   const { data, loading } = useQuery<AdminTermIndexQuery>(ALL_TERMS);
 
   const columns: ColumnType<AdminTermIndexQuery_terms_nodes>[] = [
@@ -71,12 +75,31 @@ export default function TermIndex() {
 
   return (
     <>
-      <Typography.Title level={2}>Terms</Typography.Title>
+    <Row align="middle" gutter={12}>
+        <Col flex={1}>
+        <Typography.Title level={2}>Terms</Typography.Title>
+        </Col>
+        <Col>
+          <Button
+            icon={<AppstoreAddOutlined />}
+            onClick={() => setTermCreateModalVisible(true)}
+            className={styles.AddTermButton}
+          >
+            New term
+          </Button>
+        </Col>
+      </Row>
+
       <Table
         columns={columns}
         dataSource={terms as AdminTermIndexQuery_terms_nodes[]}
         pagination={false}
         loading={loading}
+      />
+
+<TermCreateModal
+        visible={termCreateModalVisible}
+        onRequestClose={() => setTermCreateModalVisible(false)}
       />
     </>
   );
