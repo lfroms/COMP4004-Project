@@ -52,9 +52,10 @@ export default function OfferingIndex() {
   const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
-  const [deleteOffering, { loading: deleteLoading }] = useMutation<
-    AdminOfferingIndexOfferingDeletionMutation
-  >(DELETE_OFFERING, {
+  const [
+    deleteOffering,
+    { loading: deleteLoading },
+  ] = useMutation<AdminOfferingIndexOfferingDeletionMutation>(DELETE_OFFERING, {
     refetchQueries: [{ query: ALL_OFFERINGS }],
   });
 
