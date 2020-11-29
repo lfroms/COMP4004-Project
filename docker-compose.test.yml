@@ -20,7 +20,7 @@ services:
 
   test:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec cucumber"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec cucumber ${FEATURE}"
     networks:
       - testnet
     volumes:
