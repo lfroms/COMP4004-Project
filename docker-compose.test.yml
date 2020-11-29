@@ -1,0 +1,49 @@
+version: '3.8'
+networks:
+  pnet:
+    driver: bridge
+volumes:
+  gems:
+  pg-data:
+  node-modules:
+services:
+  db:
+    image: postgres
+    networks:
+      - pnet
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+
+  test:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec cucumber features/course_deletion.feature"
+    networks:
+      - pnet
+    volumes:
+      - ./:/usr/src/app
+      - gems:/usr/local/bundle
+      - node-modules:/usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - chrome
+    environment:
+      PG_PASSWORD: password
+      HUB_URL: http://chrome:4444/wd/hub
+
+  chrome:
+    image: selenium/standalone-chrome-debug
+    networks:
+      - pnet
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - /dev/shm:/dev/shm
+    logging:
+      driver: none

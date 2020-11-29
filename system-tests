@@ -1,0 +1,13 @@
+#!/bin/bash
+
+(
+  (docker-compose -f docker-compose.test.yml up --abort-on-container-exit & (
+    (while ! nc -z localhost 5900; do
+      sleep 0.5
+    done
+    sleep 7
+    open vnc://user:secret@localhost:5900)
+  ) & wait);
+
+  killall "Screen Sharing"
+)
