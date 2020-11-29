@@ -26,9 +26,7 @@ end
 Capybara.run_server = true
 Capybara.default_driver = :selenium_chrome
 
-# Compile assets
-Webpacker.compile
-
+# This code just gets the current IP address of the VM so that we can reference it directly.
 ip = %x(/sbin/ip route|awk '/scope/ { print $9 }')
 ip = ip.gsub("\n", '')
 Capybara.server_port = '3000'
