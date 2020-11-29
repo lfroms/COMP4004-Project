@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# DatabaseCleaner.clean_with(:deletion)
-
 begin
   require 'database_cleaner'
   require 'database_cleaner/cucumber'
