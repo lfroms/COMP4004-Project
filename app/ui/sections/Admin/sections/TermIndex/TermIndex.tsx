@@ -1,4 +1,5 @@
-import React, { useState } from 'react';import { gql, useQuery } from '@apollo/client';
+import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined } from '@ant-design/icons';
 import { Button, Col, Row, Table, Typography } from 'antd';
 import { createFriendlyDate, createTermName } from 'helpers';
@@ -75,9 +76,9 @@ export default function TermIndex() {
 
   return (
     <>
-    <Row align="middle" gutter={12}>
+      <Row align="middle" gutter={12}>
         <Col flex={1}>
-        <Typography.Title level={2}>Terms</Typography.Title>
+          <Typography.Title level={2}>Terms</Typography.Title>
         </Col>
         <Col>
           <Button
@@ -97,7 +98,7 @@ export default function TermIndex() {
         loading={loading}
       />
 
-<TermCreateModal
+      <TermCreateModal
         visible={termCreateModalVisible}
         onRequestClose={() => setTermCreateModalVisible(false)}
       />
