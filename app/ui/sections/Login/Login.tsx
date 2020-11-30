@@ -59,7 +59,7 @@ export default function Login() {
               },
             ]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Email" />
+            <Input id="login_email_field" prefix={<UserOutlined />} placeholder="Email" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -70,12 +70,17 @@ export default function Login() {
               },
             ]}
           >
-            <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+            <Input
+              id="login_password_field"
+              prefix={<LockOutlined />}
+              type="password"
+              placeholder="Password"
+            />
           </Form.Item>
 
           <Form.Item>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button id="login" type="primary" htmlType="submit">
                 Log in
               </Button>
 

@@ -11,9 +11,12 @@ import {
   AdminOfferingIndexQuery,
   AdminOfferingIndexQuery_offerings_nodes,
 } from './graphql/AdminOfferingIndexQuery';
+import {
+  AdminOfferingIndexOfferingDeletionMutation,
+  AdminOfferingIndexOfferingDeletionMutationVariables,
+} from './graphql/AdminOfferingIndexOfferingDeletionMutation';
 
 import * as styles from './OfferingIndex.module.scss';
-import { AdminOfferingIndexOfferingDeletionMutation } from './graphql/AdminOfferingIndexOfferingDeletionMutation';
 
 const ALL_OFFERINGS = gql`
   query AdminOfferingIndexQuery {
@@ -53,7 +56,8 @@ export default function OfferingIndex() {
 
   const { data, loading } = useQuery<AdminOfferingIndexQuery>(ALL_OFFERINGS);
   const [deleteOffering, { loading: deleteLoading }] = useMutation<
-    AdminOfferingIndexOfferingDeletionMutation
+    AdminOfferingIndexOfferingDeletionMutation,
+    AdminOfferingIndexOfferingDeletionMutationVariables
   >(DELETE_OFFERING, {
     refetchQueries: [{ query: ALL_OFFERINGS }],
   });
@@ -122,10 +126,11 @@ export default function OfferingIndex() {
     <>
       <Row align="middle" gutter={12}>
         <Col flex={1}>
-          <Typography.Title level={2}>All course offerings</Typography.Title>
+          <Typography.Title level={2}>Course offerings</Typography.Title>
         </Col>
         <Col>
           <Button
+            id="new_offering"
             icon={<AppstoreAddOutlined />}
             onClick={() => setOfferingCreateModalVisible(true)}
             className={styles.AddOfferingButton}

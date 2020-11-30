@@ -55,7 +55,14 @@ export default function CourseCreateModal(props: Props) {
         <Button key="cancel" onClick={onRequestClose}>
           Cancel
         </Button>,
-        <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
+        <Button
+          id="course_create_submit"
+          form={FORM_NAME}
+          key="submit"
+          htmlType="submit"
+          type="primary"
+          loading={loading}
+        >
           Create
         </Button>,
       ]}
