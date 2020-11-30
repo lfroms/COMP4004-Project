@@ -14,8 +14,22 @@ interface Props {
 }
 
 const CREATE_TERM = gql`
-  mutation CreateTermModalMutation($startDate: ISO8601DateTime!, $endDate: ISO8601DateTime!, $registrationDeadline: ISO8601DateTime!, $withdrawalDeadline: ISO8601DateTime!, $financialDeadline: ISO8601DateTime!) {
-    createTerm(input: { startDate: $startDate, endDate: $endDate, registrationDeadline: $registrationDeadline, withdrawalDeadline: $withdrawalDeadline, financialDeadline: $financialDeadline }) {
+  mutation CreateTermModalMutation(
+    $startDate: ISO8601DateTime!
+    $endDate: ISO8601DateTime!
+    $registrationDeadline: ISO8601DateTime!
+    $withdrawalDeadline: ISO8601DateTime!
+    $financialDeadline: ISO8601DateTime!
+  ) {
+    createTerm(
+      input: {
+        startDate: $startDate
+        endDate: $endDate
+        registrationDeadline: $registrationDeadline
+        withdrawalDeadline: $withdrawalDeadline
+        financialDeadline: $financialDeadline
+      }
+    ) {
       term {
         id
       }
@@ -32,10 +46,11 @@ export default function TermCreateModal(props: Props) {
   >(CREATE_TERM);
 
   const handleFormSubmit = async (data: TermEditFormData) => {
+    console.log(data);
     await createTerm({
       variables: {
-        startDate: data.startDate,
-        endDate: data.endDate,
+        startDate: data.startToEnd[0],
+        endDate: data.startToEnd[1],
         registrationDeadline: data.registrationDeadline,
         withdrawalDeadline: data.withdrawalDeadline,
         financialDeadline: data.financialDeadline,

@@ -3,8 +3,7 @@ import { DatePicker, Form } from 'antd';
 const { RangePicker } = DatePicker;
 
 export interface TermEditFormData {
-  startDate: Date;
-  endDate: Date;
+  startToEnd: Date[];
   registrationDeadline: Date;
   withdrawalDeadline: Date;
   financialDeadline: Date;
@@ -21,7 +20,7 @@ export default function TermEditForm(props: Props) {
   return (
     <Form name={name} onFinish={onSubmit}>
       <Form.Item
-        name="range-picker"
+        name="startToEnd"
         label="Start date - End date"
         rules={[{ type: 'array', required: true, message: 'You must select a start and end date' }]}
       >
