@@ -11,7 +11,7 @@ import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-d
 import {
   CourseIndex,
   CourseShow,
-  Groups,
+  GroupIndex,
   OfferingIndex,
   OfferingShow,
   TermIndex,
@@ -53,16 +53,16 @@ export default function Admin() {
       onSelect: () => history.push('/admin/terms'),
     },
     {
-      id: 'offerings',
-      title: 'Course offerings',
-      icon: <ClockCircleOutlined />,
-      onSelect: () => history.push('/admin/offerings'),
-    },
-    {
       id: 'courses',
       title: 'Courses',
       icon: <BookOutlined />,
       onSelect: () => history.push('/admin/courses'),
+    },
+    {
+      id: 'offerings',
+      title: 'Course offerings',
+      icon: <ClockCircleOutlined />,
+      onSelect: () => history.push('/admin/offerings'),
     },
   ];
 
@@ -86,7 +86,7 @@ export default function Admin() {
       <Switch>
         <Route exact path="/admin/users" component={UserIndex} />
         <Route exact path="/admin/users/:userId" component={UserShow} />
-        <Route exact path="/admin/groups" component={Groups} />
+        <Route exact path="/admin/groups" component={GroupIndex} />
         <Route exact path="/admin/terms" component={TermIndex} />
         <Route exact path="/admin/terms/:termId" component={TermShow} />
         <Route exact path="/admin/offerings" component={OfferingIndex} />

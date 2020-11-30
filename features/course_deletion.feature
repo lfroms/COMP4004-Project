@@ -5,19 +5,17 @@ Feature: Course Deletion
 
   Scenario: An administrator deletes a course
     Given that I am logged in as an administrator
-    And there exists a course with code "COMP4004"
-    And I am viewing the details of the course with code "COMP4004"
-    When I select the option to delete
-    And I confirm my decision
-    Then there does not exists a course with code "COMP4004"
-    And I am viewing the list of courses
+    And there exists a course with code "COMP 4004"
+    And I am on the course index
+    When I click the "delete_course" button
+    And I click the "course_delete_submit" button
+    Then there does not exists a course with code "COMP 4004"
 
   Scenario: An administrator cancels deletion of a course
     Given that I am logged in as an administrator
-    And there exists a course with code "COMP4004"
-    And I am viewing the details of the course with code "COMP4004"
-    When I select the option to delete
-    And I cancel my decision
-    And there exists a course with code "COMP4004"
-    And I am viewing the details of the user with email "myemail@email.com"
+    And there exists a course with code "COMP 4004"
+    And I am on the course index
+    When I click the "delete_course" button
+    And I click the "course_delete_cancel" button
+    Then there exists a course with code "COMP 4004"
 
