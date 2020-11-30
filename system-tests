@@ -4,7 +4,7 @@ trap "exit" INT TERM ERR
 trap "kill 0" EXIT
 
 (
-  (docker-compose -f docker-compose.test.yml up --abort-on-container-exit & (
+  (COMPOSE_IGNORE_ORPHANS=1 docker-compose -f docker-compose.test.yml up --abort-on-container-exit & (
     while ! nc -z localhost 5900; do
       sleep 0.5
     done

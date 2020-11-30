@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose up
+COMPOSE_IGNORE_ORPHANS=1 docker-compose up
