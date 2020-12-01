@@ -46,7 +46,6 @@ export default function TermCreateModal(props: Props) {
   >(CREATE_TERM);
 
   const handleFormSubmit = async (data: TermEditFormData) => {
-    console.log(data);
     await createTerm({
       variables: {
         startDate: data.startToEnd[0],
