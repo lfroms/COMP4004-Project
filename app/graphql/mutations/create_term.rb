@@ -3,7 +3,8 @@ module Mutations
   class CreateTerm < BaseMutation
     include Authenticatable
 
-    field :term, Types::TermType, null: false
+    field :term, Types::TermType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :start_date, GraphQL::Types::ISO8601DateTime, required: true
     argument :end_date, GraphQL::Types::ISO8601DateTime, required: true
@@ -15,7 +16,7 @@ module Mutations
       assert_authenticated!
       assert_admin_user!
 
-      term = Term.create!(
+      term = Term.new(
         start_date: start_date,
         end_date: end_date,
         registration_deadline: registration_deadline,
@@ -23,9 +24,17 @@ module Mutations
         financial_deadline: financial_deadline
       )
 
-      {
-        term: term,
-      }
+      if term.save
+        {
+          term: term,
+          errors: [],
+        }
+      else
+        {
+          term: nil,
+          errors: Types::UserError.from(term.errors_hash),
+        }
+      end
     end
   end
 end
