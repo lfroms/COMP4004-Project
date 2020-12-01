@@ -48,7 +48,7 @@ export default function UserEditForm(props: Props) {
         <Input.Password placeholder="Password" />
       </Form.Item>
 
-      <Form.Item name="admin" valuePropName="checked" initialValue={true}>
+      <Form.Item name="admin" valuePropName="checked" initialValue={false}>
         <Checkbox>Admin</Checkbox>
       </Form.Item>
     </Form>
