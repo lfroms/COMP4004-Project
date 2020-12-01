@@ -38,15 +38,18 @@ module Mutations
         mutation TestMutation {
           authenticate(input: {email: "example3@example.com", password: "password"}) {
             token
+            errors {
+              message
+            }
           }
         }
       EOF
 
       result = CmsSchema.execute(query, context: {}, variables: {}).to_h
       value = result.dig('data', 'authenticate')
-      error_message = result.dig('errors', 0, 'message')
+      error_message = value.dig('errors', 0, 'message')
 
-      assert_nil value
+      assert_nil value['token']
       assert_equal 'This account has not yet been approved. Please try again later.', error_message
     end
   end
