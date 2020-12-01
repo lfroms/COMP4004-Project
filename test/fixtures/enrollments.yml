@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+student:
+  role: student
+  offering: quality_assurance_A
+  user: not_admin
+
+prof:
+  role: professor
+  offering: object_oriented_A
+  user: not_admin

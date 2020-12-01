@@ -15,5 +15,8 @@ module Types
     field :delete_offering, mutation: Mutations::DeleteOffering
 
     field :create_term, mutation: Mutations::CreateTerm
+
+    field :create_enrollment, mutation: Mutations::CreateEnrollment
+    field :delete_enrollment, mutation: Mutations::DeleteEnrollment
   end
 end
