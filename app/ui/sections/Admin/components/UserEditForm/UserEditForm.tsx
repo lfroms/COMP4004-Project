@@ -43,7 +43,10 @@ export default function UserEditForm(props: Props) {
       <Form.Item
         name="password"
         hasFeedback
-        rules={[{ required: true, message: 'You must enter a password' }, { min: 6 }]}
+        rules={[
+          { required: true, message: 'You must enter a password' },
+          { min: 6, message: 'Password must be at least 6 characters' },
+        ]}
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
