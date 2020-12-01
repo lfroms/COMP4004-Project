@@ -8,10 +8,9 @@ module Mutations
     argument :name, String, required: true
     argument :email, String, required: true
     argument :password, String, required: true
-    argument :admin, Boolean, required: true
 
-    def resolve(name:, email:, password:, admin:)
-      user = User.create!(name: name, email: email, password: password, admin: admin)
+    def resolve(name:, email:, password:)
+      user = User.create!(name: name, email: email, password: password)
 
       {
         user: user,

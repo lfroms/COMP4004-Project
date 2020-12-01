@@ -4,7 +4,7 @@ module Mutations
     test '#resolve creates a new user and saves it to the database without needing to be an admin user and authenticated' do
       query = <<~EOF
         mutation RegisterUser {
-          registerUser(input: {name: "Test User", email: "fred@fake.com", password: "password", admin: false}) {
+          registerUser(input: {name: "Test User", email: "fred@fake.com", password: "password"}) {
             user {
               id
             }
