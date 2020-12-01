@@ -23,12 +23,15 @@ module Mutations
       assert_equal user_to_delete.name, user['name']
     end
 
-    test '#resolve returns nil if specified user does not exist' do
+    test '#resolve returns nil and error message if specified user does not exist' do
       query = <<~EOF
         mutation TestMutation {
           deleteUser(input: {id: 0}) {
             user {
               id
+            }
+            errors {
+              message
             }
           }
         }
@@ -36,7 +39,9 @@ module Mutations
 
       result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = result.dig('data', 'deleteUser', 'user')
+      error_message = result.dig('data', 'deleteUser', 'errors', 0, 'message')
 
+      assert_equal 'Could not find user with id 0.', error_message
       assert_nil value
     end
 
