@@ -13,9 +13,11 @@ interface Props {
   onSubmit: (data: UserEditFormData) => void;
 }
 
-export default function UserEditForm({ name, onSubmit }: Props) {
+export default function UserEditForm(props: Props) {
+  const { name, onSubmit } = props;
+
   return (
-    <Form title={name} onFinish={onSubmit}>
+    <Form name={name} onFinish={onSubmit}>
       <Form.Item
         name="name"
         hasFeedback
@@ -30,7 +32,7 @@ export default function UserEditForm({ name, onSubmit }: Props) {
         rules={[
           { required: true, message: 'You must enter an email' },
           {
-            pattern: /A[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*z/,
+            pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
             message: 'Email must have the form x@x.x',
           },
         ]}
@@ -41,12 +43,12 @@ export default function UserEditForm({ name, onSubmit }: Props) {
       <Form.Item
         name="password"
         hasFeedback
-        rules={[{ required: true, message: 'You must enter a password' }, { len: 6 }]}
+        rules={[{ required: true, message: 'You must enter a password' }, { min: 6 }]}
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
 
-      <Form.Item name="admin" valuePropName="checked">
+      <Form.Item name="admin" valuePropName="checked" initialValue={true}>
         <Checkbox>Admin</Checkbox>
       </Form.Item>
     </Form>

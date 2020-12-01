@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Popconfirm, Table, Tag, Typography } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Col, Popconfirm, Row, Table, Tag, Typography } from 'antd';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
+
+import { UserCreateModal } from 'sections/Admin/components';
 
 import {
   AdminUserIndexQuery,
@@ -13,6 +15,8 @@ import {
   AdminUserIndexUserDeletionMutation,
   AdminUserIndexUserDeletionMutationVariables,
 } from './graphql/AdminUserIndexUserDeletionMutation';
+
+import * as styles from './UserIndex.module.scss';
 
 const ALL_USERS = gql`
   query AdminUserIndexQuery {
@@ -40,6 +44,8 @@ const DELETE_USER = gql`
 `;
 
 export default function UserIndex() {
+  const [userCreateModalVisible, setUserCreateModalVisible] = useState(false);
+
   const { data, loading } = useQuery<AdminUserIndexQuery>(ALL_USERS);
 
   const [deleteUser, { loading: deleteUserLoading }] = useMutation<
@@ -103,12 +109,30 @@ export default function UserIndex() {
 
   return (
     <>
-      <Typography.Title level={2}>Users</Typography.Title>
+      <Row align="middle" gutter={12}>
+        <Col flex={1}>
+          <Typography.Title level={2}>Users</Typography.Title>
+        </Col>
+        <Col>
+          <Button
+            id="new_course"
+            icon={<AppstoreAddOutlined />}
+            onClick={() => setUserCreateModalVisible(true)}
+            className={styles.AddUserButton}
+          >
+            New user
+          </Button>
+        </Col>
+      </Row>
       <Table
         columns={columns}
         dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
         loading={loading}
+      />
+      <UserCreateModal
+        visible={userCreateModalVisible}
+        onRequestClose={() => setUserCreateModalVisible(false)}
       />
     </>
   );

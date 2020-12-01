@@ -27,9 +27,10 @@ const CREATE_USER = gql`
 `;
 
 export default function UserCreateModal({ visible, onRequestClose }: Props) {
-  const [createUser] = useMutation(CREATE_USER);
+  const [createUser, { loading }] = useMutation(CREATE_USER);
 
   const handleFormSubmit = async (data: UserEditFormData) => {
+    console.log('in here');
     await createUser({
       variables: {
         name: data.name,
