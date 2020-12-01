@@ -14,7 +14,7 @@ export interface CreateUserModalMutation_createUser_user {
 
 export interface CreateUserModalMutation_createUser {
   __typename: "CreateUserPayload";
-  user: CreateUserModalMutation_createUser_user;
+  user: CreateUserModalMutation_createUser_user | null;
 }
 
 export interface CreateUserModalMutation {
@@ -25,5 +25,5 @@ export interface CreateUserModalMutationVariables {
   name: string;
   email: string;
   password: string;
-  admin?: boolean | null;
+  admin: boolean;
 }

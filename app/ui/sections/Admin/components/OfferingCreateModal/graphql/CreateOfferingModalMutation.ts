@@ -14,7 +14,7 @@ export interface CreateOfferingModalMutation_createOffering_offering {
 
 export interface CreateOfferingModalMutation_createOffering {
   __typename: "CreateOfferingPayload";
-  offering: CreateOfferingModalMutation_createOffering_offering;
+  offering: CreateOfferingModalMutation_createOffering_offering | null;
 }
 
 export interface CreateOfferingModalMutation {

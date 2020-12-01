@@ -14,7 +14,7 @@ interface Props {
 }
 
 const CREATE_COURSE = gql`
-  mutation CreateCourseModalMutation($code: String!, $name: String!, $prerequisiteIds: [ID]) {
+  mutation CreateCourseModalMutation($code: String!, $name: String!, $prerequisiteIds: [ID!]) {
     createCourse(input: { code: $code, name: $name, prerequisiteIds: $prerequisiteIds }) {
       course {
         id

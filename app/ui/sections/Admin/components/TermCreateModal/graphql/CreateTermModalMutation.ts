@@ -14,7 +14,7 @@ export interface CreateTermModalMutation_createTerm_term {
 
 export interface CreateTermModalMutation_createTerm {
   __typename: "CreateTermPayload";
-  term: CreateTermModalMutation_createTerm_term;
+  term: CreateTermModalMutation_createTerm_term | null;
 }
 
 export interface CreateTermModalMutation {
