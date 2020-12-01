@@ -30,11 +30,11 @@ Feature: Course Creation
     Then I receive an error message saying "You must enter a course code"
 
   Scenario: An administrator attemps to create a course that already exists
-    Given I am on the course index
-    And there exists a course with code "COMP 4444"
+    Given that I am logged in as an administrator
+    And I am on the course index
     When I click the "New course" button
-    And I enter code "COMP 4444"
+    And I enter code "COMP 4004"
     And I enter name "Software Quality Assurance"
     And I submit the form
     Then I receive an error message saying "A course with this code already exists"
-    And there exists only one course with code "COMP 4444"
+    And there exists only one course with code "COMP 4004"

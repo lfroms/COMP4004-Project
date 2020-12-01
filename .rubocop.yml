@@ -35,6 +35,11 @@ Layout/EmptyLineAfterMagicComment:
 Rails:
   Enabled: true
 
+Layout/LineLength:
+  Enabled: true
+  Exclude:
+    - 'features/step_definitions/**'
+
 Style/Documentation:
   Enabled: false
 
