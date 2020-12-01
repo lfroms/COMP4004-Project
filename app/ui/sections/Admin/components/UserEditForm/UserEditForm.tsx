@@ -5,16 +5,17 @@ export interface UserEditFormData {
   name: string;
   email: string;
   password: string;
-  admin: boolean;
+  admin?: boolean;
 }
 
 interface Props {
   name: string;
+  registration: boolean;
   onSubmit: (data: UserEditFormData) => void;
 }
 
 export default function UserEditForm(props: Props) {
-  const { name, onSubmit } = props;
+  const { name, registration, onSubmit } = props;
 
   return (
     <Form name={name} onFinish={onSubmit}>
@@ -51,9 +52,11 @@ export default function UserEditForm(props: Props) {
         <Input.Password placeholder="Password" />
       </Form.Item>
 
-      <Form.Item name="admin" valuePropName="checked" initialValue={false}>
-        <Checkbox>Admin</Checkbox>
-      </Form.Item>
+      {!registration && (
+        <Form.Item name="admin" valuePropName="checked" initialValue={false}>
+          <Checkbox>Admin</Checkbox>
+        </Form.Item>
+      )}
     </Form>
   );
 }
