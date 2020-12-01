@@ -3,18 +3,27 @@ module Mutations
   class RegisterUser < BaseMutation
     include Authenticatable
 
-    field :user, Types::UserType, null: false
+    field :user, Types::UserType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :name, String, required: true
     argument :email, String, required: true
     argument :password, String, required: true
 
     def resolve(name:, email:, password:)
-      user = User.create!(name: name, email: email, password: password)
+      user = User.new(name: name, email: email, password: password)
 
-      {
-        user: user,
-      }
+      if user.save
+        {
+          user: user,
+          errors: [],
+        }
+      else
+        {
+          user: nil,
+          errors: Types::UserError.from(user.errors_hash),
+        }
+      end
     end
   end
 end
