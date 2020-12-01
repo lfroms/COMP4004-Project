@@ -1,6 +1,6 @@
 version: '3.8'
 networks:
-  pnet:
+  testnet:
     driver: bridge
 volumes:
   gems:
@@ -10,7 +10,7 @@ services:
   db:
     image: postgres
     networks:
-      - pnet
+      - testnet
     ports:
       - 5432:5432
     volumes:
@@ -18,11 +18,11 @@ services:
     environment:
       POSTGRES_PASSWORD: password
 
-  web:
+  test:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec cucumber ${FEATURE}"
     networks:
-      - pnet
+      - testnet
     volumes:
       - ./:/usr/src/app
       - gems:/usr/local/bundle
@@ -31,18 +31,19 @@ services:
       - 3000:3000
     depends_on:
       - db
+      - chrome
     environment:
       PG_PASSWORD: password
       HUB_URL: http://chrome:4444/wd/hub
 
   chrome:
     image: selenium/standalone-chrome-debug
-    depends_on:
-      - web
     networks:
-      - pnet
+      - testnet
     ports:
       - 4444:4444
       - 5900:5900
     volumes:
       - /dev/shm:/dev/shm
+    logging:
+      driver: none

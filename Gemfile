@@ -33,7 +33,6 @@ group :development, :test do
 
   gem 'rubocop', '~> 1.2'
   gem 'rubocop-rails', '~> 2.8'
-  gem 'database_cleaner-active_record'
 end
 
 group :development do
@@ -52,10 +51,11 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
   gem 'mocha', '~> 1.11'
-end
 
-group :test do
   gem 'cucumber-rails', require: false
+
+  # For clearing data changed during system tests
+  gem 'database_cleaner', '~> 1.8'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
