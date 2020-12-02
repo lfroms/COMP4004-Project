@@ -26,6 +26,7 @@ export default function Registration() {
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     onCompleted: () => setRegistrationCompleted(true),
+    onError: error => console.log(error.message.split('GraphQL error: ')[1]),
   });
 
   const handleFormSubmit = async (data: UserEditFormData) => {
@@ -47,7 +48,14 @@ export default function Registration() {
   ) : (
     <>
       <UserEditForm name={FORM_NAME} registration onSubmit={handleFormSubmit} />
-      <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
+      <Button
+        id="register_button"
+        form={FORM_NAME}
+        key="submit"
+        htmlType="submit"
+        type="primary"
+        loading={loading}
+      >
         Register new account
       </Button>
     </>
@@ -55,7 +63,10 @@ export default function Registration() {
 
   return (
     <div className={styles.Registration}>
-      <Card className={styles.RegistrationCard}>{cardContentMarkup}</Card>
+      <Card className={styles.RegistrationCard}>
+        {/* {errorAlert} */}
+        {cardContentMarkup}
+      </Card>
     </div>
   );
 }
