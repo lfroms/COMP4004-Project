@@ -18,8 +18,6 @@ module Mutations
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      enrollment = Enrollment.find_by(id: enrollment_to_delete.id)
-
       assert_not_nil enrollment.deleted_at
       assert enrollment.present?
     end
