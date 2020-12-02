@@ -55,21 +55,6 @@ export default function TermIndex() {
       dataIndex: 'endDate',
       render: value => createFriendlyDate(value),
     },
-    {
-      title: 'Financial deadline',
-      dataIndex: 'financialDeadline',
-      render: value => createFriendlyDate(value),
-    },
-    {
-      title: 'Withdrawal deadline',
-      dataIndex: 'withdrawalDeadline',
-      render: value => createFriendlyDate(value),
-    },
-    {
-      title: 'Registration deadline',
-      dataIndex: 'registrationDeadline',
-      render: value => createFriendlyDate(value),
-    },
   ];
 
   const terms = data?.terms.nodes?.filter(Boolean) ?? [];

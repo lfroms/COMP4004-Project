@@ -97,8 +97,8 @@ export default function UserIndex() {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: 'Action',
       key: 'action',
+      fixed: 'right',
       render: (_value, record) => {
         if (record.id == data?.currentUser?.id) {
           return null;

@@ -94,7 +94,7 @@ export default function OfferingIndex() {
     {
       title: 'Term',
       dataIndex: 'term',
-      render: (text, record) => (
+      render: (_text, record) => (
         <Link to={`/admin/terms/${record.term.id}`}>
           {createTermName(record.term.startDate, record.term.endDate)}
         </Link>
@@ -104,7 +104,6 @@ export default function OfferingIndex() {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: 'Actions',
       key: 'actions',
       fixed: 'right',
       width: 100,

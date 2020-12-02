@@ -83,7 +83,6 @@ export default function TermShow() {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: 'Actions',
       key: 'actions',
       fixed: 'right',
       width: 100,
