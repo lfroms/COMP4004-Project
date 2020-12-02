@@ -69,7 +69,7 @@ export default function TermShow() {
     AdminTermShowOfferingDeletionMutation,
     AdminTermShowOfferingDeletionMutationVariables
   >(DELETE_OFFERING, {
-    refetchQueries: [{ query: DELETE_OFFERING }],
+    refetchQueries: ['AdminTermShowQuery'],
   });
 
   const handleConfirmDelete = (id: string) => () => deleteOffering({ variables: { id } });
