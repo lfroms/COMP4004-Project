@@ -7,6 +7,11 @@
 // GraphQL query operation: AdminUserIndexQuery
 // ====================================================
 
+export interface AdminUserIndexQuery_currentUser {
+  __typename: "User";
+  id: string;
+}
+
 export interface AdminUserIndexQuery_users_nodes {
   __typename: "User";
   id: string;
@@ -25,6 +30,10 @@ export interface AdminUserIndexQuery_users {
 }
 
 export interface AdminUserIndexQuery {
+  /**
+   * Specific details about the current user.
+   */
+  currentUser: AdminUserIndexQuery_currentUser | null;
   /**
    * All users in the system.
    */

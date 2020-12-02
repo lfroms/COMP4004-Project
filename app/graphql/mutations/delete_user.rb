@@ -14,6 +14,13 @@ module Mutations
 
       user = User.find_by(id: id)
 
+      if user == context[:current_user]
+        return {
+          user: nil,
+          errors: Types::UserError.from('You cannot delete your own user account.'),
+        }
+      end
+
       unless user
         return {
           user: nil,
