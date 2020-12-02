@@ -13,8 +13,7 @@ module Mutations
       enrollment = Enrollment.find_by(id: id)
       assert_admin_user! if enrollment.role == 'professor'
 
-      enrollment.update!(deleted_at: DateTime.now)
-
+      enrollment.update!(deleted_at: Time.zone.now)
       {
         enrollment: enrollment,
       }

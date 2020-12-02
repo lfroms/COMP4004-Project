@@ -6,5 +6,5 @@ class Offering < ApplicationRecord
   belongs_to :course
   belongs_to :term
   has_many :enrollments
-  has_many :users, through: :enrollments, dependent: :destroy
+  has_many :participants, through: :enrollments, source: :user, dependent: :destroy
 end
