@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography, message } from 'antd';
+import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
@@ -106,21 +106,17 @@ export default function OfferingIndex() {
     {
       key: 'actions',
       fixed: 'right',
-      width: 100,
       render: (_text, record) => (
-        <Space size="middle">
-          <Link to={`/admin/offerings/${record.id}`}>View</Link>
-          <Popconfirm
-            title="Are you sure you want to delete this offering?"
-            placement="rightBottom"
-            onConfirm={handleConfirmDelete(record.id)}
-            okText="Confirm"
-            cancelText="Cancel"
-            okButtonProps={{ loading: deleteLoading }}
-          >
-            <Button danger icon={<DeleteOutlined />} />
-          </Popconfirm>
-        </Space>
+        <Popconfirm
+          title="Are you sure you want to delete this offering?"
+          placement="rightBottom"
+          onConfirm={handleConfirmDelete(record.id)}
+          okText="Confirm"
+          cancelText="Cancel"
+          okButtonProps={{ loading: deleteLoading }}
+        >
+          <Button danger icon={<DeleteOutlined />} />
+        </Popconfirm>
       ),
     },
   ];
