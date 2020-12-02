@@ -23,12 +23,15 @@ module Mutations
       assert_equal offering_to_delete.section, offering['section']
     end
 
-    test '#resolve returns nil if specified offering does not exist' do
+    test '#resolve returns nil and error message if specified offering does not exist' do
       query = <<~EOF
         mutation TestMutation {
           deleteOffering(input: {id: 0}) {
             offering {
               section
+            }
+            errors {
+              message
             }
           }
         }
@@ -36,7 +39,9 @@ module Mutations
 
       result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = result.dig('data', 'deleteOffering', 'offering')
+      error_message = result.dig('data', 'deleteOffering', 'errors', 0, 'message')
 
+      assert_equal 'Could not find offering with id 0.', error_message
       assert_nil value
     end
 

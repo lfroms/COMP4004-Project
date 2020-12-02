@@ -4,6 +4,7 @@ module Mutations
     include Authenticatable
 
     field :offering, Types::OfferingType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :id, ID, required: true
 
@@ -13,9 +14,24 @@ module Mutations
 
       offering = Offering.find_by(id: id)
 
-      {
-        offering: offering&.destroy,
-      }
+      unless offering
+        return {
+          offering: nil,
+          errors: Types::UserError.from("Could not find offering with id #{id}."),
+        }
+      end
+
+      if offering.destroy
+        {
+          offering: offering,
+          errors: [],
+        }
+      else
+        {
+          offering: nil,
+          errors: Types::UserError.from(offering.errors_hash),
+        }
+      end
     end
   end
 end

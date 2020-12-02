@@ -3,7 +3,8 @@ module Mutations
   class CreateUser < BaseMutation
     include Authenticatable
 
-    field :user, Types::UserType, null: false
+    field :user, Types::UserType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :name, String, required: true
     argument :email, String, required: true
@@ -14,11 +15,19 @@ module Mutations
       assert_authenticated!
       assert_admin_user!
 
-      user = User.create(name: name, email: email, password: password, admin: admin)
+      user = User.new(name: name, email: email, password: password, admin: admin)
 
-      {
-        user: user,
-      }
+      if user.save
+        {
+          user: user,
+          errors: [],
+        }
+      else
+        {
+          user: nil,
+          errors: Types::UserError.from(user.errors_hash),
+        }
+      end
     end
   end
 end

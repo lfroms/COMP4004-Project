@@ -4,6 +4,7 @@ module Mutations
     include Authenticatable
 
     field :user, Types::UserType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :id, ID, required: true
 
@@ -13,9 +14,24 @@ module Mutations
 
       user = User.find_by(id: id)
 
-      {
-        user: user&.destroy,
-      }
+      unless user
+        return {
+          user: nil,
+          errors: Types::UserError.from("Could not find user with id #{id}."),
+        }
+      end
+
+      if user.destroy
+        {
+          user: user,
+          errors: [],
+        }
+      else
+        {
+          user: nil,
+          errors: Types::UserError.from(user.errors_hash),
+        }
+      end
     end
   end
 end

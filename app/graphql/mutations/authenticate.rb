@@ -2,6 +2,7 @@
 module Mutations
   class Authenticate < BaseMutation
     field :token, String, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :email, String, required: true
     argument :password, String, required: true
@@ -9,14 +10,24 @@ module Mutations
     def resolve(email:, password:)
       user = User.find_by(email: email).try(:authenticate, password)
 
-      if user
-        raise GraphQL::ExecutionError,
-          'This account has not yet been approved. Please try again later.' unless user.approved
+      unless user
+        return {
+          token: nil,
+          errors: Types::UserError.from('The username or password is incorrect.'),
+        }
       end
 
-      {
-        token: user ? JsonWebToken::Coder.encode({ user_id: user.id }) : nil,
-      }
+      if user.approved
+        {
+          token: JsonWebToken::Coder.encode({ user_id: user.id }),
+          errors: [],
+        }
+      else
+        {
+          token: nil,
+          errors: Types::UserError.from('This account has not yet been approved. Please try again later.'),
+        }
+      end
     end
   end
 end

@@ -16,7 +16,7 @@ const CREATE_USER = gql`
     $name: String!
     $email: String!
     $password: String!
-    $admin: Boolean
+    $admin: Boolean!
   ) {
     createUser(input: { name: $name, email: $email, password: $password, admin: $admin }) {
       user {

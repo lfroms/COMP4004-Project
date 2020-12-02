@@ -27,6 +27,29 @@ module Mutations
       assert_equal 'Software Quality Assurance', course.prerequisites.first.name
     end
 
+    test '#resolve returns nil and error message if specified course does not exist' do
+      query = <<~EOF
+        mutation UpdateCourse {
+          updateCourse(input: {id: 0, name: "Updated", code: "UPDT 9999", prerequisiteIds: [#{courses(:quality_assurance).id}]}) {
+            course {
+              id
+              name
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      value = result.dig('data', 'updateCourse', 'course')
+      error_message = result.dig('data', 'updateCourse', 'errors', 0, 'message')
+
+      assert_equal 'Could not find course with id 0.', error_message
+      assert_nil value
+    end
+
     test '#resolve does not update a course if the user is not authenticated' do
       course_to_update = courses(:just_another_course)
 

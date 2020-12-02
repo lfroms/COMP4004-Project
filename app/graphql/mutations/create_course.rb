@@ -3,7 +3,8 @@ module Mutations
   class CreateCourse < BaseMutation
     include Authenticatable
 
-    field :course, Types::CourseType, null: false
+    field :course, Types::CourseType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :name, String, required: true
     argument :code, String, required: true
@@ -14,11 +15,19 @@ module Mutations
       assert_admin_user!
 
       prerequisites = Course.where(id: prerequisite_ids)
-      course = Course.create!(name: name, code: code, prerequisites: prerequisites)
+      course = Course.new(name: name, code: code, prerequisites: prerequisites)
 
-      {
-        course: course,
-      }
+      if course.save
+        {
+          course: course,
+          errors: [],
+        }
+      else
+        {
+          course: nil,
+          errors: Types::UserError.from(course.errors_hash),
+        }
+      end
     end
   end
 end

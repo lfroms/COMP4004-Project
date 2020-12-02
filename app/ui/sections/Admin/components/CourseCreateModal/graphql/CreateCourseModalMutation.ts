@@ -14,7 +14,7 @@ export interface CreateCourseModalMutation_createCourse_course {
 
 export interface CreateCourseModalMutation_createCourse {
   __typename: "CreateCoursePayload";
-  course: CreateCourseModalMutation_createCourse_course;
+  course: CreateCourseModalMutation_createCourse_course | null;
 }
 
 export interface CreateCourseModalMutation {
@@ -24,5 +24,5 @@ export interface CreateCourseModalMutation {
 export interface CreateCourseModalMutationVariables {
   code: string;
   name: string;
-  prerequisiteIds?: (string | null)[] | null;
+  prerequisiteIds?: string[] | null;
 }

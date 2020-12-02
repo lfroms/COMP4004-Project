@@ -23,12 +23,15 @@ module Mutations
       assert_equal course_to_delete.name, course['name']
     end
 
-    test '#resolve returns nil if specified course does not exist' do
+    test '#resolve returns nil and error message if specified course does not exist' do
       query = <<~EOF
         mutation TestMutation {
           deleteCourse(input: {id: 0}) {
             course {
               id
+            }
+            errors {
+              message
             }
           }
         }
@@ -36,7 +39,9 @@ module Mutations
 
       result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = result.dig('data', 'deleteCourse', 'course')
+      error_message = result.dig('data', 'deleteCourse', 'errors', 0, 'message')
 
+      assert_equal 'Could not find course with id 0.', error_message
       assert_nil value
     end
 
@@ -44,7 +49,7 @@ module Mutations
       course_to_delete = courses(:quality_assurance)
 
       query = <<~EOF
-        mutation Deletecourse {
+        mutation DeleteCourse {
           deleteCourse(input: {id: #{course_to_delete.id}}) {
             course {
               id
@@ -63,7 +68,7 @@ module Mutations
       course_to_delete = courses(:quality_assurance)
 
       query = <<~EOF
-        mutation Deletecourse {
+        mutation DeleteCourse {
           deleteCourse(input: {id: #{course_to_delete.id}}) {
             course {
               id

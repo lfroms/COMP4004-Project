@@ -3,7 +3,8 @@ module Mutations
   class CreateOffering < BaseMutation
     include Authenticatable
 
-    field :offering, Types::OfferingType, null: false
+    field :offering, Types::OfferingType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :section, String, required: true
     argument :course_id, ID, required: true
@@ -13,11 +14,19 @@ module Mutations
       assert_authenticated!
       assert_admin_user!
 
-      offering = Offering.create!(section: section, course_id: course_id, term_id: term_id)
+      offering = Offering.new(section: section, course_id: course_id, term_id: term_id)
 
-      {
-        offering: offering,
-      }
+      if offering.save
+        {
+          offering: offering,
+          errors: [],
+        }
+      else
+        {
+          offering: nil,
+          errors: Types::UserError.from(offering.errors_hash),
+        }
+      end
     end
   end
 end

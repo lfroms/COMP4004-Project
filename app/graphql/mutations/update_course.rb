@@ -3,7 +3,8 @@ module Mutations
   class UpdateCourse < BaseMutation
     include Authenticatable
 
-    field :course, Types::CourseType, null: false
+    field :course, Types::CourseType, null: true
+    field :errors, [Types::UserError], null: false
 
     argument :id, ID, required: true
     argument :name, String, required: true
@@ -15,13 +16,26 @@ module Mutations
       assert_admin_user!
 
       prerequisites = Course.where(id: prerequisite_ids)
-      course = Course.find(id)
+      course = Course.find_by(id: id)
 
-      course.update!(name: name, code: code, prerequisites: prerequisites)
+      unless course
+        return {
+          course: nil,
+          errors: Types::UserError.from("Could not find course with id #{id}."),
+        }
+      end
 
-      {
-        course: course,
-      }
+      if course.update(name: name, code: code, prerequisites: prerequisites)
+        {
+          course: course,
+          errors: [],
+        }
+      else
+        {
+          course: nil,
+          errors: Types::UserError.from(course.errors_hash),
+        }
+      end
     end
   end
 end
