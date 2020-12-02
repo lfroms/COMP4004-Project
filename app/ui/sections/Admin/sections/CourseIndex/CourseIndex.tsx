@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Popconfirm, Row, Table, Tag, Typography } from 'antd';
+import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { CourseCreateModal } from 'sections/Admin/components';
@@ -36,6 +36,9 @@ const DELETE_COURSE = gql`
         name
         code
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -51,7 +54,10 @@ export default function CourseIndex() {
     refetchQueries: [{ query: ALL_COURSES }],
   });
 
-  const handleConfirmDelete = (id: string) => () => deleteCourse({ variables: { id } });
+  const handleConfirmDelete = (id: string) => async () => {
+    const { data } = await deleteCourse({ variables: { id } });
+    data?.deleteCourse?.errors.forEach(error => message.error(error.message));
+  };
 
   const columns: ColumnType<AdminCourseIndexQuery_courses_nodes>[] = [
     {
