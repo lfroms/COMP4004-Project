@@ -18,6 +18,9 @@ module Mutations
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      enrollment = result.dig('data', '', 'enrollment')
+      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
+
       assert_not_nil enrollment.deleted_at
       assert enrollment.present?
     end
@@ -36,7 +39,9 @@ module Mutations
 
       result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       value = result.dig('data', 'deleteEnrollment', 'enrollment')
+      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
 
+      assert_equal 'Could not find enrollment with id 0.', error_message
       assert_nil value
     end
 
