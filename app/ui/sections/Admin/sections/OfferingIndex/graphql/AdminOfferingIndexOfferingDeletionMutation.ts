@@ -18,9 +18,18 @@ export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offer
   section: string;
 }
 
+export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering {
   __typename: "DeleteOfferingPayload";
   offering: AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offering | null;
+  errors: AdminOfferingIndexOfferingDeletionMutation_deleteOffering_errors[];
 }
 
 export interface AdminOfferingIndexOfferingDeletionMutation {
