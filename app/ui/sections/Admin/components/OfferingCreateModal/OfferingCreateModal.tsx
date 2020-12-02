@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { OfferingEditForm, OfferingEditFormData } from '..';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -21,6 +21,9 @@ const CREATE_OFFERING = gql`
       offering {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -33,18 +36,22 @@ export default function OfferingCreateModal(props: Props) {
     CreateOfferingModalMutationVariables
   >(CREATE_OFFERING);
 
-  const handleFormSubmit = async (data: OfferingEditFormData) => {
-    await createOffering({
+  const handleFormSubmit = async (formData: OfferingEditFormData) => {
+    const { data } = await createOffering({
       variables: {
-        section: data.section,
-        courseId: data.courseId,
-        termId: data.termId,
+        section: formData.section,
+        courseId: formData.courseId,
+        termId: formData.termId,
       },
       refetchQueries: ['TermShowQuery', 'AdminTermShowQuery', 'AdminOfferingIndexQuery'],
       awaitRefetchQueries: true,
     });
 
-    onRequestClose?.();
+    data?.createOffering?.errors.forEach(error => message.error(error.message));
+
+    if (data?.createOffering?.offering) {
+      onRequestClose?.();
+    }
   };
 
   return (
