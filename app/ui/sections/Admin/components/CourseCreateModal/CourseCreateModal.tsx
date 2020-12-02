@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { CourseEditForm, CourseEditFormData } from '..';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -19,6 +19,9 @@ const CREATE_COURSE = gql`
       course {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -31,18 +34,22 @@ export default function CourseCreateModal(props: Props) {
     CreateCourseModalMutationVariables
   >(CREATE_COURSE);
 
-  const handleFormSubmit = async (data: CourseEditFormData) => {
-    await createCourse({
+  const handleFormSubmit = async (formData: CourseEditFormData) => {
+    const { data } = await createCourse({
       variables: {
-        code: data.code,
-        name: data.name,
-        prerequisiteIds: data.prerequisiteIds,
+        code: formData.code,
+        name: formData.name,
+        prerequisiteIds: formData.prerequisiteIds,
       },
       refetchQueries: ['AdminCourseIndexQuery', 'AdminCourseShowQuery'],
       awaitRefetchQueries: true,
     });
 
-    onRequestClose?.();
+    data?.createCourse?.errors.forEach(error => message.error(error.message));
+
+    if (data?.createCourse?.course) {
+      onRequestClose?.();
+    }
   };
 
   return (

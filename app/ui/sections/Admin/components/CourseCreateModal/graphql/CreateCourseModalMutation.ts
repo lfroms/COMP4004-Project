@@ -12,9 +12,18 @@ export interface CreateCourseModalMutation_createCourse_course {
   id: string;
 }
 
+export interface CreateCourseModalMutation_createCourse_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface CreateCourseModalMutation_createCourse {
   __typename: "CreateCoursePayload";
   course: CreateCourseModalMutation_createCourse_course | null;
+  errors: CreateCourseModalMutation_createCourse_errors[];
 }
 
 export interface CreateCourseModalMutation {
