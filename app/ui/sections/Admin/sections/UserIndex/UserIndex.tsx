@@ -99,6 +99,7 @@ export default function UserIndex() {
     {
       key: 'action',
       fixed: 'right',
+      align: 'right',
       render: (_value, record) => {
         if (record.id == data?.currentUser?.id) {
           return null;

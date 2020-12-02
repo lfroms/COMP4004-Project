@@ -106,6 +106,7 @@ export default function OfferingIndex() {
     {
       key: 'actions',
       fixed: 'right',
+      align: 'right',
       render: (_text, record) => (
         <Popconfirm
           title="Are you sure you want to delete this offering?"
