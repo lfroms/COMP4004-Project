@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
-import { Divider, Empty, Table } from 'antd';
+import { Empty, Table, Typography } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 
@@ -93,9 +93,9 @@ export default function TermShow() {
     <Page title="Course Directory" groups={groups} selectedItemId={termId}>
       {currentTerm ? (
         <>
-          <Divider orientation="left">
+          <Typography.Title level={2}>
             {createTermName(currentTerm.startDate, currentTerm.endDate)} term
-          </Divider>
+          </Typography.Title>
           <Table
             columns={columns}
             dataSource={offerings as TermShowQuery_terms_nodes_offerings_nodes[]}
