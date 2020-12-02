@@ -9,6 +9,7 @@ import { createTermName } from 'helpers';
 import { TermShowQuery, TermShowQuery_terms_nodes_offerings_nodes } from './graphql/TermShowQuery';
 
 import * as styles from './TermShow.module.scss';
+import { ColumnType } from 'antd/lib/table';
 
 interface ParamType {
   termId: string;
@@ -68,21 +69,24 @@ export default function TermShow() {
     </div>
   );
 
-  const columns = [
+  const columns: ColumnType<TermShowQuery_terms_nodes_offerings_nodes>[] = [
     {
       title: 'Name',
       dataIndex: ['course', 'name'],
-      key: 'name',
+      sorter: (first, second) => first.course.name.localeCompare(second.course.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Course code',
       dataIndex: ['course', 'code'],
-      key: 'code',
+      sorter: (first, second) => second.course.name.localeCompare(first.course.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Section',
       dataIndex: 'section',
-      key: 'section',
+      sorter: (first, second) => first.section.localeCompare(second.section),
+      sortDirections: ['ascend', 'descend'],
     },
   ];
 
