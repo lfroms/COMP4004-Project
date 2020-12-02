@@ -42,10 +42,12 @@ const DELETE_OFFERING = gql`
   mutation AdminOfferingIndexOfferingDeletionMutation($id: ID!) {
     deleteOffering(input: { id: $id }) {
       offering {
+        id
+        section
         course {
+          id
           name
         }
-        section
       }
       errors {
         message

@@ -39,6 +39,7 @@ const DELETE_USER = gql`
   mutation AdminUserIndexUserDeletionMutation($id: ID!) {
     deleteUser(input: { id: $id }) {
       user {
+        id
         name
         email
       }
