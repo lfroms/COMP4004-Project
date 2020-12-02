@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Card, Typography } from 'antd';
+import { Alert, Button, Card, Typography, message } from 'antd';
 
 import { UserEditForm, UserEditFormData } from '../Admin/components/UserEditForm';
 
@@ -15,28 +15,32 @@ const REGISTER_USER = gql`
       user {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
 
 export default function Registration() {
   const { Title } = Typography;
-
   const [registrationCompleted, setRegistrationCompleted] = useState(false);
+  const [registerUser, { loading }] = useMutation(REGISTER_USER);
 
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    onCompleted: () => setRegistrationCompleted(true),
-    onError: error => console.log(error.message.split('GraphQL error: ')[1]),
-  });
-
-  const handleFormSubmit = async (data: UserEditFormData) => {
-    await registerUser({
+  const handleFormSubmit = async (formData: UserEditFormData) => {
+    const { data } = await registerUser({
       variables: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
       },
     });
+
+    data?.registerUser?.errors.forEach((error: any) => message.error(error.message));
+
+    if (data?.registerUser?.user) {
+      setRegistrationCompleted(true);
+    }
   };
 
   const cardContentMarkup = registrationCompleted ? (
@@ -63,10 +67,7 @@ export default function Registration() {
 
   return (
     <div className={styles.Registration}>
-      <Card className={styles.RegistrationCard}>
-        {/* {errorAlert} */}
-        {cardContentMarkup}
-      </Card>
+      <Card className={styles.RegistrationCard}>{cardContentMarkup}</Card>
     </div>
   );
 }
