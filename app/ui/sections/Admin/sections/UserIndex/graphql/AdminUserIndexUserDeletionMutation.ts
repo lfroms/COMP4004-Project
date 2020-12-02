@@ -13,9 +13,18 @@ export interface AdminUserIndexUserDeletionMutation_deleteUser_user {
   email: string;
 }
 
+export interface AdminUserIndexUserDeletionMutation_deleteUser_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface AdminUserIndexUserDeletionMutation_deleteUser {
   __typename: "DeleteUserPayload";
   user: AdminUserIndexUserDeletionMutation_deleteUser_user | null;
+  errors: AdminUserIndexUserDeletionMutation_deleteUser_errors[];
 }
 
 export interface AdminUserIndexUserDeletionMutation {
