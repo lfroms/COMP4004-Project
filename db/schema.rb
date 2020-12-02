@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_185430) do
+ActiveRecord::Schema.define(version: 2020_12_02_002330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 2020_12_01_185430) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code"], name: "index_courses_on_code", unique: true
+  end
+
+  create_table "deliverables", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description", null: false
+    t.float "weight", null: false
+    t.datetime "due_date", null: false
+    t.bigint "offering_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["offering_id"], name: "index_deliverables_on_offering_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -92,6 +103,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_185430) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "deliverables", "offerings"
   add_foreign_key "enrollments", "offerings"
   add_foreign_key "enrollments", "users"
   add_foreign_key "offerings", "courses"
