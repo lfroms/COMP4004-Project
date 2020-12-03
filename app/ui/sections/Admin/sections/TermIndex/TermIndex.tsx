@@ -36,7 +36,7 @@ export default function TermIndex() {
   const columns: ColumnType<AdminTermIndexQuery_terms_nodes>[] = [
     {
       dataIndex: 'name',
-      render: (value, record) => (
+      render: (_value, record) => (
         <Link to={`/admin/terms/${record.id}`}>
           {createTermName(record.startDate, record.endDate)}
         </Link>
@@ -53,21 +53,6 @@ export default function TermIndex() {
     {
       title: 'End date',
       dataIndex: 'endDate',
-      render: value => createFriendlyDate(value),
-    },
-    {
-      title: 'Financial deadline',
-      dataIndex: 'financialDeadline',
-      render: value => createFriendlyDate(value),
-    },
-    {
-      title: 'Withdrawal deadline',
-      dataIndex: 'withdrawalDeadline',
-      render: value => createFriendlyDate(value),
-    },
-    {
-      title: 'Registration deadline',
-      dataIndex: 'registrationDeadline',
       render: value => createFriendlyDate(value),
     },
   ];

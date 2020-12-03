@@ -81,8 +81,9 @@ export default function CourseIndex() {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: 'Action',
       key: 'action',
+      fixed: 'right',
+      align: 'right',
       render: (_value, record) => (
         <Popconfirm
           placement="rightBottom"

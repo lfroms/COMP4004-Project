@@ -2,13 +2,14 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
-import { Divider, Empty, Table } from 'antd';
+import { Empty, Table, Typography } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 
 import { TermShowQuery, TermShowQuery_terms_nodes_offerings_nodes } from './graphql/TermShowQuery';
 
 import * as styles from './TermShow.module.scss';
+import { ColumnType } from 'antd/lib/table';
 
 interface ParamType {
   termId: string;
@@ -68,21 +69,24 @@ export default function TermShow() {
     </div>
   );
 
-  const columns = [
+  const columns: ColumnType<TermShowQuery_terms_nodes_offerings_nodes>[] = [
     {
       title: 'Name',
       dataIndex: ['course', 'name'],
-      key: 'name',
+      sorter: (first, second) => first.course.name.localeCompare(second.course.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Course code',
       dataIndex: ['course', 'code'],
-      key: 'code',
+      sorter: (first, second) => second.course.name.localeCompare(first.course.name),
+      sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Section',
       dataIndex: 'section',
-      key: 'section',
+      sorter: (first, second) => first.section.localeCompare(second.section),
+      sortDirections: ['ascend', 'descend'],
     },
   ];
 
@@ -93,9 +97,9 @@ export default function TermShow() {
     <Page title="Course Directory" groups={groups} selectedItemId={termId}>
       {currentTerm ? (
         <>
-          <Divider orientation="left">
+          <Typography.Title level={2}>
             {createTermName(currentTerm.startDate, currentTerm.endDate)} term
-          </Divider>
+          </Typography.Title>
           <Table
             columns={columns}
             dataSource={offerings as TermShowQuery_terms_nodes_offerings_nodes[]}

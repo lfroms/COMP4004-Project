@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { AppstoreAddOutlined } from '@ant-design/icons';
-import { Button, Col, Descriptions, Divider, Row, Tag, Typography } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Col, Descriptions, Divider, Popconfirm, Row, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
@@ -11,6 +11,10 @@ import {
   AdminTermShowQuery,
   AdminTermShowQuery_term_offerings_nodes,
 } from './graphql/AdminTermShowQuery';
+import {
+  AdminTermShowOfferingDeletionMutation,
+  AdminTermShowOfferingDeletionMutationVariables,
+} from './graphql/AdminTermShowOfferingDeletionMutation';
 
 interface ParamType {
   termId: string;
@@ -40,6 +44,19 @@ const TERM = gql`
   }
 `;
 
+const DELETE_OFFERING = gql`
+  mutation AdminTermShowOfferingDeletionMutation($id: ID!) {
+    deleteOffering(input: { id: $id }) {
+      offering {
+        course {
+          name
+        }
+        section
+      }
+    }
+  }
+`;
+
 export default function TermShow() {
   const [offeringCreateModalVisible, setOfferingCreateModalVisible] = useState(false);
   const { termId } = useParams<ParamType>();
@@ -47,6 +64,15 @@ export default function TermShow() {
   const { data, loading } = useQuery<AdminTermShowQuery>(TERM, {
     variables: { id: termId },
   });
+
+  const [deleteOffering, { loading: deleteLoading }] = useMutation<
+    AdminTermShowOfferingDeletionMutation,
+    AdminTermShowOfferingDeletionMutationVariables
+  >(DELETE_OFFERING, {
+    refetchQueries: ['AdminTermShowQuery'],
+  });
+
+  const handleConfirmDelete = (id: string) => () => deleteOffering({ variables: { id } });
 
   const term = data?.term;
 
@@ -83,11 +109,21 @@ export default function TermShow() {
       sortDirections: ['ascend', 'descend'],
     },
     {
-      title: 'Actions',
       key: 'actions',
       fixed: 'right',
-      width: 100,
-      render: (_text, record) => <Link to={`/admin/offerings/${record.id}`}>View</Link>,
+      align: 'right',
+      render: (_text, record) => (
+        <Popconfirm
+          title="Are you sure you want to delete this offering?"
+          placement="rightBottom"
+          onConfirm={handleConfirmDelete(record.id)}
+          okText="Confirm"
+          cancelText="Cancel"
+          okButtonProps={{ loading: deleteLoading }}
+        >
+          <Button danger icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
     },
   ];
 

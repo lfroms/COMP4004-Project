@@ -9,6 +9,7 @@
 
 export interface AdminUserIndexUserDeletionMutation_deleteUser_user {
   __typename: "User";
+  id: string;
   name: string;
   email: string;
 }

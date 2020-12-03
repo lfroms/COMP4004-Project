@@ -9,13 +9,15 @@
 
 export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offering_course {
   __typename: "Course";
+  id: string;
   name: string;
 }
 
 export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offering {
   __typename: "Offering";
-  course: AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offering_course;
+  id: string;
   section: string;
+  course: AdminOfferingIndexOfferingDeletionMutation_deleteOffering_offering_course;
 }
 
 export interface AdminOfferingIndexOfferingDeletionMutation_deleteOffering_errors {
