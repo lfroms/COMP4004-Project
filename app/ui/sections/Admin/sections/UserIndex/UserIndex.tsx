@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
-import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
 
@@ -17,6 +17,10 @@ import {
 } from './graphql/AdminUserIndexUserDeletionMutation';
 
 import * as styles from './UserIndex.module.scss';
+import {
+  AdminUserIndexUserApprovalMutation,
+  AdminUserIndexUserApprovalMutationVariables,
+} from './graphql/AdminUserIndexUserApprovalMutation';
 
 const ALL_USERS = gql`
   query AdminUserIndexQuery {
@@ -50,6 +54,19 @@ const DELETE_USER = gql`
   }
 `;
 
+const APPROVE_USER = gql`
+  mutation AdminUserIndexUserApprovalMutation($id: ID!, $approved: Boolean) {
+    updateUser(input: { id: $id, approved: $approved }) {
+      user {
+        id
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 export default function UserIndex() {
   const [userCreateModalVisible, setUserCreateModalVisible] = useState(false);
 
@@ -62,9 +79,21 @@ export default function UserIndex() {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
+  const [approveUser, { loading: approveUserLoading }] = useMutation<
+    AdminUserIndexUserApprovalMutation,
+    AdminUserIndexUserApprovalMutationVariables
+  >(APPROVE_USER, {
+    refetchQueries: [{ query: ALL_USERS }],
+  });
+
   const handleConfirmDelete = (id: string) => async () => {
     const { data } = await deleteUser({ variables: { id } });
     data?.deleteUser?.errors.forEach(error => message.error(error.message));
+  };
+
+  const handleConfirmApprove = (id: string) => async () => {
+    const { data } = await approveUser({ variables: { id, approved: true } });
+    data?.updateUser?.errors.forEach(error => message.error(error.message));
   };
 
   const columns: ColumnType<AdminUserIndexQuery_users_nodes>[] = [
@@ -106,17 +135,33 @@ export default function UserIndex() {
           return null;
         }
 
-        return (
+        const approvalMarkup = !record.approved ? (
           <Popconfirm
             placement="rightBottom"
-            title="Are you sure you want to delete this user?"
-            onConfirm={handleConfirmDelete(record.id)}
+            title="Are you sure you want to approve this user?"
+            onConfirm={handleConfirmApprove(record.id)}
             okText="Confirm"
-            okButtonProps={{ loading: deleteUserLoading }}
+            okButtonProps={{ loading: approveUserLoading }}
             cancelText="Cancel"
           >
-            <Button danger icon={<DeleteOutlined />} />
+            <Button icon={<CheckCircleOutlined />} />
           </Popconfirm>
+        ) : null;
+
+        return (
+          <>
+            {approvalMarkup}
+            <Popconfirm
+              placement="rightBottom"
+              title="Are you sure you want to delete this user?"
+              onConfirm={handleConfirmDelete(record.id)}
+              okText="Confirm"
+              okButtonProps={{ id: 'confirm_user_approval', loading: deleteUserLoading }}
+              cancelText="Cancel"
+            >
+              <Button id="approve_user" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
+          </>
         );
       },
     },
