@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
+import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography, message } from 'antd';
 import { AppstoreAddOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -144,24 +144,32 @@ export default function UserIndex() {
             okButtonProps={{ loading: approveUserLoading }}
             cancelText="Cancel"
           >
-            <Button icon={<CheckCircleOutlined />} />
+            <Button
+              id={`approve_user_id_${record.id}`}
+              style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
+              icon={<CheckCircleOutlined />}
+            />
           </Popconfirm>
         ) : null;
 
+        const deleteMarkup = (
+          <Popconfirm
+            placement="rightBottom"
+            title="Are you sure you want to delete this user?"
+            onConfirm={handleConfirmDelete(record.id)}
+            okText="Confirm"
+            okButtonProps={{ id: 'confirm_user_approval', loading: deleteUserLoading }}
+            cancelText="Cancel"
+          >
+            <Button id={`delete_user_id_${record.id}`} danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        );
+
         return (
-          <>
+          <Space>
             {approvalMarkup}
-            <Popconfirm
-              placement="rightBottom"
-              title="Are you sure you want to delete this user?"
-              onConfirm={handleConfirmDelete(record.id)}
-              okText="Confirm"
-              okButtonProps={{ id: 'confirm_user_approval', loading: deleteUserLoading }}
-              cancelText="Cancel"
-            >
-              <Button id="approve_user" danger icon={<DeleteOutlined />} />
-            </Popconfirm>
-          </>
+            {deleteMarkup}
+          </Space>
         );
       },
     },
