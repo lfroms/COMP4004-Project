@@ -15,13 +15,6 @@ module Mutations
 
       enrollment = Enrollment.new(role: role, user_id: user_id, offering_id: offering_id)
 
-      if Enrollment.exists?(user_id: user_id, offering_id: offering_id)
-        return {
-          enrollment: nil,
-          errors: Types::UserError.from("Enrollment already exists"),
-        }
-      end
-
       unless (context[:current_user].can_self_enroll? && enrollment.role == 'student') || context[:current_user].admin
         return {
           enrollment: nil,

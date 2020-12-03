@@ -63,7 +63,6 @@ module Mutations
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      p result
       id = result.dig('data', 'createEnrollment', 'enrollment', 'id')
       error_message = result.dig('data', 'createEnrollment', 'errors', 0, 'message')
       enrollment = Enrollment.find_by(id: id)
@@ -94,31 +93,6 @@ module Mutations
       enrollment = Enrollment.find_by(id: id)
 
       assert_equal 'You do not have permission to perform this action.', error_message
-      assert_nil enrollment
-    end
-
-    test '#resolve does not create an enrollment that already exists' do
-      user_id = users(:not_admin).id
-      offering_id = offerings(:quality_assurance_A).id
-      query = <<~EOF
-        mutation CreateEnrollment {
-          createEnrollment(input: {role: "student", userId: #{user_id}, offeringId: #{offering_id}}) {
-            enrollment {
-              id
-            }
-            errors {
-              message
-            }
-          }
-        }
-      EOF
-
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      id = result.dig('data', 'createEnrollment', 'enrollment', 'id')
-      error_message = result.dig('data', 'createEnrollment', 'errors', 0, 'message')
-      enrollment = Enrollment.find_by(id: id)
-
-      assert_equal "Enrollment already exists", error_message
       assert_nil enrollment
     end
   end
