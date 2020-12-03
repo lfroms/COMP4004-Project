@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Card, Form, Input, Space } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { gql, useMutation } from '@apollo/client';
@@ -85,7 +85,7 @@ export default function Login() {
               </Button>
 
               <span>
-                Or <a href="">register now!</a>
+                Or <Link to="/registration">register now!</Link>
               </span>
             </Space>
           </Form.Item>

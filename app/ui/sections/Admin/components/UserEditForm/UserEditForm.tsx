@@ -5,7 +5,7 @@ export interface UserEditFormData {
   name: string;
   email: string;
   password: string;
-  admin: boolean;
+  admin?: boolean;
 }
 
 interface Props {
@@ -23,7 +23,7 @@ export default function UserEditForm(props: Props) {
         hasFeedback
         rules={[{ required: true, message: 'You must enter a name' }]}
       >
-        <Input placeholder="Name" />
+        <Input id="user_name_field" placeholder="Name" />
       </Form.Item>
 
       <Form.Item
@@ -37,7 +37,7 @@ export default function UserEditForm(props: Props) {
           },
         ]}
       >
-        <Input placeholder="Email" />
+        <Input id="user_email_field" placeholder="Email" />
       </Form.Item>
 
       <Form.Item
@@ -48,11 +48,11 @@ export default function UserEditForm(props: Props) {
           { min: 6, message: 'Password must be at least 6 characters' },
         ]}
       >
-        <Input.Password placeholder="Password" />
+        <Input.Password id="user_password_field" placeholder="Password" />
       </Form.Item>
 
       <Form.Item name="admin" valuePropName="checked" initialValue={false}>
-        <Checkbox>Admin</Checkbox>
+        <Checkbox id="user_admin_field">Admin</Checkbox>
       </Form.Item>
     </Form>
   );

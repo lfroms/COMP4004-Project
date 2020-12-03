@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthState } from 'hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Admin, Enrollments, Login } from 'sections';
+import { Admin, Enrollments, Login, Registration } from 'sections';
 import { Terms } from 'sections';
 import { PrivateRoute } from './components';
 import { Frame } from 'components';
@@ -13,6 +13,7 @@ export default function Routes() {
     return (
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/registration" component={Registration} />
         <Redirect path="*" to="/login" />
       </Switch>
     );

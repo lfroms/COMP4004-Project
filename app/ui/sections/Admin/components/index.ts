@@ -5,3 +5,4 @@ export * from './CourseCreateModal';
 export * from './TermEditForm';
 export * from './TermCreateModal';
 export * from './UserCreateModal';
+export * from './UserEditForm';
