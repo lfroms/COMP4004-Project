@@ -5,7 +5,7 @@ export interface UserEditFormData {
   name: string;
   email: string;
   password: string;
-  admin?: boolean;
+  admin: boolean;
 }
 
 interface Props {
