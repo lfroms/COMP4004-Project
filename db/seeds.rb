@@ -7,6 +7,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+require 'faker'
+
 User.create!(name: 'Super Admin', email: 'admin@example.com', password: '123456', admin: true, approved: true)
 User.create!(name: 'Standard User', email: 'standard@example.com', password: '123456', admin: false, approved: true)
 User.create!(name: 'Pending User', email: 'pending@example.com', password: '123456', admin: false, approved: false)
@@ -59,3 +61,15 @@ Offering.create!(section: 'B', course: natural_disasters_course, term: term_two)
 Offering.create!(section: 'A', course: computer_music_course, term: term_one)
 Offering.create!(section: 'A', course: computer_music_course, term: term_two)
 Offering.create!(section: 'V', course: computer_music_course, term: term_two)
+
+Offering.all.each do |offering|
+  3.times do
+    Deliverable.create!(
+      offering: offering,
+      title: Faker::Mountain.name,
+      description: Faker::Hacker.say_something_smart,
+      weight: rand * (1.0-0.0) + 0.0,
+      due_date: Faker::Date.between(from: offering.term.start_date, to: offering.term.end_date)
+    )
+  end
+end
