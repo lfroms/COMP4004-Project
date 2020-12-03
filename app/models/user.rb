@@ -12,6 +12,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   def can_self_enroll?
-    groups.any?(&:can_self_enroll))
+    groups.any?(&:can_self_enroll)
   end
 end

@@ -6,5 +6,6 @@ module Types
     field :email, String, null: false
     field :admin, Boolean, null: false
     field :approved, Boolean, null: false
+    field :enrollments, Types::EnrollmentType.connection_type, null: false
   end
 end
