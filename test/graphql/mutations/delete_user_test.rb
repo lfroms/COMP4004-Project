@@ -82,5 +82,29 @@ module Mutations
 
       assert user.present?
     end
+
+    test '#resolve does not delete a user if the user is the current user' do
+      user_to_delete = users(:admin)
+
+      query = <<~EOF
+        mutation DeleteUser {
+          deleteUser(input: {id: #{user_to_delete.id}}) {
+            user {
+              id
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      user = result.dig('data', 'deleteUser', 'user')
+      error_message = result.dig('data', 'deleteUser', 'errors', 0, 'message')
+
+      assert_nil user
+      assert_equal 'You cannot delete your own user account.', error_message
+    end
   end
 end

@@ -20,6 +20,9 @@ import * as styles from './UserIndex.module.scss';
 
 const ALL_USERS = gql`
   query AdminUserIndexQuery {
+    currentUser {
+      id
+    }
     users {
       nodes {
         id
@@ -90,18 +93,24 @@ export default function UserIndex() {
     {
       title: 'Action',
       key: 'action',
-      render: (_value, record) => (
-        <Popconfirm
-          placement="rightBottom"
-          title="Are you sure you want to delete this user?"
-          onConfirm={handleConfirmDelete(record.id)}
-          okText="Confirm"
-          okButtonProps={{ loading: deleteUserLoading }}
-          cancelText="Cancel"
-        >
-          <Button danger icon={<DeleteOutlined />} />
-        </Popconfirm>
-      ),
+      render: (_value, record) => {
+        if (record.id == data?.currentUser?.id) {
+          return null;
+        }
+
+        return (
+          <Popconfirm
+            placement="rightBottom"
+            title="Are you sure you want to delete this user?"
+            onConfirm={handleConfirmDelete(record.id)}
+            okText="Confirm"
+            okButtonProps={{ loading: deleteUserLoading }}
+            cancelText="Cancel"
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        );
+      },
     },
   ];
 
