@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-user_in_self_enrolling:
+student:
+  role: student
+  offering: quality_assurance_A
   user: not_admin
-  group: self_enrolling
 
-user_in_not_self_enrolling:
+prof:
+  role: professor
+  offering: object_oriented_A
   user: not_admin2
-  group: not_self_enrolling

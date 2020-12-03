@@ -5,5 +5,6 @@ module Types
     field :section, String, null: false
     field :course, Types::CourseType, null: false
     field :term, Types::TermType, null: false
+    field :enrollments, Types::EnrollmentType.connection_type, null: false
   end
 end
