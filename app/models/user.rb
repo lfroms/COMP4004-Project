@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   has_many :user_groups, dependent: :destroy
   has_many :groups, through: :user_groups
-  has_many :enrollments
+  has_many :enrollments, dependent: :destroy
   has_many :offerings_enrolled_in, through: :enrollments, source: :offering, dependent: :destroy
 
   validates :name, presence: true
@@ -12,8 +12,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   def can_self_enroll?
-    groups.any? do |group|
-      group.can_self_enroll
-    end
+    groups.any? &:can_self_enroll
   end
 end

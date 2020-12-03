@@ -142,6 +142,7 @@ module Mutations
       enrollment = Enrollment.find_by(id: enrollment_to_delete.id)
 
       assert_equal 'You do not have permission to perform this action.', error_message
+      assert_nil value
       assert_nil enrollment.deleted_at
     end
   end

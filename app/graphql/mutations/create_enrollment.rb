@@ -18,7 +18,7 @@ module Mutations
       if Enrollment.exists?(user_id: user_id, offering_id: offering_id)
         return {
           enrollment: nil,
-          errors: Types::UserError.from("User with id #{user_id} is already enrolled in offering with id #{offering_id}."),
+          errors: Types::UserError.from("Enrollment already exists"),
         }
       end
 

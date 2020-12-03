@@ -118,7 +118,7 @@ module Mutations
       error_message = result.dig('data', 'createEnrollment', 'errors', 0, 'message')
       enrollment = Enrollment.find_by(id: id)
 
-      assert_equal "User with id #{user_id} is already enrolled in offering with id #{offering_id}.", error_message
+      assert_equal "Enrollment already exists", error_message
       assert_nil enrollment
     end
   end
