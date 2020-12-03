@@ -13,7 +13,7 @@ module Mutations
       unless user
         return {
           token: nil,
-          errors: Types::UserError.from('The username or password is incorrect.'),
+          errors: Types::UserError.from('The email or password is incorrect.'),
         }
       end
 

@@ -59,7 +59,7 @@ export default function OfferingEditForm(props: Props) {
         initialValue={initialTermId}
         rules={[{ required: true, message: 'You must select a term' }]}
       >
-        <Select placeholder="Select a term">{termOptions}</Select>
+        <Select id="offering_term_select" placeholder="Select a term">{termOptions}</Select>
       </Form.Item>
 
       <Form.Item
@@ -68,7 +68,7 @@ export default function OfferingEditForm(props: Props) {
         initialValue={initialCourseId}
         rules={[{ required: true, message: 'You must select a course' }]}
       >
-        <Select placeholder="Select a course">{courseOptions}</Select>
+        <Select id="offering_course_select" placeholder="Select a course">{courseOptions}</Select>
       </Form.Item>
 
       <Form.Item
@@ -85,7 +85,7 @@ export default function OfferingEditForm(props: Props) {
           },
         ]}
       >
-        <Input placeholder="Section" />
+        <Input id="offering_section_field" placeholder="Section" />
       </Form.Item>
     </Form>
   );
