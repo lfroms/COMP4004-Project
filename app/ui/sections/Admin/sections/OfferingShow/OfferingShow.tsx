@@ -1,10 +1,12 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Descriptions, Typography } from 'antd';
+import { Button, Descriptions, Typography } from 'antd';
+import { UserAddOutlined } from '@ant-design/icons';
 
 import { AdminOfferingShowQuery } from './graphql/AdminOfferingShowQuery';
 import { createTermName } from 'helpers';
+import * as styles from './OfferingShow.module.scss';
 
 interface ParamType {
   offeringId: string;
@@ -55,7 +57,16 @@ export default function OfferingShow() {
         <Descriptions.Item label="Term">
           {createTermName(offering.term.startDate, offering.term.endDate)}
         </Descriptions.Item>
+
       </Descriptions>
+      <Button
+        id="assign_professor"
+        icon={<UserAddOutlined />}
+        // onClick={() => setCourseCreateModalVisible(true)}
+        className={styles.AssignProfButton}
+      >
+        Assign prof
+      </Button>
     </>
   );
 }
