@@ -10,6 +10,7 @@ import {
 const FORM_NAME = 'assignProffessorForm';
 interface Props {
   visible: boolean;
+  offeringId: string;
   onRequestClose?: () => void;
 }
 
@@ -27,11 +28,11 @@ const ASSIGN_PROFESSOR = gql`
 `;
 
 export default function AssignProfessorModal(props: Props) {
-  const { visible, onRequestClose } = props;
+  const { visible, offeringId, onRequestClose } = props;
 
   const [assignProfessor, { loading }] = useMutation<
-  AssignProfessorModalMutation,
-  AssignProfessorModalMutationVariables
+    AssignProfessorModalMutation,
+    AssignProfessorModalMutationVariables
   >(ASSIGN_PROFESSOR);
 
   const handleFormSubmit = async (data: AssignProfessorFormData) => {
@@ -39,7 +40,7 @@ export default function AssignProfessorModal(props: Props) {
       variables: {
         role: 'professor',
         userId: data.userId,
-        offeringId: data.offeringId,
+        offeringId,
       },
       // refetchQueries: ['AdminCourseIndexQuery', 'AdminCourseShowQuery'], fetch professor
       // awaitRefetchQueries: true,

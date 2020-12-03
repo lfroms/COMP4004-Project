@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { Button, Descriptions, Typography } from 'antd';
@@ -7,6 +7,7 @@ import { UserAddOutlined } from '@ant-design/icons';
 import { AdminOfferingShowQuery } from './graphql/AdminOfferingShowQuery';
 import { createTermName } from 'helpers';
 import * as styles from './OfferingShow.module.scss';
+import { AssignProfessorModal } from 'sections/Admin/components';
 
 interface ParamType {
   offeringId: string;
@@ -32,6 +33,8 @@ const OFFERING = gql`
 `;
 
 export default function OfferingShow() {
+  const [assignProfessorModalVisible, setAssignProfessorModalVisible] = useState(false);
+
   const { offeringId } = useParams<ParamType>();
 
   const { data } = useQuery<AdminOfferingShowQuery>(OFFERING, {
@@ -57,16 +60,20 @@ export default function OfferingShow() {
         <Descriptions.Item label="Term">
           {createTermName(offering.term.startDate, offering.term.endDate)}
         </Descriptions.Item>
-
       </Descriptions>
       <Button
         id="assign_professor"
         icon={<UserAddOutlined />}
-        // onClick={() => setCourseCreateModalVisible(true)}
+        onClick={() => setAssignProfessorModalVisible(true)}
         className={styles.AssignProfButton}
       >
         Assign prof
       </Button>
+      <AssignProfessorModal
+        visible={assignProfessorModalVisible}
+        offeringId={offeringId}
+        onRequestClose={() => setAssignProfessorModalVisible(false)}
+      />
     </>
   );
 }
