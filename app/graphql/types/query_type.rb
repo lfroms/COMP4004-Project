@@ -62,5 +62,11 @@ module Types
       description: 'Specific details about a given enrollment.' do
         argument :id, ID, required: true
       end
+
+    field :deliverable,
+      resolver: Resolvers::SpecificDeliverable,
+      description: 'Specific details about a given deliverable.' do
+        argument :id, ID, required: true
+      end
   end
 end

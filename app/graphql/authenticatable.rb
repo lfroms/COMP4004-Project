@@ -11,6 +11,7 @@ module Authenticatable
   module Reason
     INSUFFICIENT_PRIVILEGES = 'insufficientPrivileges'
     INVALID_TOKEN = 'invalidToken'
+    INVALID_ENROLLMENT = 'invalidEnrollment'
   end
 
   def assert_authenticated!
