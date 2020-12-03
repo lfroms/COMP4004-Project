@@ -3,7 +3,7 @@ module Mutations
   class CreateEnrollment < BaseMutation
     include Authenticatable
 
-    field :enrollment, Types::EnrollmentType, null: false
+    field :enrollment, Types::EnrollmentType, null: true
     field :errors, [Types::UserError], null: false
 
     argument :role, String, required: true
@@ -12,9 +12,22 @@ module Mutations
 
     def resolve(role:, user_id:, offering_id:)
       assert_authenticated!
-      assert_admin_user! if role == 'professor'
 
       enrollment = Enrollment.new(role: role, user_id: user_id, offering_id: offering_id)
+
+      if Enrollment.exists?(user_id: user_id, offering_id: offering_id)
+        return {
+          enrollment: nil,
+          errors: Types::UserError.from("User with id #{user_id} is already enrolled in offering with id #{offering_id}."),
+        }
+      end
+
+      unless (context[:current_user].can_self_enroll? && enrollment.role == 'student') || context[:current_user].admin
+        return {
+          enrollment: nil,
+          errors: Types::UserError.from('You do not have permission to perform this action.'),
+        }
+      end
 
       if enrollment.save
         {

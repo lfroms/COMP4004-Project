@@ -10,4 +10,10 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, format: URI::MailTo::EMAIL_REGEXP, presence: true, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
+
+  def can_self_enroll?
+    groups.any? do |group|
+      group.can_self_enroll
+    end
+  end
 end

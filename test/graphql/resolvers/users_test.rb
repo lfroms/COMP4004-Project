@@ -19,7 +19,7 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       users = results.dig('data', 'users', 'edges')
-      assert_equal 3, users.length
+      assert_equal User.all.length, users.length
       assert_equal users(:admin).name, users[0]['node']['name']
       assert_equal users(:not_admin).name, users[1]['node']['name']
     end

@@ -12,12 +12,25 @@ module Mutations
       assert_authenticated!
 
       enrollment = Enrollment.find_by(id: id)
-      assert_admin_user! if enrollment.role == 'professor'
 
       unless enrollment
         return {
           enrollment: nil,
           errors: Types::UserError.from("Could not find enrollment with id #{id}."),
+        }
+      end
+
+      unless enrollment.deleted_at.nil?
+        return {
+          enrollment: nil,
+          errors: Types::UserError.from("Enrollment with id #{id} has already been deleted."),
+        }
+      end
+
+      unless (context[:current_user].can_self_enroll? && enrollment.role == 'student') || context[:current_user].admin
+        return {
+          enrollment: nil,
+          errors: Types::UserError.from('You do not have permission to perform this action.'),
         }
       end
 

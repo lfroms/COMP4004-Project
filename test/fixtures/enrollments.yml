@@ -8,4 +8,4 @@ student:
 prof:
   role: professor
   offering: object_oriented_A
-  user: not_admin
+  user: not_admin2

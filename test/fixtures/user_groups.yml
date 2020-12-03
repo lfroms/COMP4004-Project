@@ -3,3 +3,7 @@
 user_in_self_enrolling:
   user: not_admin
   group: self_enrolling
+
+user_in_not_self_enrolling:
+  user: not_admin2
+  group: not_self_enrolling

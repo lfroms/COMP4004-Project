@@ -4,25 +4,23 @@ require 'test_helper'
 module Mutations
   class DeleteEnrollmentTest < ActiveSupport::TestCase
     test '#resolve soft deletes and returns specified enrollment' do
-      enrollment_to_delete = Enrollment.first
+      enrollment_to_delete = enrollments(:student)
 
       query = <<~EOF
         mutation TestMutation {
           deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
             enrollment {
               id
-              deleted_at
+              deletedAt
             }
           }
         }
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      enrollment = result.dig('data', '', 'enrollment')
-      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
+      enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
 
-      assert_not_nil enrollment.deleted_at
-      assert enrollment.present?
+      assert_not_nil enrollment['deletedAt']
     end
 
     test '#resolve returns nil if specified enrollment does not exist' do
@@ -31,7 +29,10 @@ module Mutations
           deleteEnrollment(input: {id: 0}) {
             enrollment {
               id
-              deleted_at
+              deletedAt
+            }
+            errors {
+              message
             }
           }
         }
@@ -53,7 +54,7 @@ module Mutations
           deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
             enrollment {
               id
-              deleted_at
+              deletedAt
             }
           }
         }
@@ -62,10 +63,63 @@ module Mutations
       CmsSchema.execute(query, context: {}, variables: {}).to_h
       enrollment = Enrollment.find_by(id: enrollment_to_delete.id)
 
-      assert enrollment.present?
+      assert_nil enrollment.deleted_at
     end
 
-    test '#resolve does not delete an enrollment for a professor if the current user is not an admin' do
+    test '#resolve does not delete an enrollment that has already been deleted' do
+      enrollment_to_delete = enrollments(:student)
+      enrollment_to_delete.update(deleted_at: Time.zone.now)
+
+      query = <<~EOF
+        mutation TestMutation {
+          deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
+            enrollment {
+              id
+              deletedAt
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      value = result.dig('data', 'deleteEnrollment', 'enrollment')
+      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
+
+      assert_equal "Enrollment with id #{enrollment_to_delete.id} has already been deleted.", error_message
+      assert_nil value
+    end
+
+    test '#resolve does not delete an enrollment for a user if the current user is non self-enrolling and not an admin' do
+      enrollment_to_delete = enrollments(:student)
+
+      query = <<~EOF
+        mutation TestMutation {
+          deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
+            enrollment {
+              id
+              deletedAt
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      value = result.dig('data', 'deleteEnrollment', 'enrollment')
+      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
+      enrollment = Enrollment.find_by(id: enrollment_to_delete.id)
+
+      assert_equal 'You do not have permission to perform this action.', error_message
+      assert_nil value
+      assert_nil enrollment.deleted_at
+    end
+
+    test '#resolve does not delete an enrollment for a professor user if the current user is not an admin' do
       enrollment_to_delete = enrollments(:prof)
 
       query = <<~EOF
@@ -73,16 +127,22 @@ module Mutations
           deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
             enrollment {
               id
-              deleted_at
+              deletedAt
+            }
+            errors {
+              message
             }
           }
         }
       EOF
 
-      CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      value = result.dig('data', 'deleteEnrollment', 'enrollment')
+      error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
       enrollment = Enrollment.find_by(id: enrollment_to_delete.id)
 
-      assert enrollment.present?
+      assert_equal 'You do not have permission to perform this action.', error_message
+      assert_nil enrollment.deleted_at
     end
   end
 end
