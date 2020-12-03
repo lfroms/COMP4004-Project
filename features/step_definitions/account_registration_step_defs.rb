@@ -26,19 +26,30 @@ And('I navigate to the user index as an admin user') do
   click_button('login')
 
   visit('/admin/users')
+  wait_for_page_load
 end
 
 And('there does not exist a user with email {string}') do |email|
-  refute has_content(email)
+  refute has_content?(email)
 end
 
-Then('there exists a user with name {string} email {string} password {string} admin status {string} and approved status {string}') do |name, email, password, admin, approved|
+And('there exists a user with email {string}') do |email|
+  visit('/registration')
+  wait_for_page_load
+  fill_in('user_email_field', with: 'test')
+  fill_in('user_email_field', with: email)
+  fill_in('user_password_field', with: '123456')
+  click_button('register_button')
+  visit('/registration')
+  wait_for_page_load
+end
+
+Then('there exists a user with name {string} and email {string}') do |name, email|
   assert has_content?(name)
   assert has_content?(email)
-  assert has_content?(password)
 end
 
-Then('I receive an error message saying {string}') do |error_message|
+Then('I receive a registration error message saying {string}') do |error_message|
   assert has_content?(error_message)
 end
 
