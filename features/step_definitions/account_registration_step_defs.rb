@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Given('that I am on the registration page') do
   visit('/registration')
 end
@@ -52,4 +53,3 @@ end
 Then('I receive a registration error message saying {string}') do |error_message|
   assert has_content?(error_message)
 end
-

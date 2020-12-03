@@ -59,7 +59,7 @@ export default function UserCreateModal({ visible, onRequestClose }: Props) {
         </Button>,
       ]}
     >
-      <UserEditForm name={FORM_NAME} registration={false} onSubmit={handleFormSubmit} />
+      <UserEditForm name={FORM_NAME} onSubmit={handleFormSubmit} />
     </Modal>
   );
 }
