@@ -42,8 +42,8 @@ export default function AssignProfessorModal(props: Props) {
         userId: data.userId,
         offeringId,
       },
-      // refetchQueries: ['AdminCourseIndexQuery', 'AdminCourseShowQuery'], fetch professor
-      // awaitRefetchQueries: true,
+      refetchQueries: ['AdminOfferingShowQuery'],
+      awaitRefetchQueries: true,
     });
 
     onRequestClose?.();
@@ -67,7 +67,7 @@ export default function AssignProfessorModal(props: Props) {
           type="primary"
           loading={loading}
         >
-          Create
+          Assign
         </Button>,
       ]}
     >

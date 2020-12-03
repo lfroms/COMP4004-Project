@@ -28,6 +28,14 @@ const OFFERING = gql`
         startDate
         endDate
       }
+      enrollments {
+        nodes {
+          role
+          user {
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -47,6 +55,9 @@ export default function OfferingShow() {
     return null;
   }
 
+  const professor = offering.enrollments?.nodes?.find(enrollment => enrollment?.role == 'professor')
+    ?.user.name;
+
   return (
     <>
       <Typography.Title level={2}>
@@ -60,15 +71,18 @@ export default function OfferingShow() {
         <Descriptions.Item label="Term">
           {createTermName(offering.term.startDate, offering.term.endDate)}
         </Descriptions.Item>
+        {professor && <Descriptions.Item label="Professor">{professor}</Descriptions.Item>}
       </Descriptions>
-      <Button
-        id="assign_professor"
-        icon={<UserAddOutlined />}
-        onClick={() => setAssignProfessorModalVisible(true)}
-        className={styles.AssignProfButton}
-      >
-        Assign prof
-      </Button>
+      {!professor && (
+        <Button
+          id="assign_professor"
+          icon={<UserAddOutlined />}
+          onClick={() => setAssignProfessorModalVisible(true)}
+          className={styles.AssignProfButton}
+        >
+          Assign prof
+        </Button>
+      )}
       <AssignProfessorModal
         visible={assignProfessorModalVisible}
         offeringId={offeringId}
