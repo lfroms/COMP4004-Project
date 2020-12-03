@@ -12,9 +12,18 @@ export interface CreateUserModalMutation_createUser_user {
   id: string;
 }
 
+export interface CreateUserModalMutation_createUser_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface CreateUserModalMutation_createUser {
   __typename: "CreateUserPayload";
   user: CreateUserModalMutation_createUser_user | null;
+  errors: CreateUserModalMutation_createUser_errors[];
 }
 
 export interface CreateUserModalMutation {

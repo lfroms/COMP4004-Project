@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Popconfirm, Row, Table, Tag, Typography } from 'antd';
+import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -42,6 +42,9 @@ const DELETE_USER = gql`
         name
         email
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -58,7 +61,10 @@ export default function UserIndex() {
     refetchQueries: [{ query: ALL_USERS }],
   });
 
-  const handleConfirmDelete = (id: string) => () => deleteUser({ variables: { id } });
+  const handleConfirmDelete = (id: string) => async () => {
+    const { data } = await deleteUser({ variables: { id } });
+    data?.deleteUser?.errors.forEach(error => message.error(error.message));
+  };
 
   const columns: ColumnType<AdminUserIndexQuery_users_nodes>[] = [
     {

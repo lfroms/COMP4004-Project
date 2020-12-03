@@ -1,8 +1,12 @@
 import { gql, useMutation } from '@apollo/client';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React from 'react';
 import { UserEditForm, UserEditFormData } from '../UserEditForm';
+import {
+  CreateUserModalMutation,
+  CreateUserModalMutationVariables,
+} from './graphql/CreateUserModalMutation';
 
 const FORM_NAME = 'userCreateForm';
 
@@ -22,26 +26,36 @@ const CREATE_USER = gql`
       user {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
 
 export default function UserCreateModal({ visible, onRequestClose }: Props) {
-  const [createUser, { loading }] = useMutation(CREATE_USER);
+  const [createUser, { loading }] = useMutation<
+    CreateUserModalMutation,
+    CreateUserModalMutationVariables
+  >(CREATE_USER);
 
-  const handleFormSubmit = async (data: UserEditFormData) => {
-    await createUser({
+  const handleFormSubmit = async (formData: UserEditFormData) => {
+    const { data } = await createUser({
       variables: {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        admin: data.admin,
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        admin: formData.admin,
       },
       refetchQueries: ['AdminUserIndexQuery'],
       awaitRefetchQueries: true,
     });
 
-    onRequestClose?.();
+    data?.createUser?.errors.forEach(error => message.error(error.message));
+
+    if (data?.createUser?.user) {
+      onRequestClose?.();
+    }
   };
 
   return (

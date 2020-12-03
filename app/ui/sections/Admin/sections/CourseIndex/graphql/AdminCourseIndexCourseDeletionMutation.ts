@@ -13,9 +13,18 @@ export interface AdminCourseIndexCourseDeletionMutation_deleteCourse_course {
   code: string;
 }
 
+export interface AdminCourseIndexCourseDeletionMutation_deleteCourse_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface AdminCourseIndexCourseDeletionMutation_deleteCourse {
   __typename: "DeleteCoursePayload";
   course: AdminCourseIndexCourseDeletionMutation_deleteCourse_course | null;
+  errors: AdminCourseIndexCourseDeletionMutation_deleteCourse_errors[];
 }
 
 export interface AdminCourseIndexCourseDeletionMutation {

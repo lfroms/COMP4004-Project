@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { TermEditForm, TermEditFormData } from '..';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -33,6 +33,9 @@ const CREATE_TERM = gql`
       term {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -45,20 +48,24 @@ export default function TermCreateModal(props: Props) {
     CreateTermModalMutationVariables
   >(CREATE_TERM);
 
-  const handleFormSubmit = async (data: TermEditFormData) => {
-    await createTerm({
+  const handleFormSubmit = async (formData: TermEditFormData) => {
+    const { data } = await createTerm({
       variables: {
-        startDate: data.startToEnd[0],
-        endDate: data.startToEnd[1],
-        registrationDeadline: data.registrationDeadline,
-        withdrawalDeadline: data.withdrawalDeadline,
-        financialDeadline: data.financialDeadline,
+        startDate: formData.startToEnd[0],
+        endDate: formData.startToEnd[1],
+        registrationDeadline: formData.registrationDeadline,
+        withdrawalDeadline: formData.withdrawalDeadline,
+        financialDeadline: formData.financialDeadline,
       },
       refetchQueries: ['AdminTermIndexQuery', 'AdminTermShowQuery'],
       awaitRefetchQueries: true,
     });
 
-    onRequestClose?.();
+    data?.createTerm?.errors.forEach(error => message.error(error.message));
+
+    if (data?.createTerm?.term) {
+      onRequestClose?.();
+    }
   };
 
   return (

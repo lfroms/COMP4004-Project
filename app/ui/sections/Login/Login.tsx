@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Button, Card, Form, Input, Space } from 'antd';
+import { Button, Card, Form, Input, Space, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { gql, useMutation } from '@apollo/client';
 import { useAuthState } from 'hooks';
@@ -14,6 +14,9 @@ export default function Login() {
     mutation AuthenticateMutation($email: String!, $password: String!) {
       authenticate(input: { email: $email, password: $password }) {
         token
+        errors {
+          message
+        }
       }
     }
   `;
@@ -25,21 +28,19 @@ export default function Login() {
     const hasData = !!data?.authenticate;
     const receivedToken = data?.authenticate?.token;
 
-    if (!hasData) {
-      return;
-    }
-
-    if (!receivedToken) {
-      window.alert('Invalid credentials');
-
+    if (!hasData || !receivedToken) {
       return;
     }
 
     setAuthenticated(true, receivedToken);
   }, [data?.authenticate?.token]);
 
-  const handleFinish = (values: { email: string; password: string }) => {
-    authenticate({ variables: { email: values.email, password: values.password } });
+  const handleFinish = async (values: { email: string; password: string }) => {
+    const { data } = await authenticate({
+      variables: { email: values.email, password: values.password },
+    });
+
+    data?.authenticate?.errors.forEach(error => message.error(error.message));
   };
 
   if (authenticated) {

@@ -12,9 +12,18 @@ export interface CreateTermModalMutation_createTerm_term {
   id: string;
 }
 
+export interface CreateTermModalMutation_createTerm_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface CreateTermModalMutation_createTerm {
   __typename: "CreateTermPayload";
   term: CreateTermModalMutation_createTerm_term | null;
+  errors: CreateTermModalMutation_createTerm_errors[];
 }
 
 export interface CreateTermModalMutation {

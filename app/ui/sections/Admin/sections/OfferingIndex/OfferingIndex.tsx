@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography } from 'antd';
+import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
@@ -47,6 +47,9 @@ const DELETE_OFFERING = gql`
         }
         section
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -62,7 +65,10 @@ export default function OfferingIndex() {
     refetchQueries: [{ query: ALL_OFFERINGS }],
   });
 
-  const handleConfirmDelete = (id: string) => () => deleteOffering({ variables: { id } });
+  const handleConfirmDelete = (id: string) => async () => {
+    const { data } = await deleteOffering({ variables: { id } });
+    data?.deleteOffering?.errors.forEach(error => message.error(error.message));
+  };
 
   const columns: ColumnType<AdminOfferingIndexQuery_offerings_nodes>[] = [
     {

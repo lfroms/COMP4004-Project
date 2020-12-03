@@ -36,5 +36,5 @@ Feature: Course Creation
     And I enter code "COMP 4004"
     And I enter name "Software Quality Assurance"
     And I submit the form
-    Then I receive an error message saying "A course with this code already exists"
+    Then I receive an error message saying "Code has already been taken"
     And there exists only one course with code "COMP 4004"
