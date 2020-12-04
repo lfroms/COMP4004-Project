@@ -7,7 +7,7 @@ import {
   AssignProfessorModalMutationVariables,
 } from './graphql/AssignProfessorModalMutation';
 
-const FORM_NAME = 'assignProffessorForm';
+const FORM_NAME = 'assignProfessorForm';
 interface Props {
   visible: boolean;
   offeringId: string;
