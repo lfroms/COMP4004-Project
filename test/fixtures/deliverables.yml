@@ -3,11 +3,11 @@ one:
   description: Pirates game with JUnit
   weight: 0.15
   due_date: 2020-11-21 15:32:10
-  offering: one
+  offering: quality_assurance_A
 
 two:
   title: Assignment 2
   description: Pirates game with Cucumber
   weight: 0.15
   due_date: 2020-11-21 15:32:10
-  offering: one
+  offering: quality_assurance_A

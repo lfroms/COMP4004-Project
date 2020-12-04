@@ -9,7 +9,6 @@ module Resolvers
       assert_authenticated!
       deliverable = Deliverable.find_by(id: id)
 
-      byebug
       return nil unless deliverable
       return nil unless user_can_access_offering(deliverable.offering)
 
