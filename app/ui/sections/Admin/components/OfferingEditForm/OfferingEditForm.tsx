@@ -40,13 +40,21 @@ export default function OfferingEditForm(props: Props) {
   const { data } = useQuery<OfferingEditFormQuery>(COURSES_TERMS);
 
   const courseOptions = data?.courses.nodes?.map((course, index) => (
-    <Select.Option key={`course-select-${index}`} value={course?.id ?? 0}>
+    <Select.Option
+      className="offering_form_course_option"
+      key={`course-select-${index}`}
+      value={course?.id ?? 0}
+    >
       {course?.code}
     </Select.Option>
   ));
 
   const termOptions = data?.terms.nodes?.map((term, index) => (
-    <Select.Option key={`term-select-${index}`} value={term?.id ?? 0}>
+    <Select.Option
+      className="offering_form_term_option"
+      key={`term-select-${index}`}
+      value={term?.id ?? 0}
+    >
       {term ? createTermName(term.startDate, term.endDate) : null}
     </Select.Option>
   ));
@@ -59,7 +67,9 @@ export default function OfferingEditForm(props: Props) {
         initialValue={initialTermId}
         rules={[{ required: true, message: 'You must select a term' }]}
       >
-        <Select placeholder="Select a term">{termOptions}</Select>
+        <Select id="offering_term_select" placeholder="Select a term">
+          {termOptions}
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -68,7 +78,9 @@ export default function OfferingEditForm(props: Props) {
         initialValue={initialCourseId}
         rules={[{ required: true, message: 'You must select a course' }]}
       >
-        <Select placeholder="Select a course">{courseOptions}</Select>
+        <Select id="offering_course_select" placeholder="Select a course">
+          {courseOptions}
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -85,7 +97,7 @@ export default function OfferingEditForm(props: Props) {
           },
         ]}
       >
-        <Input placeholder="Section" />
+        <Input id="offering_section_field" placeholder="Section" />
       </Form.Item>
     </Form>
   );

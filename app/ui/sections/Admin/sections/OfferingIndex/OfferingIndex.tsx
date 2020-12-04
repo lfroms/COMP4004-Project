@@ -118,7 +118,7 @@ export default function OfferingIndex() {
           cancelText="Cancel"
           okButtonProps={{ loading: deleteLoading }}
         >
-          <Button danger icon={<DeleteOutlined />} />
+          <Button danger id="delete_offering" icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
@@ -145,6 +145,7 @@ export default function OfferingIndex() {
       </Row>
 
       <Table
+        id="offering_index"
         columns={columns}
         dataSource={offerings as AdminOfferingIndexQuery_offerings_nodes[]}
         pagination={false}
