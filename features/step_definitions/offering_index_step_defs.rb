@@ -9,8 +9,8 @@ end
 Given('there exists a term {string}') do |string|
   dates = string.split(' - ')
   @term = Term.create(
-    start_date: dates.first.to_time,
-    end_date: dates.last.to_time,
+    start_date: Time.zone.parse(dates.first),
+    end_date: Time.zone.parse(dates.last),
     registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
     withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
     financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6)
