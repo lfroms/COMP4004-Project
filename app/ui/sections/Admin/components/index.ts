@@ -6,3 +6,5 @@ export * from './TermEditForm';
 export * from './TermCreateModal';
 export * from './UserCreateModal';
 export * from './UserEditForm';
+export * from './AssignProfessorModal';
+export * from './AssignProfessorForm';
