@@ -21,4 +21,3 @@ end
 When('I enter user password {string}') do |string|
   fill_in('user_password_field', with: string)
 end
-

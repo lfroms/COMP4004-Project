@@ -8,7 +8,7 @@ end
 
 Given('there exists a user with email {string} password {string} approved status {string}') do |string, string2, string3|
   approved = string3 == 'true' ? true : false
-  User.create(name: "Not Approved", email: string, password: string2, approved: approved)
+  User.create(name: 'Not Approved', email: string, password: string2, approved: approved)
 end
 
 When('I enter email {string}') do |string|
