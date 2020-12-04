@@ -145,6 +145,7 @@ export default function OfferingIndex() {
       </Row>
 
       <Table
+        id="offering_index"
         columns={columns}
         dataSource={offerings as AdminOfferingIndexQuery_offerings_nodes[]}
         pagination={false}

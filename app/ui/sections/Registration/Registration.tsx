@@ -50,7 +50,12 @@ export default function Registration() {
   const cardContentMarkup = registrationCompleted ? (
     <Alert
       message={<Title level={3}>Account created successfully</Title>}
-      description={<Link to="/login">Return to login screen</Link>}
+      description={
+        <>
+          <p>Before you can log in, your account needs to be approved by an admin. </p>
+          <Link to="/login">Return to login screen</Link>
+        </>
+      }
       type="success"
     />
   ) : (

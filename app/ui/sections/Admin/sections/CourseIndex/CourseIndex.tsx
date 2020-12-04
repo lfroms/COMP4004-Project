@@ -120,6 +120,7 @@ export default function CourseIndex() {
       </Row>
 
       <Table
+        id="course_index"
         columns={columns}
         dataSource={courses as AdminCourseIndexQuery_courses_nodes[]}
         pagination={false}
