@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum EnrollmentRole {
+  professor = "professor",
+  student = "student",
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
