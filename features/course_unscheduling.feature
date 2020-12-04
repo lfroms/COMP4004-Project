@@ -5,17 +5,17 @@ Feature: Course Unscheduling
 
   Scenario: An administrator deletes a course offering
     Given that I am logged in as an administrator
+    And there exists a course offering for course with code "COMP 4004" section "A" term start date "2020-09-01" term end date "2020-12-31"
     And I am on the course offering index
-    And there exists a course offering for course with code "COMP 4004" with section "A" and term "May 2020 - Dec 2020"
-    When I click the "delete_offering" button
-    And I click the "offering_delete_submit" button
-    Then there does not exists a course offering for course with code "COMP 4004" with section "A" and term "May 2020 - Dec 2020"
+    When I click the delete offering button
+    And I click the "Confirm" button
+    Then there no longer exists a course offering for course with code "COMP 4004" section "A" term "Sep 2020 - Dec 2020"
 
   Scenario: An administrator cancels deletion of a course offering
     Given that I am logged in as an administrator
+    And there exists a course offering for course with code "COMP 4004" section "A" term start date "2020-09-01" term end date "2020-12-31"
     And I am on the course offering index
-    And there exists a course offering for course with code "COMP 4004" with section "A" and term "May 2020 - Dec 2020"
-    When I click the "delete_offering" button
-    And I click the "offering_delete_cancel" button
-    Then there exists a course offering for course with code "COMP 4004" with section "A" and term "May 2020 - Dec 2020"
+    When I click the delete offering button
+    And I click the "Cancel" button
+    Then there still exists a course offering for course with code "COMP 4004" section "A" term "Sep 2020 - Dec 2020"
 

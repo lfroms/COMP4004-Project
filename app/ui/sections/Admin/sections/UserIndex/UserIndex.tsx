@@ -145,6 +145,7 @@ export default function UserIndex() {
             cancelText="Cancel"
           >
             <Button
+              className="approve_user_button"
               id={`approve_user_id_${record.id}`}
               style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
               icon={<CheckCircleOutlined />}

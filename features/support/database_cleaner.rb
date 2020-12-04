@@ -14,7 +14,7 @@ end
 # Before each test, delete everything and load the seeds found in db/seeds.rb
 Before do
   DatabaseCleaner.clean_with(:truncation)
-  Rails.application.load_seed
+  # Rails.application.load_seed
 end
 
 Cucumber::Rails::Database.javascript_strategy = :deletion
