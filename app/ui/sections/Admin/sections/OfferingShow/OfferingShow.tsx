@@ -80,7 +80,7 @@ export default function OfferingShow() {
           onClick={() => setAssignProfessorModalVisible(true)}
           className={styles.AssignProfButton}
         >
-          Assign prof
+          Assign professor
         </Button>
       )}
       <AssignProfessorModal
