@@ -15,7 +15,13 @@ module Mutations
     def resolve(title:, description:, weight:, due_date:, offering_id:)
       assert_authenticated!
 
-      deliverable = Deliverable.new(title: title, description: description, weight: weight, due_date: due_date, offering_id: offering_id)
+      deliverable = Deliverable.new(
+        title: title,
+        description: description,
+        weight: weight,
+        due_date: due_date,
+        offering_id: offering_id
+      )
 
       unless user_is_offering_instructor(offering_id)
         return {
