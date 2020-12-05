@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Descriptions, Divider, Popconfirm, Row, Tag } from 'antd';
+import { Button, Descriptions, Popconfirm, Tag } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
@@ -148,19 +148,16 @@ export default function TermShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <Row align="middle" gutter={12}>
-        <Col flex={1}>
-          <Divider orientation="left">Course offerings</Divider>
-        </Col>
-        <Col>
-          <Button
-            icon={<AppstoreAddOutlined />}
-            onClick={() => setOfferingCreateModalVisible(true)}
-          >
-            New course offering
-          </Button>
-        </Col>
-      </Row>
+      <TitleBar.Secondary
+        title="Course offerings"
+        actions={[
+          {
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setOfferingCreateModalVisible(true),
+            text: 'New course offering',
+          },
+        ]}
+      />
 
       <Table
         columns={columns}

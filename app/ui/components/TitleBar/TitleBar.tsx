@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { NamedExoticComponent } from 'react';
 import Button, { ButtonType } from 'antd/lib/button';
-import { Col, Row, Space, Typography } from 'antd';
+import { Col, Divider, Row, Space, Typography } from 'antd';
 
 import * as styles from './TitleBar.module.scss';
 
@@ -17,10 +17,8 @@ interface Props {
   actions?: Action[];
 }
 
-export default function TitleBar(props: Props) {
-  const { title, actions = [] } = props;
-
-  const buttons = actions.map((action, index) => (
+function mapButtons(actions: Action[]) {
+  return actions.map((action, index) => (
     <Button
       key={`titlebar-action-${index}`}
       id={action.elementId}
@@ -31,6 +29,25 @@ export default function TitleBar(props: Props) {
       {action.text}
     </Button>
   ));
+}
+
+function Secondary(props: Props) {
+  const { title, actions = [] } = props;
+
+  return (
+    <Row align="middle" gutter={12}>
+      <Col flex={1}>
+        <Divider orientation="left">{title}</Divider>
+      </Col>
+      <Col>
+        <Space>{mapButtons(actions)}</Space>
+      </Col>
+    </Row>
+  );
+}
+
+const TitleBar = function TitleBar(props: Props) {
+  const { title, actions = [] } = props;
 
   return (
     <Row align="middle" gutter={12}>
@@ -38,8 +55,14 @@ export default function TitleBar(props: Props) {
         <Typography.Title level={2}>{title}</Typography.Title>
       </Col>
       <Col>
-        <Space className={styles.Actions}>{buttons}</Space>
+        <Space className={styles.Actions}>{mapButtons(actions)}</Space>
       </Col>
     </Row>
   );
-}
+} as NamedExoticComponent<Props> & {
+  Secondary: typeof Secondary;
+};
+
+TitleBar.Secondary = Secondary;
+
+export default TitleBar;
