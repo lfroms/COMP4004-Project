@@ -9,7 +9,7 @@ class Enrollment < ApplicationRecord
   belongs_to :user
 
   def offering_capacity
-    if offering && offering.full?
+    if offering&.full?
       errors.add(:offering, 'This offering is at maximum capacity')
     end
   end
