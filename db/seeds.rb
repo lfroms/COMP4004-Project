@@ -43,24 +43,24 @@ computer_music_course = Course.create!(name: 'Computer Music Projects', code: 'M
 quality_assurance_course.prerequisites << object_oriented_course
 natural_disasters_course.prerequisites << evolution_earth_course
 
-Offering.create!(section: 'A', course: quality_assurance_course, term: term_one)
-Offering.create!(section: 'A', course: quality_assurance_course, term: term_two)
-Offering.create!(section: 'B', course: quality_assurance_course, term: term_two)
+Offering.create!(section: 'A', capacity: 100, course: quality_assurance_course, term: term_one)
+Offering.create!(section: 'A', capacity: 150, course: quality_assurance_course, term: term_two)
+Offering.create!(section: 'B', capacity: 220, course: quality_assurance_course, term: term_two)
 
-Offering.create!(section: 'A', course: object_oriented_course, term: term_one)
-Offering.create!(section: 'B', course: object_oriented_course, term: term_one)
-Offering.create!(section: 'A', course: object_oriented_course, term: term_two)
+Offering.create!(section: 'A', capacity: 300, course: object_oriented_course, term: term_one)
+Offering.create!(section: 'B', capacity: 150, course: object_oriented_course, term: term_one)
+Offering.create!(section: 'A', capacity: 100, course: object_oriented_course, term: term_two)
 
-Offering.create!(section: 'A', course: popular_music_course, term: term_one)
-Offering.create!(section: 'A', course: popular_music_course, term: term_two)
+Offering.create!(section: 'A', capacity: 250, course: popular_music_course, term: term_one)
+Offering.create!(section: 'A', capacity: 160, course: popular_music_course, term: term_two)
 
-Offering.create!(section: 'V', course: natural_disasters_course, term: term_one)
-Offering.create!(section: 'A', course: natural_disasters_course, term: term_two)
-Offering.create!(section: 'B', course: natural_disasters_course, term: term_two)
+Offering.create!(section: 'V', capacity: 315, course: natural_disasters_course, term: term_one)
+Offering.create!(section: 'A', capacity: 175, course: natural_disasters_course, term: term_two)
+Offering.create!(section: 'B', capacity: 100, capacity: 100, course: natural_disasters_course, term: term_two)
 
-Offering.create!(section: 'A', course: computer_music_course, term: term_one)
-Offering.create!(section: 'A', course: computer_music_course, term: term_two)
-Offering.create!(section: 'V', course: computer_music_course, term: term_two)
+Offering.create!(section: 'A', capacity: 210, course: computer_music_course, term: term_one)
+Offering.create!(section: 'A', capacity: 150, course: computer_music_course, term: term_two)
+Offering.create!(section: 'V', capacity: 150, course: computer_music_course, term: term_two)
 
 Offering.all.each do |offering|
   3.times do
