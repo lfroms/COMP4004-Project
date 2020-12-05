@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
+import { Button, Popconfirm, Table, Tag, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { CourseCreateModal } from 'sections/Admin/components';
@@ -15,7 +15,7 @@ import {
   AdminCourseIndexCourseDeletionMutationVariables,
 } from './graphql/AdminCourseIndexCourseDeletionMutation';
 
-import * as styles from './CourseIndex.module.scss';
+import { TitleBar } from 'components';
 
 const ALL_COURSES = gql`
   query AdminCourseIndexQuery {
@@ -103,21 +103,17 @@ export default function CourseIndex() {
 
   return (
     <>
-      <Row align="middle" gutter={12}>
-        <Col flex={1}>
-          <Typography.Title level={2}>Courses</Typography.Title>
-        </Col>
-        <Col>
-          <Button
-            id="new_course"
-            icon={<AppstoreAddOutlined />}
-            onClick={() => setCourseCreateModalVisible(true)}
-            className={styles.AddCourseButton}
-          >
-            New course
-          </Button>
-        </Col>
-      </Row>
+      <TitleBar
+        title="Courses"
+        actions={[
+          {
+            elementId: 'new_course',
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setCourseCreateModalVisible(true),
+            text: 'New course',
+          },
+        ]}
+      />
 
       <Table
         id="course_index"
