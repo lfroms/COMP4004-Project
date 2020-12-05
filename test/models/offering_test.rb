@@ -26,12 +26,6 @@ class OfferingTest < ActiveSupport::TestCase
     assert_not offering.valid?
   end
 
-  test 'offering cannot be created if capacity is missing' do
-    offering = Offering.new(section: 'C', course: courses(:quality_assurance), term: terms(:one))
-
-    assert_not offering.valid?
-  end
-
   test 'offering cannot be created if section is not a letter' do
     offering = Offering.new(section: 'ABC', course: courses(:quality_assurance), term: terms(:one), capacity: 100)
 
