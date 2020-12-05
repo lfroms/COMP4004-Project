@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Descriptions, Divider, Popconfirm, Row, Tag, Typography } from 'antd';
+import { Button, Descriptions, Popconfirm, Tag } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { Link, useParams } from 'react-router-dom';
 import { OfferingCreateModal } from 'sections/Admin/components';
+import { TitleBar } from 'components';
 
 import {
   AdminTermShowQuery,
@@ -129,9 +130,7 @@ export default function TermShow() {
 
   return (
     <>
-      <Typography.Title level={2}>
-        {createTermName(term.startDate, term.endDate)} term
-      </Typography.Title>
+      <TitleBar title={`${createTermName(term.startDate, term.endDate)} term`} />
 
       <Descriptions>
         <Descriptions.Item label="Start date">
@@ -149,19 +148,16 @@ export default function TermShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <Row align="middle" gutter={12}>
-        <Col flex={1}>
-          <Divider orientation="left">Course offerings</Divider>
-        </Col>
-        <Col>
-          <Button
-            icon={<AppstoreAddOutlined />}
-            onClick={() => setOfferingCreateModalVisible(true)}
-          >
-            New course offering
-          </Button>
-        </Col>
-      </Row>
+      <TitleBar.Secondary
+        title="Course offerings"
+        actions={[
+          {
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setOfferingCreateModalVisible(true),
+            text: 'New course offering',
+          },
+        ]}
+      />
 
       <Table
         columns={columns}

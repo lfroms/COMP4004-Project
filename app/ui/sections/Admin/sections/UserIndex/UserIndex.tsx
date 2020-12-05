@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Popconfirm, Row, Space, Table, Tag, Typography, message } from 'antd';
+import { Button, Popconfirm, Space, Table, Tag, message } from 'antd';
 import { AppstoreAddOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { TitleBar } from 'components';
 
 import { UserCreateModal } from 'sections/Admin/components';
 
@@ -16,7 +17,6 @@ import {
   AdminUserIndexUserDeletionMutationVariables,
 } from './graphql/AdminUserIndexUserDeletionMutation';
 
-import * as styles from './UserIndex.module.scss';
 import {
   AdminUserIndexUserApprovalMutation,
   AdminUserIndexUserApprovalMutationVariables,
@@ -180,27 +180,25 @@ export default function UserIndex() {
 
   return (
     <>
-      <Row align="middle" gutter={12}>
-        <Col flex={1}>
-          <Typography.Title level={2}>Users</Typography.Title>
-        </Col>
-        <Col>
-          <Button
-            id="new_course"
-            icon={<AppstoreAddOutlined />}
-            onClick={() => setUserCreateModalVisible(true)}
-            className={styles.AddUserButton}
-          >
-            New user
-          </Button>
-        </Col>
-      </Row>
+      <TitleBar
+        title="Users"
+        actions={[
+          {
+            elementId: 'new_course',
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setUserCreateModalVisible(true),
+            text: 'New user',
+          },
+        ]}
+      />
+
       <Table
         columns={columns}
         dataSource={users as AdminUserIndexQuery_users_nodes[]}
         pagination={false}
         loading={loading}
       />
+
       <UserCreateModal
         visible={userCreateModalVisible}
         onRequestClose={() => setUserCreateModalVisible(false)}
