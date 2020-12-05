@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Button, Descriptions, Typography } from 'antd';
+import { Button, Descriptions } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
+import { TitleBar } from 'components';
+import { createTermName } from 'helpers';
+
+import { AssignProfessorModal } from 'sections/Admin/components';
 
 import { AdminOfferingShowQuery } from './graphql/AdminOfferingShowQuery';
-import { createTermName } from 'helpers';
 import * as styles from './OfferingShow.module.scss';
-import { AssignProfessorModal } from 'sections/Admin/components';
 
 interface ParamType {
   offeringId: string;
@@ -60,9 +62,7 @@ export default function OfferingShow() {
 
   return (
     <>
-      <Typography.Title level={2}>
-        {offering.course.code} {offering.section}
-      </Typography.Title>
+      <TitleBar title={`${offering.course.code} ${offering.section}`} />
 
       <Descriptions>
         <Descriptions.Item label="Section">{offering.section}</Descriptions.Item>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Col, Popconfirm, Row, Table, Tag, Typography, message } from 'antd';
+import { Button, Popconfirm, Table, Tag, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { createTermName } from 'helpers';
+import { TitleBar } from 'components';
 import { OfferingCreateModal } from 'sections/Admin/components';
 
 import {
@@ -15,8 +16,6 @@ import {
   AdminOfferingIndexOfferingDeletionMutation,
   AdminOfferingIndexOfferingDeletionMutationVariables,
 } from './graphql/AdminOfferingIndexOfferingDeletionMutation';
-
-import * as styles from './OfferingIndex.module.scss';
 
 const ALL_OFFERINGS = gql`
   query AdminOfferingIndexQuery {
@@ -128,21 +127,17 @@ export default function OfferingIndex() {
 
   return (
     <>
-      <Row align="middle" gutter={12}>
-        <Col flex={1}>
-          <Typography.Title level={2}>Course offerings</Typography.Title>
-        </Col>
-        <Col>
-          <Button
-            id="new_offering"
-            icon={<AppstoreAddOutlined />}
-            onClick={() => setOfferingCreateModalVisible(true)}
-            className={styles.AddOfferingButton}
-          >
-            New course offering
-          </Button>
-        </Col>
-      </Row>
+      <TitleBar
+        title="Course offerings"
+        actions={[
+          {
+            elementId: 'new_offering',
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setOfferingCreateModalVisible(true),
+            text: 'New course offering',
+          },
+        ]}
+      />
 
       <Table
         id="offering_index"
