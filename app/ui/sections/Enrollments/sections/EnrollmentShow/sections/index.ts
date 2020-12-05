@@ -1,1 +1,1 @@
-export * from './DeliverableIndex';
+export * from './Dashboard';
