@@ -14,7 +14,7 @@ class Offering < ApplicationRecord
 
   def maximum_capacity
     if full?
-      errors.add(:capacity, 'This course is at maximum capacity.')
+      errors.add(:base, 'This course is at maximum capacity.')
     end
   end
 
