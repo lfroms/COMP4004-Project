@@ -1,15 +1,15 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { NavigationGroup, Page } from 'components';
-import { Empty, Table, Typography } from 'antd';
+import { NavigationGroup, Page, TitleBar } from 'components';
+import { Empty, Table } from 'antd';
 import { CalendarOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
+import { ColumnType } from 'antd/lib/table';
 
 import { TermShowQuery, TermShowQuery_terms_nodes_offerings_nodes } from './graphql/TermShowQuery';
 
 import * as styles from './TermShow.module.scss';
-import { ColumnType } from 'antd/lib/table';
 
 interface ParamType {
   termId: string;
@@ -97,9 +97,7 @@ export default function TermShow() {
     <Page title="Course Directory" groups={groups} selectedItemId={termId}>
       {currentTerm ? (
         <>
-          <Typography.Title level={2}>
-            {createTermName(currentTerm.startDate, currentTerm.endDate)} term
-          </Typography.Title>
+          <TitleBar title={`${createTermName(currentTerm.startDate, currentTerm.endDate)} term`} />
           <Table
             columns={columns}
             dataSource={offerings as TermShowQuery_terms_nodes_offerings_nodes[]}

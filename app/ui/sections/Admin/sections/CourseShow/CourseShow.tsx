@@ -1,7 +1,8 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions } from 'antd';
 import { useParams } from 'react-router-dom';
+import { TitleBar } from 'components';
 
 import { AdminCourseShowQuery } from './graphql/AdminCourseShowQuery';
 
@@ -46,7 +47,7 @@ export default function CourseShow() {
 
   return (
     <>
-      <Typography.Title level={2}>{course.code}</Typography.Title>
+      <TitleBar title={course.code} />
 
       <Descriptions>
         <Descriptions.Item label="Title">{course.name}</Descriptions.Item>

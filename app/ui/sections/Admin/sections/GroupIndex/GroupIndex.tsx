@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, Typography } from 'antd';
+import { Table } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 import { AdminGroupsQuery, AdminGroupsQuery_groups_nodes } from './graphql/AdminGroupsQuery';
 import { ColumnType } from 'antd/lib/table';
+import { TitleBar } from 'components';
 
 const ALL_GROUPS = gql`
   query AdminGroupsQuery {
@@ -43,7 +44,7 @@ export default function GroupIndex() {
 
   return (
     <>
-      <Typography.Title level={2}>Groups</Typography.Title>
+      <TitleBar title="Groups" />
       <Table
         columns={columns}
         dataSource={groups as AdminGroupsQuery_groups_nodes[]}

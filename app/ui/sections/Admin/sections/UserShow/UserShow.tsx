@@ -2,7 +2,8 @@ import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { AdminUserShowQuery } from './graphql/AdminUserShowQuery';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions } from 'antd';
+import { TitleBar } from 'components';
 
 interface ParamType {
   userId: string;
@@ -30,7 +31,7 @@ export default function UserDetails() {
 
   return (
     <>
-      <Typography.Title level={2}>{user?.name}</Typography.Title>
+      <TitleBar title={user?.name} />
       <Descriptions>
         <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
         <Descriptions.Item label="Type">{user?.admin ? 'Admin' : 'Standard'}</Descriptions.Item>
