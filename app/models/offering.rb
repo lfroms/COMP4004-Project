@@ -2,7 +2,7 @@
 class Offering < ApplicationRecord
   validates :section, presence: true, format: { with: /\A[A-Z]{1}\z/ }
   validates :section, uniqueness: { scope: [:term_id, :course_id] }
-  validates :capacity, presence: true
+  validates :capacity, presence: true, inclusion: 1..400
 
   belongs_to :course
   belongs_to :term
@@ -10,4 +10,12 @@ class Offering < ApplicationRecord
   has_many :enrollments, dependent: :destroy
   has_many :participants, through: :enrollments, source: :user, dependent: :destroy
   has_many :deliverables, dependent: :destroy
+
+  def full?
+    capacity && student_count == capacity
+  end
+
+  def student_count
+    enrollments.student.count
+  end
 end

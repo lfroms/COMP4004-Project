@@ -38,6 +38,18 @@ class OfferingTest < ActiveSupport::TestCase
     assert_not offering.valid?
   end
 
+  test 'offering cannot be created if capacity is less than 1' do
+    offering = Offering.new(section: 'C', course: courses(:quality_assurance), term: terms(:one), capacity: 0)
+
+    assert_not offering.valid?
+  end
+
+  test 'offering cannot be created if capacity is greater than 400' do
+    offering = Offering.new(section: 'C', course: courses(:quality_assurance), term: terms(:one), capacity: 401)
+
+    assert_not offering.valid?
+  end
+
   test 'offering cannot be created if course does not exist' do
     offering = Offering.new(section: 'C', course_id: Course.last.id + 1, term: terms(:one), capacity: 100)
 
