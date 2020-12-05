@@ -22,6 +22,8 @@ class Offering < ApplicationRecord
     capacity && student_count == capacity
   end
 
+  private
+
   def student_count
     enrollments.student.count
   end
