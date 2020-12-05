@@ -5,6 +5,7 @@ import { Button, Popconfirm, Table, Tag, message } from 'antd';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
 import { CourseCreateModal } from 'sections/Admin/components';
+import { TitleBar } from 'components';
 
 import {
   AdminCourseIndexQuery,
@@ -14,8 +15,6 @@ import {
   AdminCourseIndexCourseDeletionMutation,
   AdminCourseIndexCourseDeletionMutationVariables,
 } from './graphql/AdminCourseIndexCourseDeletionMutation';
-
-import { TitleBar } from 'components';
 
 const ALL_COURSES = gql`
   query AdminCourseIndexQuery {

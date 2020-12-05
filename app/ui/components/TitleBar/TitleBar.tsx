@@ -13,7 +13,7 @@ interface Action {
 }
 
 interface Props {
-  title: string;
+  title?: string;
   actions?: Action[];
 }
 
