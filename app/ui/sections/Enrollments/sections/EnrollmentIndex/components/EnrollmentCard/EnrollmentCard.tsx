@@ -56,7 +56,7 @@ export default function EnrollmentCard(props: Props) {
         title={title}
         description={
           <Space size="small">
-            <Tag color="default" style={{ cursor: 'pointer' }}>
+            <Tag color={canUnenroll ? 'default' : 'purple'} style={{ cursor: 'pointer' }}>
               {role}
             </Tag>
             <span>{subtitle}</span>
