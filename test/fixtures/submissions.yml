@@ -1,0 +1,9 @@
+assignment_submission_one:
+  user: not_admin
+  attachment_url: http://example.com/file.pdf
+  deliverable: first_deliverable
+
+assignment_submission_two:
+  user: not_admin2
+  attachment_url: http://example.com/file.pdf
+  deliverable: second_deliverable

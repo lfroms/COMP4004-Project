@@ -4,7 +4,7 @@ require 'test_helper'
 module Resolvers
   class SpecificDeliverableTest < ActiveSupport::TestCase
     test '#resolve returns specified deliverable' do
-      deliverable = deliverables(:one)
+      deliverable = deliverables(:first_deliverable)
       query = <<~EOF
         query Deliverable {
           deliverable(id: #{deliverable.id}) {
@@ -26,7 +26,7 @@ module Resolvers
     end
 
     test '#resolve does not return specified deliverable if user is not enrolled in the offering' do
-      deliverable = deliverables(:one)
+      deliverable = deliverables(:first_deliverable)
       query = <<~EOF
         query Deliverable {
           deliverable(id: #{deliverable.id}) {
@@ -47,7 +47,7 @@ module Resolvers
     end
 
     test '#resolve returns specified deliverable if user is an admin' do
-      deliverable = deliverables(:one)
+      deliverable = deliverables(:first_deliverable)
       query = <<~EOF
         query Deliverable {
           deliverable(id: #{deliverable.id}) {

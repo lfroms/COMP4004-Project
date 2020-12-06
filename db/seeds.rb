@@ -85,3 +85,11 @@ end
 Offering.all.sample(5).each do |offering|
   Enrollment.create!(offering: offering, user: admin, role: [true, false].sample ? 'professor' : 'student')
 end
+
+self_enrolling_group.users.each do |user|
+  user.enrollments.each do |enrollment|
+    enrollment.offering.deliverables.each do |deliverable|
+      Submission.create(user: user, deliverable: deliverable, attachment_url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf')
+    end
+  end
+end
