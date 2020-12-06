@@ -6,6 +6,8 @@ module Types
     field :email, String, null: false
     field :admin, Boolean, null: false
     field :approved, Boolean, null: false
+    field :can_self_enroll, Boolean, null: false
+
     field :enrollments, Types::EnrollmentType.connection_type, null: false do
       argument :offering_id, ID, required: false
       argument :role, Types::EnrollmentRoleType, required: false
@@ -15,6 +17,10 @@ module Types
       return object.enrollments unless args
 
       object.enrollments.where(args)
+    end
+
+    def can_self_enroll
+      object.can_self_enroll?
     end
   end
 end
