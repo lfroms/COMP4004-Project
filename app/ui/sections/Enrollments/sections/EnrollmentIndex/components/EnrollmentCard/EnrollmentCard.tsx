@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoginOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import { Card, Popconfirm, Space, Tag } from 'antd';
-import { red } from '@ant-design/colors';
+import { blue, green, purple, red } from '@ant-design/colors';
 
 interface Props {
   title?: string;
@@ -12,8 +12,12 @@ interface Props {
   onConfirmUnenroll?: () => void;
 }
 
+const COLORS = [red[3], green[4], blue[3], purple[3]];
+
 export default function EnrollmentCard(props: Props) {
   const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll } = props;
+
+  const backgroundColor = COLORS[Math.round((title?.length ?? 0) % COLORS.length)];
 
   return (
     <Card
@@ -22,7 +26,7 @@ export default function EnrollmentCard(props: Props) {
       cover={
         <div
           style={{
-            backgroundColor: red[3],
+            backgroundColor,
             height: 230,
             borderTopLeftRadius: 2,
             borderTopRightRadius: 2,
