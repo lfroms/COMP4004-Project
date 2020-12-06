@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :groups, through: :user_groups
   has_many :enrollments, dependent: :destroy
   has_many :offerings_enrolled_in, through: :enrollments, source: :offering, dependent: :destroy
+  has_many :submissions, dependent: :destroy
 
   validates :name, presence: true
   validates :email, format: URI::MailTo::EMAIL_REGEXP, presence: true, uniqueness: true
