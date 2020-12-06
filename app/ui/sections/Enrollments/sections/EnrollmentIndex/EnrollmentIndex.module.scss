@@ -1,0 +1,15 @@
+.Loading {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.Content {
+  padding: 2rem 2.5rem;
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}

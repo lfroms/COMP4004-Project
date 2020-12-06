@@ -9,13 +9,14 @@
 
 require 'faker'
 
-User.create!(name: 'Super Admin', email: 'admin@example.com', password: '123456', admin: true, approved: true)
-User.create!(name: 'Standard User', email: 'standard@example.com', password: '123456', admin: false, approved: true)
+admin = User.create!(name: 'Super Admin', email: 'admin@example.com', password: '123456', admin: true, approved: true)
+standard_user = User.create!(name: 'Standard User', email: 'standard@example.com', password: '123456', admin: false, approved: true)
 User.create!(name: 'Pending User', email: 'pending@example.com', password: '123456', admin: false, approved: false)
 self_enrolling_user = User.create!(name: 'Self-Enrolling User', email: 'selfenroll@example.com', password: '123456', admin: false, approved: true)
 
 self_enrolling_group = Group.create!(name: 'Self-enrolling users', can_self_enroll: true)
 self_enrolling_group.users << self_enrolling_user
+self_enrolling_group.users << standard_user
 
 term_one = Term.create!(
   start_date: Time.zone.local(2020, 9, 1, 0, 0, 0),
@@ -56,7 +57,7 @@ Offering.create!(section: 'A', capacity: 160, course: popular_music_course, term
 
 Offering.create!(section: 'V', capacity: 315, course: natural_disasters_course, term: term_one)
 Offering.create!(section: 'A', capacity: 175, course: natural_disasters_course, term: term_two)
-Offering.create!(section: 'B', capacity: 100, capacity: 100, course: natural_disasters_course, term: term_two)
+Offering.create!(section: 'B', capacity: 100, course: natural_disasters_course, term: term_two)
 
 Offering.create!(section: 'A', capacity: 210, course: computer_music_course, term: term_one)
 Offering.create!(section: 'A', capacity: 150, course: computer_music_course, term: term_two)
@@ -72,4 +73,15 @@ Offering.all.each do |offering|
       due_date: Faker::Date.between(from: offering.term.start_date, to: offering.term.end_date)
     )
   end
+end
+
+
+self_enrolling_group.users.each do |user|
+  Offering.all.sample(5).each do |offering|
+    Enrollment.create!(offering: offering, user: user, role: 'student')
+  end
+end
+
+Offering.all.sample(5).each do |offering|
+  Enrollment.create!(offering: offering, user: admin, role: [true, false].sample ? 'professor' : 'student')
 end
