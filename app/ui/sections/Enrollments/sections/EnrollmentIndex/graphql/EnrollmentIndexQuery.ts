@@ -16,11 +16,19 @@ export interface EnrollmentIndexQuery_currentUser_enrollments_nodes_offering_cou
   code: string;
 }
 
+export interface EnrollmentIndexQuery_currentUser_enrollments_nodes_offering_term {
+  __typename: "Term";
+  id: string;
+  startDate: any;
+  endDate: any;
+}
+
 export interface EnrollmentIndexQuery_currentUser_enrollments_nodes_offering {
   __typename: "Offering";
   id: string;
   section: string;
   course: EnrollmentIndexQuery_currentUser_enrollments_nodes_offering_course;
+  term: EnrollmentIndexQuery_currentUser_enrollments_nodes_offering_term;
 }
 
 export interface EnrollmentIndexQuery_currentUser_enrollments_nodes {

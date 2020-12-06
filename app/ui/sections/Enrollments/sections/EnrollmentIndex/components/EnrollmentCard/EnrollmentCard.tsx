@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoginOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import { Card, Popconfirm, Space, Tag } from 'antd';
-import { blue, green, purple, red } from '@ant-design/colors';
+import { blue, green, orange, purple, red } from '@ant-design/colors';
 
 interface Props {
   title?: string;
@@ -12,7 +12,7 @@ interface Props {
   onConfirmUnenroll?: () => void;
 }
 
-const COLORS = [red[3], green[4], blue[3], purple[3]];
+const COLORS = [red[3], green[3], orange[3], purple[3], blue[3]];
 
 export default function EnrollmentCard(props: Props) {
   const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll } = props;

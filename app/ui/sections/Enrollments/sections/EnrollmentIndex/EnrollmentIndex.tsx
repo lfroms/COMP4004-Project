@@ -8,6 +8,7 @@ import { TitleBar } from 'components';
 import { EnrollmentCard } from './components';
 
 import * as styles from './EnrollmentIndex.module.scss';
+import { createTermName } from 'helpers';
 
 const ENROLLMENTS = gql`
   query EnrollmentIndexQuery {
@@ -24,6 +25,11 @@ const ENROLLMENTS = gql`
               id
               name
               code
+            }
+            term {
+              id
+              startDate
+              endDate
             }
           }
         }
@@ -48,10 +54,15 @@ export default function EnrollmentIndex() {
     const role = `${enrollment?.role[0].toUpperCase()}${enrollment?.role.substr(1).toLowerCase()}`;
 
     return (
-      <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
+      <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
         <EnrollmentCard
           title={enrollment?.offering.course.name}
-          subtitle={`${enrollment?.offering.course.code} ${enrollment?.offering.section}`}
+          subtitle={`${enrollment?.offering.course.code} ${
+            enrollment?.offering.section
+          } (${createTermName(
+            enrollment?.offering.term.startDate,
+            enrollment?.offering.term.endDate
+          )})`}
           role={role}
           onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
           // TODO: Hide when withdrawal deadline has passed.
