@@ -28,6 +28,7 @@ export default function TermShow() {
           offerings {
             nodes {
               id
+              full
               section
               course {
                 id
@@ -126,19 +127,21 @@ export default function TermShow() {
       key: 'actions',
       fixed: 'right',
       align: 'right',
-      // render: (_text, record) => (
-      render: () => (
-        <Popconfirm
-          title="Are you sure you want to enroll in this course?"
-          placement="rightBottom"
-          // onConfirm={handleConfirmEnroll(record.id)}
-          okText="Confirm"
-          cancelText="Cancel"
-          // okButtonProps={{ loading: deleteLoading }}
-        >
-          <Button icon={<PlusSquareOutlined />} />
-        </Popconfirm>
-      ),
+      render: (_text, record) =>
+        record.full ? (
+          <p>full</p>
+        ) : (
+          <Popconfirm
+            title="Are you sure you want to enroll in this course?"
+            placement="rightBottom"
+            // onConfirm={handleConfirmEnroll(record.id)}
+            okText="Confirm"
+            cancelText="Cancel"
+            // okButtonProps={{ loading: deleteLoading }}
+          >
+            <Button icon={<PlusSquareOutlined />} />
+          </Popconfirm>
+        ),
     });
   }
 

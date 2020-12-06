@@ -17,6 +17,7 @@ export interface TermShowQuery_terms_nodes_offerings_nodes_course {
 export interface TermShowQuery_terms_nodes_offerings_nodes {
   __typename: "Offering";
   id: string;
+  full: boolean;
   section: string;
   course: TermShowQuery_terms_nodes_offerings_nodes_course;
 }
