@@ -7,12 +7,13 @@ interface Props {
   title?: string;
   subtitle?: string;
   role?: string;
+  canUnenroll?: boolean;
   onClick?: () => void;
   onConfirmUnenroll?: () => void;
 }
 
 export default function EnrollmentCard(props: Props) {
-  const { title, subtitle, role, onClick, onConfirmUnenroll } = props;
+  const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll } = props;
 
   return (
     <Card
@@ -30,17 +31,21 @@ export default function EnrollmentCard(props: Props) {
       }
       actions={[
         <LoginOutlined key="view" />,
-        <div onClick={e => e.stopPropagation()} key="unenroll">
-          <Popconfirm
-            title="Are you sure you want to unenroll in this course?"
-            placement="top"
-            okText="Confirm"
-            onConfirm={onConfirmUnenroll}
-            cancelText="Cancel"
-          >
-            <UserDeleteOutlined />
-          </Popconfirm>
-        </div>,
+        ...(canUnenroll
+          ? [
+              <div onClick={e => e.stopPropagation()} key="unenroll">
+                <Popconfirm
+                  title="Are you sure you want to unenroll in this course?"
+                  placement="top"
+                  okText="Confirm"
+                  onConfirm={onConfirmUnenroll}
+                  cancelText="Cancel"
+                >
+                  <UserDeleteOutlined />
+                </Popconfirm>
+              </div>,
+            ]
+          : []),
       ]}
     >
       <Card.Meta

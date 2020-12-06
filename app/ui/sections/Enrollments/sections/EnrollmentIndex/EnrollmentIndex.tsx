@@ -54,6 +54,8 @@ export default function EnrollmentIndex() {
           subtitle={`${enrollment?.offering.course.code} ${enrollment?.offering.section}`}
           role={role}
           onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
+          // TODO: Hide when withdrawal deadline has passed.
+          canUnenroll={enrollment?.role === 'student'}
           onConfirmUnenroll={() => {}}
         />
       </Col>
