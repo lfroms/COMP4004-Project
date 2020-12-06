@@ -2,8 +2,8 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
 import { CheckCircleOutlined, InboxOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Redirect, Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
-import { DeliverableIndex } from './sections';
+import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
+import { Dashboard } from './sections';
 import { createTermName } from 'helpers';
 
 import { EnrollmentShowQuery, EnrollmentShowQueryVariables } from './graphql/EnrollmentShowQuery';
@@ -103,9 +103,7 @@ export default function EnrollmentShow() {
       selectedItemId={getSelectedKey()}
     >
       <Switch>
-        <Route exact path="/courses/:offeringId/deliverables" component={DeliverableIndex} />
-
-        <Redirect exact path="/courses/:offeringId" to="/courses/:offeringId/deliverables" />
+        <Route exact path="/courses/:offeringId" component={Dashboard} />
       </Switch>
     </Page>
   );
