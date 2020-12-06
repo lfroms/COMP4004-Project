@@ -9,12 +9,13 @@ module Mutations
     argument :section, String, required: true
     argument :course_id, ID, required: true
     argument :term_id, ID, required: true
+    argument :capacity, Integer, required: true
 
-    def resolve(section:, course_id:, term_id: [])
+    def resolve(section:, course_id:, term_id:, capacity:)
       assert_authenticated!
       assert_admin_user!
 
-      offering = Offering.new(section: section, course_id: course_id, term_id: term_id)
+      offering = Offering.new(section: section, course_id: course_id, term_id: term_id, capacity: capacity)
 
       if offering.save
         {

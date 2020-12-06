@@ -44,6 +44,15 @@ class EnrollmentTest < ActiveSupport::TestCase
     assert_not enrollment.valid?
   end
 
+  test 'enrollment cannot be created if offering is at maximum capacity' do
+    offering = Offering.create(section: 'C', course: courses(:quality_assurance), term: terms(:one), capacity: 1)
+
+    Enrollment.create(role: 'student', offering: offering, user: users(:not_admin))
+    enrollment = Enrollment.new(role: 'student', offering: offering, user: users(:not_admin2))
+
+    assert_not enrollment.valid?
+  end
+
   test 'enrollment cannot be created if user is already enrolled in offering' do
     student = enrollments(:student)
     enrollment1 = Enrollment.new(role: student.role, offering: student.offering, user: student.user)

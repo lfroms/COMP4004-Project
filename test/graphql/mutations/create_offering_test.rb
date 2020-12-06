@@ -7,7 +7,7 @@ module Mutations
       term_id = terms(:one).id
       query = <<~EOF
         mutation CreateOffering {
-          createOffering(input: {section: "C", courseId: #{course_id}, termId: #{term_id}}) {
+          createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {
             offering {
               id
               section
@@ -21,9 +21,10 @@ module Mutations
 
       offering = Offering.find_by(id: id)
 
-      assert_equal offering.section, 'C'
-      assert_equal offering.course.code, courses(:quality_assurance).code
-      assert_equal offering.term.start_date, terms(:one).start_date
+      assert_equal 'C', offering.section
+      assert_equal 100, offering.capacity
+      assert_equal courses(:quality_assurance).code, offering.course.code
+      assert_equal terms(:one).start_date, offering.term.start_date
     end
 
     test '#resolve does not create a new offering if the user is not authenticated' do
@@ -31,7 +32,7 @@ module Mutations
       term_id = terms(:one).id
       query = <<~EOF
         mutation CreateOffering {
-          createOffering(input: {section: "C", courseId: #{course_id}, termId: #{term_id}}) {
+          createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {
             offering {
               id
               section
@@ -52,7 +53,7 @@ module Mutations
       term_id = terms(:one).id
       query = <<~EOF
         mutation CreateOffering {
-          createOffering(input: {section: "C", courseId: #{course_id}, termId: #{term_id}}) {
+          createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {
             offering {
               id
               section

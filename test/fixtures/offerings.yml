@@ -4,13 +4,16 @@ quality_assurance_A:
   section: A
   course: quality_assurance
   term: one
+  capacity: 100
 
 quality_assurance_B:
   section: B
   course: quality_assurance
   term: one
+  capacity: 150
 
 object_oriented_A:
   section: A
   course: object_oriented
   term: one
+  capacity: 200
