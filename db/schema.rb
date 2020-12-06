@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_05_200851) do
+ActiveRecord::Schema.define(version: 2020_12_06_031321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,16 @@ ActiveRecord::Schema.define(version: 2020_12_05_200851) do
     t.index ["prerequisite_id"], name: "index_prerequisites_on_prerequisite_id"
   end
 
+  create_table "submissions", force: :cascade do |t|
+    t.string "attachment_url", null: false
+    t.bigint "user_id", null: false
+    t.bigint "deliverable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deliverable_id"], name: "index_submissions_on_deliverable_id"
+    t.index ["user_id"], name: "index_submissions_on_user_id"
+  end
+
   create_table "terms", force: :cascade do |t|
     t.datetime "start_date", null: false
     t.datetime "end_date", null: false
@@ -111,6 +121,8 @@ ActiveRecord::Schema.define(version: 2020_12_05_200851) do
   add_foreign_key "offerings", "terms"
   add_foreign_key "prerequisites", "courses"
   add_foreign_key "prerequisites", "courses", column: "prerequisite_id"
+  add_foreign_key "submissions", "deliverables"
+  add_foreign_key "submissions", "users"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
 end
