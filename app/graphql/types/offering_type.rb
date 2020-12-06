@@ -7,9 +7,9 @@ module Types
     field :course, Types::CourseType, null: false
     field :term, Types::TermType, null: false
     field :enrollments, Types::EnrollmentType.connection_type, null: false
-    field :full?, Boolean, null: false
+    field :full, Boolean, null: false
 
-    def full?
+    def full
       object.full?
     end
   end
