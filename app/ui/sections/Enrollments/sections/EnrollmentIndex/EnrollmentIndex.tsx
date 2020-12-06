@@ -48,7 +48,7 @@ export default function EnrollmentIndex() {
     const role = `${enrollment?.role[0].toUpperCase()}${enrollment?.role.substr(1).toLowerCase()}`;
 
     return (
-      <Col key={`enrollment-${index}`} xs={12} sm={11} md={9} lg={7}>
+      <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
         <EnrollmentCard
           title={enrollment?.offering.course.name}
           subtitle={`${enrollment?.offering.course.code} ${enrollment?.offering.section}`}
@@ -65,7 +65,7 @@ export default function EnrollmentIndex() {
   return (
     <div className={styles.Content}>
       <TitleBar title="Courses" />
-      <Row gutter={16} wrap>
+      <Row gutter={[16, 16]} wrap>
         {items}
       </Row>
     </div>
