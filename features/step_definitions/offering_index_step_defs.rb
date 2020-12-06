@@ -26,6 +26,11 @@ When('I enter section {string}') do |string|
   fill_in('offering_section_field', with: string)
 end
 
+When('I enter capacity {int}') do |int|
+  field = find('.ant-input-number-input')
+  field.fill_in(with: int)
+end
+
 When('I select course {string}') do |string|
   find('#offering_course_select', visible: false).click
   find('.offering_form_course_option', text: string).click

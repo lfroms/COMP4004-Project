@@ -20,6 +20,7 @@ const OFFERING = gql`
     offering(id: $id) {
       id
       section
+      capacity
       course {
         id
         code
@@ -65,9 +66,10 @@ export default function OfferingShow() {
       <TitleBar title={`${offering.course.code} ${offering.section}`} />
 
       <Descriptions>
-        <Descriptions.Item label="Section">{offering.section}</Descriptions.Item>
         <Descriptions.Item label="Course name">{offering.course.name}</Descriptions.Item>
         <Descriptions.Item label="Course code">{offering.course.code}</Descriptions.Item>
+        <Descriptions.Item label="Section">{offering.section}</Descriptions.Item>
+        <Descriptions.Item label="Capacity">{offering.capacity}</Descriptions.Item>
         <Descriptions.Item label="Term">
           {createTermName(offering.term.startDate, offering.term.endDate)}
         </Descriptions.Item>

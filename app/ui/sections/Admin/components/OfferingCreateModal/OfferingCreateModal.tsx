@@ -16,8 +16,15 @@ interface Props {
 }
 
 const CREATE_OFFERING = gql`
-  mutation CreateOfferingModalMutation($termId: ID!, $courseId: ID!, $section: String!) {
-    createOffering(input: { termId: $termId, courseId: $courseId, section: $section }) {
+  mutation CreateOfferingModalMutation(
+    $termId: ID!
+    $capacity: Int!
+    $courseId: ID!
+    $section: String!
+  ) {
+    createOffering(
+      input: { termId: $termId, capacity: $capacity, courseId: $courseId, section: $section }
+    ) {
       offering {
         id
       }
@@ -40,6 +47,7 @@ export default function OfferingCreateModal(props: Props) {
     const { data } = await createOffering({
       variables: {
         section: formData.section,
+        capacity: formData.capacity,
         courseId: formData.courseId,
         termId: formData.termId,
       },

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input, InputNumber, Select } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 import { OfferingEditFormQuery } from './graphql/OfferingEditFormQuery';
 import { createTermName } from 'helpers';
 
 export interface OfferingEditFormData {
   section: string;
+  capacity: number;
   courseId: string;
   termId: string;
 }
@@ -98,6 +99,24 @@ export default function OfferingEditForm(props: Props) {
         ]}
       >
         <Input id="offering_section_field" placeholder="Section" />
+      </Form.Item>
+
+      <Form.Item
+        name="capacity"
+        rules={[
+          {
+            required: true,
+            message: 'You must enter a capacity',
+          },
+          {
+            type: 'number',
+            min: 1,
+            max: 400,
+            message: 'Capacity must be between 1 and 400',
+          },
+        ]}
+      >
+        <InputNumber id="offering_capacity_field" placeholder="Capacity" />
       </Form.Item>
     </Form>
   );
