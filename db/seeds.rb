@@ -52,7 +52,7 @@ Offering.create!(section: 'A', capacity: 300, course: object_oriented_course, te
 Offering.create!(section: 'B', capacity: 150, course: object_oriented_course, term: term_one)
 Offering.create!(section: 'A', capacity: 100, course: object_oriented_course, term: term_two)
 
-Offering.create!(section: 'A', capacity: 250, course: popular_music_course, term: term_one)
+Offering.create!(section: 'A', capacity: 1, course: popular_music_course, term: term_one)
 Offering.create!(section: 'A', capacity: 160, course: popular_music_course, term: term_two)
 
 Offering.create!(section: 'V', capacity: 315, course: natural_disasters_course, term: term_one)
