@@ -32,6 +32,7 @@ export interface CreateOfferingModalMutation {
 
 export interface CreateOfferingModalMutationVariables {
   termId: string;
+  capacity: number;
   courseId: string;
   section: string;
 }
