@@ -5,4 +5,5 @@ class Submission < ApplicationRecord
 
   belongs_to :deliverable
   belongs_to :user
+  has_one :grade, dependent: :destroy
 end
