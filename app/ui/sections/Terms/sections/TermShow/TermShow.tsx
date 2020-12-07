@@ -71,7 +71,7 @@ export default function TermShow() {
   const { termId } = useParams<ParamType>();
 
   const history = useHistory();
-  const { data: data } = useQuery<TermShowQuery>(TERMS);
+  const { data } = useQuery<TermShowQuery>(TERMS);
 
   const [createEnrollment, { loading: enrollLoading }] = useMutation<
     TermShowEnrollmentCreationMutation,
