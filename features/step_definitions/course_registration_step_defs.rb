@@ -24,7 +24,7 @@ end
 Given('a student is already enrolled in course offering with code {string} section {string}') do |string, string2|
   course = Course.find_by(code: string)
   offering = Offering.find_by(course: course, section: string2)
-  user = User.create(name: "Other User", email: "other@email.com", password: "123456")
+  user = User.create(name: 'Other User', email: 'other@email.com', password: '123456')
   group = Group.create!(name: 'more self-enrolling users', can_self_enroll: true)
   group.users << user
   Enrollment.create(offering: offering, user: user, role: 'student')
@@ -37,15 +37,15 @@ Given('student with email {string} is already enrolled in course with code {stri
   Enrollment.create(offering: offering, user: user, role: 'student')
 end
 
-Given('that student with email {string} has not completed course with code {string}') do |string, string2|
+Given('that student with email {string} has not completed course with code {string}') do |_string, _string2|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When('I select course offering for course with code {string} with section {string}') do |string, string2|
+When('I select course offering for course with code {string} with section {string}') do |_string, _string2|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When('course with code {string} has prerequisite {string}') do |string, string2|
+When('course with code {string} has prerequisite {string}') do |_string, _string2|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
@@ -53,6 +53,6 @@ When('I select the option to register') do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then('student with email {string} is not enrolled in course offering for course with code {string} with section {string}') do |string, string2, string3|
+Then('student with email {string} is not enrolled in course offering for course with code {string} with section {string}') do |_string, _string2, _string3|
   pending # Write code here that turns the phrase above into concrete actions
 end
