@@ -174,7 +174,7 @@ export default function TermShow() {
               cancelText="Cancel"
               okButtonProps={{ loading: enrollLoading }}
             >
-              <Button icon={<PlusSquareOutlined />} />
+              <Button id="enroll" icon={<PlusSquareOutlined />} />
             </Popconfirm>
           );
         }
