@@ -10,6 +10,7 @@ Feature: Course Scheduling
     And there exists a term "Sep 2020 - Dec 2020"
     When I click the "New course offering" button
     And I enter section "A"
+    And I enter capacity 200
     And I select course "COMP 4004"
     And I select term "Sep 2020 - Dec 2020"
     And I click the "Create" button
@@ -21,10 +22,49 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And there exists a term "Sep 2020 - Dec 2020"
     When I click the "New course offering" button
+    And I enter capacity 200
     And I select course "COMP 4004"
     And I select term "Sep 2020 - Dec 2020"
     And I click the "Create" button
     Then I receive an error message saying "You must enter a section"
+
+  Scenario: Capacity field was left blank
+    Given that I am logged in as an administrator
+    And I am on the course offering index
+    And there exists a course with code "COMP 4004"
+    And there exists a term "Sep 2020 - Dec 2020"
+    When I click the "New course offering" button
+    And I enter section "A"
+    And I select course "COMP 4004"
+    And I select term "Sep 2020 - Dec 2020"
+    And I click the "Create" button
+    Then I receive an error message saying "You must enter a capacity"
+
+  Scenario: Capacity is below 1
+    Given that I am logged in as an administrator
+    And I am on the course offering index
+    And there exists a course with code "COMP 4004"
+    And there exists a term "Sep 2020 - Dec 2020"
+    When I click the "New course offering" button
+    And I enter section "A"
+    And I enter capacity 0
+    And I select course "COMP 4004"
+    And I select term "Sep 2020 - Dec 2020"
+    And I click the "Create" button
+    Then I receive an error message saying "Capacity must be between 1 and 400"
+
+  Scenario: Capacity is above 400
+    Given that I am logged in as an administrator
+    And I am on the course offering index
+    And there exists a course with code "COMP 4004"
+    And there exists a term "Sep 2020 - Dec 2020"
+    When I click the "New course offering" button
+    And I enter section "A"
+    And I enter capacity 401
+    And I select course "COMP 4004"
+    And I select term "Sep 2020 - Dec 2020"
+    And I click the "Create" button
+    Then I receive an error message saying "Capacity must be between 1 and 400"
 
   Scenario: Course was not selected
     Given that I am logged in as an administrator
@@ -33,6 +73,7 @@ Feature: Course Scheduling
     And there exists a term "Sep 2020 - Dec 2020"
     When I click the "New course offering" button
     And I enter section "A"
+    And I enter capacity 200
     And I select term "Sep 2020 - Dec 2020"
     And I click the "Create" button
     Then I receive an error message saying "You must select a course"
@@ -44,6 +85,7 @@ Feature: Course Scheduling
     And there exists a term "Sep 2020 - Dec 2020"
     When I click the "New course offering" button
     And I enter section "A"
+    And I enter capacity 200
     And I select course "COMP 4004"
     And I click the "Create" button
     Then I receive an error message saying "You must select a term"
@@ -56,6 +98,7 @@ Feature: Course Scheduling
     And I am on the course offering index
     When I click the "New course offering" button
     And I enter section "A"
+    And I enter capacity 200
     And I select course "COMP 4004"
     And I select term "Sep 2020 - Dec 2020"
     And I click the "Create" button
