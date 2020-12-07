@@ -89,4 +89,36 @@ class SubmissionTest < ActiveSupport::TestCase
 
     assert submission.valid?
   end
+
+  test 'submission cannot be created by same user multiple times' do
+    Submission.create!(
+      user: users(:not_admin),
+      deliverable: deliverables(:first_deliverable),
+      attachment_url: 'https://example.com'
+    )
+
+    submission = Submission.new(
+      user: users(:not_admin),
+      deliverable: deliverables(:first_deliverable),
+      attachment_url: 'https://example.com'
+    )
+
+    assert_not submission.valid?
+  end
+
+  test 'submission can be created by different users multiple times' do
+    Submission.create!(
+      user: users(:not_admin),
+      deliverable: deliverables(:first_deliverable),
+      attachment_url: 'https://example.com'
+    )
+
+    submission = Submission.new(
+      user: users(:not_admin2),
+      deliverable: deliverables(:first_deliverable),
+      attachment_url: 'https://example.com'
+    )
+
+    assert submission.valid?
+  end
 end
