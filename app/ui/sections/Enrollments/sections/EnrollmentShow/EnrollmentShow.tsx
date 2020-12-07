@@ -1,9 +1,9 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
-import { CheckCircleOutlined, InboxOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, DashboardOutlined, TeamOutlined } from '@ant-design/icons';
 import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
-import { Dashboard } from './sections';
+import { Dashboard, ParticipantIndex } from './sections';
 import { createTermName } from 'helpers';
 
 import { EnrollmentShowQuery, EnrollmentShowQueryVariables } from './graphql/EnrollmentShowQuery';
@@ -60,15 +60,15 @@ export default function EnrollmentShow() {
 
   const groups: NavigationGroup[] = [
     {
-      id: 'deliverables',
-      title: 'Deliverables',
-      icon: <InboxOutlined />,
-      onSelect: () => history.push(`/courses/${offeringId}/deliverables`),
+      id: 'dashboard',
+      title: 'Dashboard',
+      icon: <DashboardOutlined />,
+      onSelect: () => history.push(`/courses/${offeringId}`),
     },
     {
       id: 'participants',
       title: 'Participants',
-      icon: <UnorderedListOutlined />,
+      icon: <TeamOutlined />,
       onSelect: () => history.push(`/courses/${offeringId}/participants`),
     },
     {
@@ -80,11 +80,10 @@ export default function EnrollmentShow() {
   ];
 
   const getSelectedKey = () => {
-    if (pathnameMatches('/deliverables')) return 'deliverables';
     if (pathnameMatches('/participants')) return 'participants';
     if (pathnameMatches('/grades')) return 'grades';
 
-    return 'deliverables';
+    return 'dashboard';
   };
 
   const {
@@ -104,6 +103,7 @@ export default function EnrollmentShow() {
     >
       <Switch>
         <Route exact path="/courses/:offeringId" component={Dashboard} />
+        <Route exact path="/courses/:offeringId/participants" component={ParticipantIndex} />
       </Switch>
     </Page>
   );
