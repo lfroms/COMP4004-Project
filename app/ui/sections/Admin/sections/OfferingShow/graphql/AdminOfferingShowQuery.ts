@@ -46,6 +46,7 @@ export interface AdminOfferingShowQuery_offering {
   __typename: "Offering";
   id: string;
   section: string;
+  capacity: number;
   course: AdminOfferingShowQuery_offering_course;
   term: AdminOfferingShowQuery_offering_term;
   enrollments: AdminOfferingShowQuery_offering_enrollments;
