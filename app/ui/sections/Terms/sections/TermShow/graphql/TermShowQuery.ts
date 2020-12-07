@@ -7,6 +7,12 @@
 // GraphQL query operation: TermShowQuery
 // ====================================================
 
+export interface TermShowQuery_currentUser {
+  __typename: "User";
+  id: string;
+  canSelfEnroll: boolean;
+}
+
 export interface TermShowQuery_terms_nodes_offerings_nodes_course {
   __typename: "Course";
   id: string;
@@ -66,6 +72,10 @@ export interface TermShowQuery_terms {
 }
 
 export interface TermShowQuery {
+  /**
+   * Specific details about the current user.
+   */
+  currentUser: TermShowQuery_currentUser | null;
   /**
    * All terms in the system
    */

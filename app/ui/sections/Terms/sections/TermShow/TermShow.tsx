@@ -2,16 +2,13 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { NavigationGroup, Page, TitleBar } from 'components';
-import { Button, Empty, Popconfirm, Table } from 'antd';
-import { CalendarOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import { Button, Empty, Popconfirm, Table, Tag } from 'antd';
+import { CalendarOutlined, UserAddOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 import { ColumnType } from 'antd/lib/table';
 import {
-  TermShowCurrentUserQuery,
-  TermShowCurrentUserQuery_currentUser,
-} from './graphql/TermShowCurrentUserQuery';
-import {
   TermShowQuery,
+  TermShowQuery_currentUser,
   TermShowQuery_terms_nodes_offerings_nodes,
   TermShowQuery_terms_nodes_offerings_nodes_enrollments,
 } from './graphql/TermShowQuery';
@@ -25,8 +22,12 @@ interface ParamType {
   termId: string;
 }
 
-const TERMS_WITH_OFFERINGS = gql`
+const TERMS = gql`
   query TermShowQuery {
+    currentUser {
+      id
+      canSelfEnroll
+    }
     terms {
       nodes {
         id
@@ -56,15 +57,6 @@ const TERMS_WITH_OFFERINGS = gql`
   }
 `;
 
-const USER_CAN_SELF_ENROLL = gql`
-  query TermShowCurrentUserQuery {
-    currentUser {
-      id
-      canSelfEnroll
-    }
-  }
-`;
-
 const CREATE_ENROLLMENT = gql`
   mutation TermShowEnrollmentCreationMutation($userId: ID!, $offeringId: ID!) {
     createEnrollment(input: { role: "student", userId: $userId, offeringId: $offeringId }) {
@@ -79,8 +71,7 @@ export default function TermShow() {
   const { termId } = useParams<ParamType>();
 
   const history = useHistory();
-  const { data: data1 } = useQuery<TermShowQuery>(TERMS_WITH_OFFERINGS);
-  const { data: data2 } = useQuery<TermShowCurrentUserQuery>(USER_CAN_SELF_ENROLL);
+  const { data: data } = useQuery<TermShowQuery>(TERMS);
 
   const [createEnrollment, { loading: enrollLoading }] = useMutation<
     TermShowEnrollmentCreationMutation,
@@ -97,7 +88,7 @@ export default function TermShow() {
 
   const alreadyEnrolled = (
     enrollments: TermShowQuery_terms_nodes_offerings_nodes_enrollments,
-    current_user: TermShowCurrentUserQuery_currentUser
+    current_user: TermShowQuery_currentUser
   ) => {
     return (
       enrollments.nodes &&
@@ -105,7 +96,7 @@ export default function TermShow() {
     );
   };
   const groups: NavigationGroup[] =
-    (data1?.terms.nodes
+    (data?.terms.nodes
       ?.map(term => {
         if (!term) {
           return null;
@@ -150,31 +141,31 @@ export default function TermShow() {
     },
   ];
 
-  if (data2?.currentUser?.canSelfEnroll) {
+  if (data?.currentUser?.canSelfEnroll) {
     columns.push({
       key: 'actions',
       fixed: 'right',
       align: 'right',
       render: (_text, record) => {
         if (record.full) {
-          return <p>full</p>;
+          return <Tag color="red">Full</Tag>;
         } else if (
           record.enrollments &&
-          data2.currentUser &&
-          alreadyEnrolled(record.enrollments, data2.currentUser)
+          data.currentUser &&
+          alreadyEnrolled(record.enrollments, data.currentUser)
         ) {
-          return <p>already enrolled</p>;
+          return <p>Already enrolled</p>;
         } else {
           return (
             <Popconfirm
               title="Are you sure you want to enroll in this course?"
               placement="rightBottom"
-              onConfirm={handleConfirmEnrollment(data2?.currentUser?.id, record.id)}
+              onConfirm={handleConfirmEnrollment(data?.currentUser?.id, record.id)}
               okText="Confirm"
               cancelText="Cancel"
               okButtonProps={{ loading: enrollLoading }}
             >
-              <Button id="enroll" icon={<PlusSquareOutlined />} />
+              <Button id="enroll" icon={<UserAddOutlined />} />
             </Popconfirm>
           );
         }
@@ -182,7 +173,7 @@ export default function TermShow() {
     });
   }
 
-  const currentTerm = data1?.terms.nodes?.find(term => term?.id === termId);
+  const currentTerm = data?.terms.nodes?.find(term => term?.id === termId);
   const offerings = currentTerm?.offerings.nodes?.filter(Boolean) ?? [];
 
   return (
