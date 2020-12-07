@@ -10,6 +10,7 @@ import * as styles from './Frame.module.scss';
 const USER_IS_ADMIN = gql`
   query FrameQuery {
     currentUser {
+      id
       admin
     }
   }

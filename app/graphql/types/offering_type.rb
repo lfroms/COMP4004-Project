@@ -8,6 +8,7 @@ module Types
     field :term, Types::TermType, null: false
     field :enrollments, Types::EnrollmentType.connection_type, null: false
     field :full, Boolean, null: false
+    field :deliverables, Types::DeliverableType.connection_type, null: false
 
     def full
       object.full?
