@@ -1,5 +1,5 @@
 assignment_submission_one:
-  user: not_admin
+  user: admin
   attachment_url: http://example.com/file.pdf
   deliverable: first_deliverable
 
