@@ -154,7 +154,7 @@ export default function TermShow() {
           data.currentUser &&
           alreadyEnrolled(record.enrollments, data.currentUser)
         ) {
-          return <p>Already enrolled</p>;
+          return <Tag color="green">Enrolled</Tag>;
         } else {
           return (
             <Popconfirm
