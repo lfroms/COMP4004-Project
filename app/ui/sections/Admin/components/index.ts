@@ -8,3 +8,5 @@ export * from './UserCreateModal';
 export * from './UserEditForm';
 export * from './AssignProfessorModal';
 export * from './AssignProfessorForm';
+export * from './DeliverableEditForm';
+export * from './DeliverableCreateModal';
