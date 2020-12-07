@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_031321) do
+ActiveRecord::Schema.define(version: 2020_12_07_020850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,15 @@ ActiveRecord::Schema.define(version: 2020_12_06_031321) do
     t.index ["offering_id"], name: "index_enrollments_on_offering_id"
     t.index ["user_id", "offering_id"], name: "index_enrollments_on_user_id_and_offering_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
+  create_table "grades", force: :cascade do |t|
+    t.float "value", null: false
+    t.string "comment"
+    t.bigint "submission_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["submission_id"], name: "index_grades_on_submission_id"
   end
 
   create_table "groups", force: :cascade do |t|
@@ -117,6 +126,7 @@ ActiveRecord::Schema.define(version: 2020_12_06_031321) do
   add_foreign_key "deliverables", "offerings"
   add_foreign_key "enrollments", "offerings"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "grades", "submissions"
   add_foreign_key "offerings", "courses"
   add_foreign_key "offerings", "terms"
   add_foreign_key "prerequisites", "courses"
