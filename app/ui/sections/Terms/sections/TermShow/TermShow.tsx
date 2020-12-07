@@ -1,49 +1,100 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { NavigationGroup, Page, TitleBar } from 'components';
-import { Empty, Table } from 'antd';
-import { CalendarOutlined } from '@ant-design/icons';
+import { Button, Empty, Popconfirm, Table, Tag } from 'antd';
+import { CalendarOutlined, UserAddOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 import { ColumnType } from 'antd/lib/table';
-
-import { TermShowQuery, TermShowQuery_terms_nodes_offerings_nodes } from './graphql/TermShowQuery';
-
+import {
+  TermShowQuery,
+  TermShowQuery_currentUser,
+  TermShowQuery_terms_nodes_offerings_nodes,
+  TermShowQuery_terms_nodes_offerings_nodes_enrollments,
+} from './graphql/TermShowQuery';
+import {
+  TermShowEnrollmentCreationMutation,
+  TermShowEnrollmentCreationMutationVariables,
+} from './graphql/TermShowEnrollmentCreationMutation';
 import * as styles from './TermShow.module.scss';
 
 interface ParamType {
   termId: string;
 }
 
-export default function TermShow() {
-  const { termId } = useParams<ParamType>();
-
-  const TERMS_WITH_OFFERINGS = gql`
-    query TermShowQuery {
-      terms {
-        nodes {
-          id
-          startDate
-          endDate
-          offerings {
-            nodes {
+const TERMS = gql`
+  query TermShowQuery {
+    currentUser {
+      id
+      canSelfEnroll
+    }
+    terms {
+      nodes {
+        id
+        startDate
+        endDate
+        offerings {
+          nodes {
+            id
+            full
+            section
+            course {
               id
-              section
-              course {
-                id
-                name
-                code
+              name
+              code
+            }
+            enrollments {
+              nodes {
+                user {
+                  id
+                }
               }
             }
           }
         }
       }
     }
-  `;
+  }
+`;
+
+const CREATE_ENROLLMENT = gql`
+  mutation TermShowEnrollmentCreationMutation($userId: ID!, $offeringId: ID!) {
+    createEnrollment(input: { role: "student", userId: $userId, offeringId: $offeringId }) {
+      enrollment {
+        id
+      }
+    }
+  }
+`;
+
+export default function TermShow() {
+  const { termId } = useParams<ParamType>();
 
   const history = useHistory();
-  const { data } = useQuery<TermShowQuery>(TERMS_WITH_OFFERINGS);
+  const { data } = useQuery<TermShowQuery>(TERMS);
 
+  const [createEnrollment, { loading: enrollLoading }] = useMutation<
+    TermShowEnrollmentCreationMutation,
+    TermShowEnrollmentCreationMutationVariables
+  >(CREATE_ENROLLMENT, {
+    refetchQueries: ['TermShowQuery'],
+  });
+
+  const handleConfirmEnrollment = (userId?: string, offeringId?: string) => () => {
+    if (userId && offeringId) {
+      createEnrollment({ variables: { userId, offeringId } });
+    }
+  };
+
+  const alreadyEnrolled = (
+    enrollments: TermShowQuery_terms_nodes_offerings_nodes_enrollments,
+    current_user: TermShowQuery_currentUser
+  ) => {
+    return (
+      enrollments.nodes &&
+      enrollments.nodes.find(enrollment => enrollment?.user.id == current_user.id)
+    );
+  };
   const groups: NavigationGroup[] =
     (data?.terms.nodes
       ?.map(term => {
@@ -89,6 +140,38 @@ export default function TermShow() {
       sortDirections: ['ascend', 'descend'],
     },
   ];
+
+  if (data?.currentUser?.canSelfEnroll) {
+    columns.push({
+      key: 'actions',
+      fixed: 'right',
+      align: 'right',
+      render: (_text, record) => {
+        if (record.full) {
+          return <Tag color="red">Full</Tag>;
+        } else if (
+          record.enrollments &&
+          data.currentUser &&
+          alreadyEnrolled(record.enrollments, data.currentUser)
+        ) {
+          return <Tag color="green">Enrolled</Tag>;
+        } else {
+          return (
+            <Popconfirm
+              title="Are you sure you want to enroll in this course?"
+              placement="rightBottom"
+              onConfirm={handleConfirmEnrollment(data?.currentUser?.id, record.id)}
+              okText="Confirm"
+              cancelText="Cancel"
+              okButtonProps={{ loading: enrollLoading }}
+            >
+              <Button id="enroll" icon={<UserAddOutlined />} />
+            </Popconfirm>
+          );
+        }
+      },
+    });
+  }
 
   const currentTerm = data?.terms.nodes?.find(term => term?.id === termId);
   const offerings = currentTerm?.offerings.nodes?.filter(Boolean) ?? [];
