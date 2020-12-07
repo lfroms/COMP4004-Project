@@ -11,6 +11,16 @@ Given('that I am logged in as an administrator') do
   click_button('login')
 end
 
+Given('that I am logged in as a student with email {string}') do |string|
+  password = '123456'
+  User.create(name: 'admin', email: string, password: password, admin: false, approved: true)
+  visit('/')
+  wait_for_page_load
+  fill_in('login_email_field', with: string)
+  fill_in('login_password_field', with: password)
+  click_button('login')
+end
+
 When('I click the {string} button') do |string|
   click_button(string)
 end
