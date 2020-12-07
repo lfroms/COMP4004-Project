@@ -25,6 +25,7 @@ export interface EnrollmentShowQuery_currentUser_enrollments {
 
 export interface EnrollmentShowQuery_currentUser {
   __typename: "User";
+  id: string;
   enrollments: EnrollmentShowQuery_currentUser_enrollments;
 }
 

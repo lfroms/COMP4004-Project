@@ -9,6 +9,7 @@
 
 export interface FrameQuery_currentUser {
   __typename: "User";
+  id: string;
   admin: boolean;
 }
 

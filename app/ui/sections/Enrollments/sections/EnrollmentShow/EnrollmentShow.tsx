@@ -15,6 +15,7 @@ interface ParamType {
 const ENROLLMENT = gql`
   query EnrollmentShowQuery($offeringId: ID!) {
     currentUser {
+      id
       enrollments(offeringId: $offeringId) {
         nodes {
           id
