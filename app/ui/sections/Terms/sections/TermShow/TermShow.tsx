@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { NavigationGroup, Page, TitleBar } from 'components';
-import { Button, Empty, Popconfirm, Table, Tag } from 'antd';
+import { Button, Descriptions, Empty, Popconfirm, Table, Tag } from 'antd';
 import { CalendarOutlined, UserAddOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 import { ColumnType } from 'antd/lib/table';
@@ -33,6 +33,7 @@ const TERMS = gql`
         id
         startDate
         endDate
+        registrationDeadline
         offerings {
           nodes {
             id
@@ -120,6 +121,11 @@ export default function TermShow() {
     </div>
   );
 
+  const currentTerm = data?.terms.nodes?.find(term => term?.id === termId);
+  const currentTermRegDeadline = new Date(currentTerm?.registrationDeadline);
+  const offerings = currentTerm?.offerings.nodes?.filter(Boolean) ?? [];
+  const today = new Date();
+
   const columns: ColumnType<TermShowQuery_terms_nodes_offerings_nodes>[] = [
     {
       title: 'Name',
@@ -141,7 +147,7 @@ export default function TermShow() {
     },
   ];
 
-  if (data?.currentUser?.canSelfEnroll) {
+  if (data?.currentUser?.canSelfEnroll && today <= currentTermRegDeadline) {
     columns.push({
       key: 'actions',
       fixed: 'right',
@@ -173,14 +179,16 @@ export default function TermShow() {
     });
   }
 
-  const currentTerm = data?.terms.nodes?.find(term => term?.id === termId);
-  const offerings = currentTerm?.offerings.nodes?.filter(Boolean) ?? [];
-
   return (
     <Page title="Course Directory" groups={groups} selectedItemId={termId}>
       {currentTerm ? (
         <>
           <TitleBar title={`${createTermName(currentTerm.startDate, currentTerm.endDate)} term`} />
+          <Descriptions>
+            <Descriptions.Item label="Registration deadline">
+              {currentTermRegDeadline.toString()}
+            </Descriptions.Item>
+          </Descriptions>
           <Table
             columns={columns}
             dataSource={offerings as TermShowQuery_terms_nodes_offerings_nodes[]}

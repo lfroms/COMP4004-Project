@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 2020_12_07_025415) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["deliverable_id"], name: "index_submissions_on_deliverable_id"
     t.index ["user_id", "deliverable_id"], name: "index_submissions_on_user_id_and_deliverable_id", unique: true
+    t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
   create_table "terms", force: :cascade do |t|
