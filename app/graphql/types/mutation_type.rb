@@ -23,5 +23,7 @@ module Types
     field :create_deliverable, mutation: Mutations::CreateDeliverable
 
     field :create_submission, mutation: Mutations::CreateSubmission
+
+    field :create_grade, mutation: Mutations::CreateGrade
   end
 end

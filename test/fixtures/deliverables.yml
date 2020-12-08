@@ -18,3 +18,10 @@ past_deliverable:
   weight: 0.05
   due_date: 2019-11-21 15:32:10
   offering: quality_assurance_section_a
+
+final_exam:
+  title: Final exam
+  description: Test your knowledge
+  weight: 0.15
+  due_date: 2020-11-21 15:32:10
+  offering: object_oriented_section_a
