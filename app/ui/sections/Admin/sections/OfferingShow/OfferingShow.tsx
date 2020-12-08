@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { Button, Descriptions } from 'antd';
+import { Button, Descriptions, Tag } from 'antd';
 import { UserAddOutlined } from '@ant-design/icons';
 import { TitleBar } from 'components';
 import { createTermName } from 'helpers';
 
 import { AssignProfessorModal } from 'sections/Admin/components';
 
-import { AdminOfferingShowQuery } from './graphql/AdminOfferingShowQuery';
+import {
+  AdminOfferingShowQuery,
+  AdminOfferingShowQuery_offering_enrollments_nodes,
+} from './graphql/AdminOfferingShowQuery';
 import * as styles from './OfferingShow.module.scss';
+import Table, { ColumnType } from 'antd/lib/table';
 
 interface ParamType {
   offeringId: string;
@@ -58,8 +62,24 @@ export default function OfferingShow() {
     return null;
   }
 
+  const enrollments = offering.enrollments?.nodes;
   const professor = offering.enrollments?.nodes?.find(enrollment => enrollment?.role == 'professor')
     ?.user.name;
+
+  const columns: ColumnType<AdminOfferingShowQuery_offering_enrollments_nodes>[] = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      render: (record: AdminOfferingShowQuery_offering_enrollments_nodes) => (
+        <p>{record?.user.name}</p>
+      ),
+    },
+    {
+      title: 'Role',
+      dataIndex: 'role',
+      render: renderRoleTag,
+    },
+  ];
 
   return (
     <>
@@ -85,6 +105,10 @@ export default function OfferingShow() {
           Assign professor
         </Button>
       )}
+      <Table
+        columns={columns}
+        dataSource={enrollments as AdminOfferingShowQuery_offering_enrollments_nodes[]}
+      />
       <AssignProfessorModal
         visible={assignProfessorModalVisible}
         offeringId={offeringId}
@@ -93,3 +117,10 @@ export default function OfferingShow() {
     </>
   );
 }
+
+const renderRoleTag = (role: string) => {
+  const label = role === 'student' ? 'Student' : 'Professor';
+  const color = role === 'student' ? 'blue' : 'green';
+
+  return <Tag color={color}>{label}</Tag>;
+};
