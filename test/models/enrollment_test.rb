@@ -78,7 +78,7 @@ class EnrollmentTest < ActiveSupport::TestCase
     enrollment1 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin2), final_grade: "D-")
     enrollment2 = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_A), user: users(:not_admin2), final_grade: "WDN")
     enrollment3 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin))
-    enrollment4 = Enrollment.new(role: 'student', offering: offerings(:just_another_course_A), user: users(:not_admin), final_grade: "F")
+    enrollment4 = Enrollment.new(role: 'student', offering: offerings(:just_another_course_A), user: users(:not_admin2), final_grade: "F")
 
     assert enrollment1.passed?
     assert_not enrollment2.passed?

@@ -1,6 +1,6 @@
 student:
   role: student
-  offering: quality_assurance_section_a
+  offering: just_another_course_A
   user: not_admin
 
 prof:
