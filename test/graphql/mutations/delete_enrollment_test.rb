@@ -84,7 +84,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
       value = result.dig('data', 'deleteEnrollment', 'enrollment')
       error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
 
@@ -109,7 +109,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
       value = result.dig('data', 'deleteEnrollment', 'enrollment')
       error_message = result.dig('data', 'deleteEnrollment', 'errors', 0, 'message')
       enrollment = Enrollment.find_by(id: enrollment_to_delete.id)

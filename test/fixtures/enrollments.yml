@@ -1,11 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 student:
   role: student
-  offering: quality_assurance_A
+  offering: quality_assurance_section_a
   user: not_admin
 
 prof:
   role: professor
-  offering: object_oriented_A
-  user: not_admin2
+  offering: object_oriented_section_a
+  user: bob

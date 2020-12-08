@@ -4,7 +4,7 @@ require 'test_helper'
 module Mutations
   class CreateDeliverableTest < ActiveSupport::TestCase
     test '#resolve creates a new deliverable and saves it to the db' do
-      offering_id = offerings(:object_oriented_A).id
+      offering_id = offerings(:object_oriented_section_a).id
 
       query = <<~EOF
         mutation CreateDeliverable {
@@ -27,7 +27,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
       id = result.dig('data', 'createDeliverable', 'deliverable', 'id')
       deliverable = Deliverable.find(id)
 
@@ -38,7 +38,7 @@ module Mutations
     end
 
     test '#resolve cannot create a deliverable if user is not offering professor' do
-      offering_id = offerings(:quality_assurance_A).id
+      offering_id = offerings(:quality_assurance_section_a).id
 
       query = <<~EOF
         mutation CreateDeliverable {

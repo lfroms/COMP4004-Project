@@ -4,7 +4,7 @@ module Mutations
   class CreateEnrollmentTest < ActiveSupport::TestCase
     test '#resolve creates a new enrollment and saves it to the database' do
       user_id = users(:not_admin).id
-      offering_id = offerings(:quality_assurance_B).id
+      offering_id = offerings(:quality_assurance_section_b).id
       query = <<~EOF
         mutation CreateEnrollment {
           createEnrollment(input: {role: "student", userId: #{user_id}, offeringId: #{offering_id}}) {
@@ -27,7 +27,7 @@ module Mutations
 
     test '#resolve does not create a new enrollment if the user is not authenticated' do
       user_id = users(:not_admin).id
-      offering_id = offerings(:quality_assurance_B).id
+      offering_id = offerings(:quality_assurance_section_b).id
       query = <<~EOF
         mutation CreateEnrollment {
           createEnrollment(input: {role: "professor", userId: #{user_id}, offerId: #{offering_id}}) {
@@ -47,8 +47,8 @@ module Mutations
     end
 
     test '#resolve does not create a new enrollment for a professor if the user is not an admin' do
-      user_id = users(:not_admin2).id
-      offering_id = offerings(:quality_assurance_B).id
+      user_id = users(:bob).id
+      offering_id = offerings(:quality_assurance_section_b).id
       query = <<~EOF
         mutation CreateEnrollment {
           createEnrollment(input: {role: "professor", userId: #{user_id}, offeringId: #{offering_id}}) {
@@ -73,7 +73,7 @@ module Mutations
 
     test '#resolve does not create an enrollment for a user if the current user is non self-enrolling and not an admin' do
       user_id = users(:not_admin).id
-      offering_id = offerings(:quality_assurance_B).id
+      offering_id = offerings(:quality_assurance_section_b).id
       query = <<~EOF
         mutation CreateEnrollment {
           createEnrollment(input: {role: "student", userId: #{user_id}, offeringId: #{offering_id}}) {
@@ -87,7 +87,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
       id = result.dig('data', 'createEnrollment', 'enrollment', 'id')
       error_message = result.dig('data', 'createEnrollment', 'errors', 0, 'message')
       enrollment = Enrollment.find_by(id: id)

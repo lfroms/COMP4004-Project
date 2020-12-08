@@ -3,8 +3,8 @@ module Mutations
   class CreateCourseTest < ActiveSupport::TestCase
     test '#resolve creates a new course and saves it to the database' do
       query = <<~EOF
-        mutation CreateCourse {
-          createCourse(input: {name: "Test Course", code: "COMP 9999"}) {
+        mutation CreateCourse($name: String!, $code: String!) {
+          createCourse(input: {name: $name, code: $code}) {
             course {
               id
               name
@@ -13,7 +13,15 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      result = CmsSchema.execute(
+        query,
+         context: { current_user: users(:admin) },
+          variables: {
+            name: 'Test Course',
+            code: 'COMP 9999',
+          }
+      ).to_h
+
       id = result.dig('data', 'createCourse', 'course', 'id')
 
       course = Course.find(id)
@@ -24,17 +32,26 @@ module Mutations
 
     test '#resolve creates a new course with prerequisites and saves it to the database' do
       query = <<~EOF
-        mutation CreateCourse {
-          createCourse(input: {name: "Test Course", code: "COMP 9999", prerequisiteIds: [#{courses(:quality_assurance).id}]}) {
+        mutation CreateCourse($name: String!, $code: String!, $prerequisiteIds: [ID!]) {
+          createCourse(input: {name: $name, code: $code, prerequisiteIds: $prerequisiteIds}) {
             course {
-              id
-              name
+                id
+                name
+              }
             }
           }
-        }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      result = CmsSchema.execute(
+        query,
+        context: { current_user: users(:admin) },
+        variables: {
+          name: 'Test Course',
+          code: 'COMP 9999',
+          prerequisiteIds: [courses(:quality_assurance).id],
+        }
+      ).to_h
+
       id = result.dig('data', 'createCourse', 'course', 'id')
 
       course = Course.find(id)
@@ -46,17 +63,17 @@ module Mutations
 
     test '#resolve does not create a new course if the user is not authenticated' do
       query = <<~EOF
-        mutation CreateCourse {
+        mutation CreateCourse($name: String!, $code: String!) {
           createCourse(input: {name: "Test Course", code: "COMP 9999"}) {
             course {
-              id
-              name
+                id
+                name
+              }
             }
           }
-        }
       EOF
 
-      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
+      result = CmsSchema.execute(query, context: {}, variables: { name: 'Test Course', code: 'COMP 9999' }).to_h
       id = result.dig('data', 'createCourse', 'course', 'id')
       course = Course.find_by(id: id)
 
@@ -65,17 +82,25 @@ module Mutations
 
     test '#resolve does not create a new course if the user is not an admin' do
       query = <<~EOF
-        mutation CreateCourse {
+        mutation CreateCourse($name: String!, $code: String!) {
           createCourse(input: {name: "Test Course", code: "COMP 9999"}) {
-            course {
-              id
-              name
+              course {
+                id
+                name
+              }
             }
           }
-        }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      result = CmsSchema.execute(
+        query,
+        context: { current_user: users(:not_admin) },
+         variables: {
+           name: 'Test Course',
+           code: 'COMP 9999',
+         }
+      ).to_h
+
       id = result.dig('data', 'createCourse', 'course', 'id')
       course = Course.find_by(id: id)
 
