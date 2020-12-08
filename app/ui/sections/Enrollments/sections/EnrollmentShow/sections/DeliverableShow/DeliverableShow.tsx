@@ -9,7 +9,7 @@ import { CheckCircleOutlined, FileAddOutlined } from '@ant-design/icons';
 import {
   DeliverableShowQuery,
   DeliverableShowQueryVariables,
-  DeliverableShowQuery_deliverable_offering_students_nodes,
+  DeliverableShowQuery_deliverable_offering_enrollments_nodes,
 } from './graphql/DeliverableShowQuery';
 
 interface ParamType {
@@ -36,8 +36,9 @@ const DELIVERABLE = gql`
       weight
       offering {
         id
-        students {
+        enrollments(role: student) {
           nodes {
+            id
             user {
               id
               name
@@ -52,28 +53,21 @@ const DELIVERABLE = gql`
 export default function DeliverableShow() {
   const { deliverableId, offeringId } = useParams<ParamType>();
   const { data } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(DELIVERABLE, {
-    variables: { offeringId: offeringId, deliverableId: deliverableId },
+    variables: { offeringId, deliverableId },
   });
 
   const currentUserRole = data?.currentUser?.enrollments.nodes?.[0]?.role;
-  const students = data?.deliverable?.offering.students.nodes;
+  const students = data?.deliverable?.offering.enrollments.nodes;
 
   // TODO: Implement their grade in the deliverable if it exists
-  const columns: ColumnType<DeliverableShowQuery_deliverable_offering_students_nodes>[] = [
+  const columns: ColumnType<DeliverableShowQuery_deliverable_offering_enrollments_nodes>[] = [
     {
       title: 'Student',
       dataIndex: 'name',
-      key: 'name',
     },
     {
       title: 'Submitted',
       dataIndex: 'submitted',
-      key: 'submitted',
-    },
-    {
-      title: 'Grade',
-      dataIndex: 'grade',
-      key: 'grade',
     },
     {
       key: 'action',
@@ -93,21 +87,33 @@ export default function DeliverableShow() {
     },
   ];
 
-  const roleSpecificMarkup =
+  const studentTableMarkup =
     currentUserRole === 'professor' ? (
       <Table
-        dataSource={students as DeliverableShowQuery_deliverable_offering_students_nodes[]}
+        dataSource={students as DeliverableShowQuery_deliverable_offering_enrollments_nodes[]}
         columns={columns}
       />
-    ) : (
-      <Button icon={<FileAddOutlined />}>Add submission</Button>
-    );
+    ) : null;
 
   const deliverable = data?.deliverable;
 
+  if (!deliverable) {
+    return null;
+  }
+
   return (
     <>
-      <TitleBar title={`Deliverable: ${deliverable?.title}`} />
+      <TitleBar
+        title={`Deliverable: ${deliverable?.title}`}
+        actions={[
+          {
+            elementId: 'new_submission',
+            icon: <FileAddOutlined />,
+            onClick: () => {},
+            text: 'Add submission',
+          },
+        ]}
+      />
       <Row gutter={16}>
         <Descriptions title="Deliverable details">
           <Descriptions.Item label="Due">
@@ -121,7 +127,7 @@ export default function DeliverableShow() {
       <Card title="Description" size="small">
         {deliverable?.description}
       </Card>
-      {roleSpecificMarkup}
+      {studentTableMarkup}
     </>
   );
 }

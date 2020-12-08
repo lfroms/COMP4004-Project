@@ -29,29 +29,29 @@ export interface DeliverableShowQuery_currentUser {
   enrollments: DeliverableShowQuery_currentUser_enrollments;
 }
 
-export interface DeliverableShowQuery_deliverable_offering_students_nodes_user {
+export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes_user {
   __typename: "User";
   id: string;
   name: string;
 }
 
-export interface DeliverableShowQuery_deliverable_offering_students_nodes {
+export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes {
   __typename: "Enrollment";
-  user: DeliverableShowQuery_deliverable_offering_students_nodes_user;
+  user: DeliverableShowQuery_deliverable_offering_enrollments_nodes_user;
 }
 
-export interface DeliverableShowQuery_deliverable_offering_students {
+export interface DeliverableShowQuery_deliverable_offering_enrollments {
   __typename: "EnrollmentConnection";
   /**
    * A list of nodes.
    */
-  nodes: (DeliverableShowQuery_deliverable_offering_students_nodes | null)[] | null;
+  nodes: (DeliverableShowQuery_deliverable_offering_enrollments_nodes | null)[] | null;
 }
 
 export interface DeliverableShowQuery_deliverable_offering {
   __typename: "Offering";
   id: string;
-  students: DeliverableShowQuery_deliverable_offering_students;
+  enrollments: DeliverableShowQuery_deliverable_offering_enrollments;
 }
 
 export interface DeliverableShowQuery_deliverable {
