@@ -55,4 +55,4 @@ Feature: Account Registration
     And I enter user email "admin@example.com"
     And I enter user password "password"
     And I click the "Register" button
-    Then I receive an error message saying "Email has already been taken"
+    Then I receive a notification error message saying "Email has already been taken"

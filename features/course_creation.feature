@@ -36,4 +36,4 @@ Feature: Course Creation
     And I enter code "COMP 4004"
     And I enter name "Software Quality Assurance"
     And I click the "Create" button
-    Then I receive an error message saying "Code has already been taken"
+    Then I receive a notification error message saying "Code has already been taken"
