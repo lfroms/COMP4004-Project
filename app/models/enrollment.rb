@@ -10,10 +10,6 @@ class Enrollment < ApplicationRecord
   belongs_to :offering
   belongs_to :user
 
-  def passed?
-    return final_grade && final_grade != "F" && final_grade != "WDN"
-  end
-
   def has_prerequisites
     return if role == 'professor'
     offering.course.prerequisites.each do |prerequisite|
@@ -26,5 +22,11 @@ class Enrollment < ApplicationRecord
         break
       end
     end
+  end
+
+  private
+
+  def passed?
+    return final_grade && final_grade != "F" && final_grade != "WDN"
   end
 end
