@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
-import { Button, Card, Descriptions, Row, Table } from 'antd';
+import { Button, Descriptions, Space, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { CheckCircleOutlined, FileAddOutlined } from '@ant-design/icons';
 import {
@@ -66,10 +66,6 @@ export default function DeliverableShow() {
       dataIndex: 'name',
     },
     {
-      title: 'Submitted',
-      dataIndex: 'submitted',
-    },
-    {
       key: 'action',
       fixed: 'right',
       align: 'right',
@@ -105,16 +101,19 @@ export default function DeliverableShow() {
     <>
       <TitleBar
         title={`Deliverable: ${deliverable?.title}`}
-        actions={[
-          {
-            elementId: 'new_submission',
-            icon: <FileAddOutlined />,
-            onClick: () => {},
-            text: 'Add submission',
-          },
-        ]}
+        actions={...currentUserRole === 'student'
+          ? [
+              {
+                elementId: 'new_submission',
+                icon: <FileAddOutlined />,
+                onClick: () => {},
+                text: 'Add submission',
+                type: 'primary',
+              },
+            ]
+          : []}
       />
-      <Row gutter={16}>
+      <Space size="large">
         <Descriptions title="Deliverable details">
           <Descriptions.Item label="Due">
             {createFriendlyDate(deliverable?.dueDate)}
@@ -122,11 +121,9 @@ export default function DeliverableShow() {
           {currentUserRole === 'student' && (
             <Descriptions.Item label="Grade">Grade</Descriptions.Item>
           )}
+          <Descriptions.Item label="Description">{deliverable?.description}</Descriptions.Item>
         </Descriptions>
-      </Row>
-      <Card title="Description" size="small">
-        {deliverable?.description}
-      </Card>
+      </Space>
       {studentTableMarkup}
     </>
   );
