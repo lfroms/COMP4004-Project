@@ -3,17 +3,24 @@ class Enrollment < ApplicationRecord
   enum role: { student: 0, professor: 1 }
   validates :role, presence: true, inclusion: { in: roles.keys }
   validates :user_id, uniqueness: { scope: :offering_id }
+  validates :final_grade, allow_nil: true, inclusion: { in: %w(A+ A A- B+ B B- C+ C C- D+ D D- F WDN)}
   validates_associated :offering
   validate :has_prerequisites
 
   belongs_to :offering
   belongs_to :user
 
+  def passed?
+    return final_grade && final_grade != "F" && final_grade != "WDN"
+  end
+
   def has_prerequisites
     return if role == 'professor'
-    courses_taken = user.enrollments.map { |enrollment| enrollment.offering.course.code}
     offering.course.prerequisites.each do |prerequisite|
-      unless courses_taken.include? prerequisite.code
+      prev_enrollment = user.enrollments.find do |enrollment|
+        enrollment.offering.course.code == prerequisite.code
+      end
+      unless prev_enrollment && prev_enrollment.passed?
         errors.add(:base, 'You do not have the required prerequisites.')
         break
       end

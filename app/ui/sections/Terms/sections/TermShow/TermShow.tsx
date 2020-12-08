@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { NavigationGroup, Page, TitleBar } from 'components';
-import { Button, Descriptions, Empty, Popconfirm, Table, Tag } from 'antd';
+import { Button, Descriptions, Empty, Popconfirm, Table, Tag, message } from 'antd';
 import { CalendarOutlined, UserAddOutlined } from '@ant-design/icons';
 import { createTermName } from 'helpers';
 import { ColumnType } from 'antd/lib/table';
@@ -64,6 +64,9 @@ const CREATE_ENROLLMENT = gql`
       enrollment {
         id
       }
+      errors {
+        message
+      }
     }
   }
 `;
@@ -77,13 +80,16 @@ export default function TermShow() {
   const [createEnrollment, { loading: enrollLoading }] = useMutation<
     TermShowEnrollmentCreationMutation,
     TermShowEnrollmentCreationMutationVariables
-  >(CREATE_ENROLLMENT, {
-    refetchQueries: ['TermShowQuery'],
-  });
+  >(CREATE_ENROLLMENT);
 
-  const handleConfirmEnrollment = (userId?: string, offeringId?: string) => () => {
+  const handleConfirmEnrollment = async (userId?: string, offeringId?: string) => {
     if (userId && offeringId) {
-      createEnrollment({ variables: { userId, offeringId } });
+      const { data } = await createEnrollment({
+        variables: { userId, offeringId },
+        refetchQueries: ['TermShowQuery'],
+        awaitRefetchQueries: true,
+      });
+      data?.createEnrollment?.errors.forEach(error => message.error(error.message));
     }
   };
 
@@ -166,7 +172,7 @@ export default function TermShow() {
             <Popconfirm
               title="Are you sure you want to enroll in this course?"
               placement="rightBottom"
-              onConfirm={handleConfirmEnrollment(data?.currentUser?.id, record.id)}
+              onConfirm={() => handleConfirmEnrollment(data?.currentUser?.id, record.id)}
               okText="Confirm"
               cancelText="Cancel"
               okButtonProps={{ loading: enrollLoading }}
