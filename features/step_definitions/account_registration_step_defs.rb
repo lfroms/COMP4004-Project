@@ -14,15 +14,15 @@ When('I enter user name {string}') do |string|
   fill_in('user_name_field', with: string)
 end
 
-And('I enter user email {string}') do |string|
+When('I enter user email {string}') do |string|
   fill_in('user_email_field', with: string)
 end
 
-And('I enter user password {string}') do |string|
+When('I enter user password {string}') do |string|
   fill_in('user_password_field', with: string)
 end
 
-And('I click the register button') do
+When('I click the register button') do
   button = find('#register_button')
   button.click
 end
