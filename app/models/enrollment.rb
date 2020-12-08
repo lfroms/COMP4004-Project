@@ -3,7 +3,7 @@ class Enrollment < ApplicationRecord
   enum role: { student: 0, professor: 1 }
   validates :role, presence: true, inclusion: { in: roles.keys }
   validates :user_id, uniqueness: { scope: :offering_id }
-  validates :final_grade, allow_nil: true, inclusion: { in: %w(A+ A A- B+ B B- C+ C C- D+ D D- F WDN)}
+  validates :final_grade, allow_nil: true, inclusion: { in: %w(A+ A A- B+ B B- C+ C C- D+ D D- F WDN) }
   validates_associated :offering
   validate :has_prerequisites
 
@@ -27,6 +27,6 @@ class Enrollment < ApplicationRecord
   private
 
   def passed?
-    return final_grade && final_grade != "F" && final_grade != "WDN"
+    final_grade && final_grade != 'F' && final_grade != 'WDN'
   end
 end
