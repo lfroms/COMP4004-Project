@@ -4,7 +4,7 @@ Feature: Professor Assignment
   So that they create and submit deliverables
 
   Scenario: An administrator assigns a professor to an offering
-    Given that I am logged in as an administrator
+    Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" name "John Smith"
     And there exists a course offering for course with code "COMP 4004" section "A"
     When I view show page for the offering

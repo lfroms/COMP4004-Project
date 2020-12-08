@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given('that I am on the registration page') do
-  wait_for_page_load
   visit('/registration')
-  wait_for_page_load
 end
 
 Given('there exists a user with email {string}') do |string|

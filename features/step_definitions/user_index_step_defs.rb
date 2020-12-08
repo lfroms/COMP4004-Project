@@ -6,9 +6,7 @@ Given('there exists a user with email {string} and approved status {string}') do
 end
 
 Given('I am on the user index') do
-  wait_for_page_load
   visit('/admin/users')
-  wait_for_page_load
 end
 
 When('I click the approve button for the user') do

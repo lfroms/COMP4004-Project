@@ -16,21 +16,21 @@ Feature: Account Registration
     When I enter user email "myemail@email.com"
     And I enter user password "123456"
     And I click the "Register" button
-    Then I receive an error message saying "You must enter a name"
+    Then I receive a message saying "You must enter a name"
 
   Scenario: A user leaves email field blank
     Given that I am on the registration page
     When I enter user name "John Smith"
     And I enter user password "123456"
     And I click the "Register" button
-    Then I receive an error message saying "You must enter an email"
+    Then I receive a message saying "You must enter an email"
 
   Scenario: A user leaves password field blank
     Given that I am on the registration page
     When I enter user name "John Smith"
     And I enter user email "myemail@email.com"
     And I click the "Register" button
-    Then I receive an error message saying "You must enter a password"
+    Then I receive a message saying "You must enter a password"
 
   Scenario: A user enters an invalid email
     Given that I am on the registration page
@@ -38,7 +38,7 @@ Feature: Account Registration
     And I enter user email "email"
     And I enter user password "password"
     And I click the "Register" button
-    Then I receive an error message saying "Email must have the form x@x.x"
+    Then I receive a message saying "Email must have the form x@x.x"
 
   Scenario: A user an enters invalid password
     Given that I am on the registration page
@@ -46,7 +46,7 @@ Feature: Account Registration
     And I enter user email "myemail@email.com"
     And I enter user password "123"
     And I click the "Register" button
-    Then I receive an error message saying "Password must be at least 6 characters"
+    Then I receive a message saying "Password must be at least 6 characters"
 
   Scenario: A user enters an email that is taken
     Given that I am on the registration page

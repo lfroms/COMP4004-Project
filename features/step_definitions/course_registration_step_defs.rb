@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given('I am viewing the list of offered courses for term {string}') do |_string|
-  wait_for_page_load
   visit("terms/#{@term.id}/courses")
-  wait_for_page_load
 end
 
 When('I click the enroll button') do

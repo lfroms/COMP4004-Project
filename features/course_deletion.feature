@@ -4,7 +4,7 @@ Feature: Course Deletion
   So that students can no longer enroll in them
 
   Scenario: An administrator deletes a course
-    Given that I am logged in as an administrator
+    Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"
     And I am on the course index
     When I click the delete course button
@@ -12,7 +12,7 @@ Feature: Course Deletion
     Then there no longer exists a course with code "COMP 4004"
 
   Scenario: An administrator cancels deletion of a course
-    Given that I am logged in as an administrator
+    Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"
     And I am on the course index
     When I click the delete course button
