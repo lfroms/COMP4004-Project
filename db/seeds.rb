@@ -75,10 +75,11 @@ Offering.all.each do |offering|
   end
 end
 
-
 self_enrolling_group.users.each do |user|
   Offering.all.sample(5).each do |offering|
-    Enrollment.create!(offering: offering, user: user, role: 'student')
+    if offering.course.prerequisites.empty?
+      Enrollment.create!(offering: offering, user: user, role: 'student')
+    end
   end
 end
 
