@@ -21,6 +21,13 @@ module Mutations
         }
       end
 
+      if Time.zone.today > deliverable.due_date
+        return {
+          submission: nil,
+          errors: Types::UserError.from("Due date for '#{deliverable.title}' has passed."),
+        }
+      end
+
       submission = Submission.new(
         deliverable: deliverable,
         attachment_url: attachment_url,

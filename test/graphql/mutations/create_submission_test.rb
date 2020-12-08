@@ -107,5 +107,34 @@ module Mutations
 
       assert_nil submission
     end
+
+    test '#resolve does not create a submission if the due date of the deliverable has passed' do
+      deliverable = deliverables(:outdated_deliverable)
+
+      query = <<~EOF
+        mutation CreateSubmission {
+          createSubmission(input:
+            {
+              attachmentUrl: "https://example.com/doc.pdf",
+              deliverableId: "#{deliverable.id}",
+            }) {
+            submission {
+              id
+              attachmentUrl
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      submission = result.dig('data', 'createSubmission', 'submission')
+      error_message = result.dig('data', 'createSubmission', 'errors', 0, 'message')
+
+      assert_nil submission
+      assert_equal "Due date for '#{deliverable.title}' has passed.", error_message
+    end
   end
 end
