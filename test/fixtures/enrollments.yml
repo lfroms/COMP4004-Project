@@ -7,3 +7,8 @@ prof:
   role: professor
   offering: object_oriented_section_a
   user: bob
+
+student_in_object_oriented_section_a:
+  role: student
+  offering: object_oriented_section_a
+  user: not_admin
