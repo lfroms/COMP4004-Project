@@ -17,10 +17,11 @@ class Enrollment < ApplicationRecord
   def has_prerequisites
     return if role == 'professor'
     offering.course.prerequisites.each do |prerequisite|
-      prev_enrollment = user.enrollments.find do |enrollment|
-        enrollment.offering.course.code == prerequisite.code
+      earned_prereq = user.enrollments.any? do |enrollment|
+        enrollment.offering.course.code == prerequisite.code &&
+        enrollment.passed?
       end
-      unless prev_enrollment && prev_enrollment.passed?
+      unless earned_prereq
         errors.add(:base, 'You do not have the required prerequisites.')
         break
       end
