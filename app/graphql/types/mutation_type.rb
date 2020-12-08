@@ -9,6 +9,7 @@ module Types
     field :register_user, mutation: Mutations::RegisterUser
 
     field :create_group, mutation: Mutations::CreateGroup
+    field :update_group, mutation: Mutations::UpdateGroup
 
     field :create_course, mutation: Mutations::CreateCourse
     field :update_course, mutation: Mutations::UpdateCourse
