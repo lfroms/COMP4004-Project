@@ -44,7 +44,7 @@ computer_music_course = Course.create!(name: 'Computer Music Projects', code: 'M
 quality_assurance_course.prerequisites << object_oriented_course
 natural_disasters_course.prerequisites << evolution_earth_course
 
-Offering.create!(section: 'A', capacity: 100, course: quality_assurance_course, term: term_one)
+quality_assurance_offering = Offering.create!(section: 'A', capacity: 100, course: quality_assurance_course, term: term_one)
 Offering.create!(section: 'A', capacity: 150, course: quality_assurance_course, term: term_two)
 Offering.create!(section: 'B', capacity: 220, course: quality_assurance_course, term: term_two)
 
@@ -78,13 +78,13 @@ end
 self_enrolling_group.users.each do |user|
   Offering.all.sample(5).each do |offering|
     if offering.course.prerequisites.empty?
-      Enrollment.create!(offering: offering, user: user, role: 'student')
+      Enrollment.create(offering: offering, user: user, role: 'student')
     end
   end
 end
 
 Offering.all.sample(5).each do |offering|
-  Enrollment.create!(offering: offering, user: admin, role: [true, false].sample ? 'professor' : 'student')
+  Enrollment.create(offering: offering, user: admin, role: 'professor')
 end
 
 self_enrolling_group.users.each do |user|

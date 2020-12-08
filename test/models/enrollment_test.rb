@@ -3,17 +3,13 @@ require 'test_helper'
 
 class EnrollmentTest < ActiveSupport::TestCase
   test 'enrollment can be created with valid role, user, and offering' do
-    enrollment = Enrollment.new(
-      role: 'student',
-       offering: offerings(:quality_assurance_section_b),
-       user: users(:not_admin)
-    )
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a), user: users(:not_admin))
 
     assert enrollment.valid?
   end
 
   test 'enrollment cannot be created if role is missing' do
-    enrollment = Enrollment.new(offering: offerings(:quality_assurance_section_a), user: users(:not_admin))
+    enrollment = Enrollment.new(offering: offerings(:object_oriented_section_a), user: users(:not_admin))
 
     assert_not enrollment.valid?
   end
@@ -25,14 +21,14 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment cannot be created if user is missing' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_section_a))
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a))
 
     assert_not enrollment.valid?
   end
 
   test 'enrollment cannot be created if role is not valid' do
     assert_raises ArgumentError do
-      Enrollment.new(role: 'guest', offering: offerings(:quality_assurance_section_a), user: users(:not_admin))
+      Enrollment.new(role: 'guest', offering: offerings(:object_oriented_section_a), user: users(:not_admin))
     end
   end
 
@@ -43,7 +39,7 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment cannot be created if user does not exist' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_section_a), user_id: 0)
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a), user_id: User.last.id + 1)
 
     assert_not enrollment.valid?
   end
@@ -64,5 +60,29 @@ class EnrollmentTest < ActiveSupport::TestCase
 
     assert_not enrollment1.valid?
     assert_not enrollment2.valid?
+  end
+
+  test 'enrollment can be updated with a valid grade' do
+    enrollment = Enrollment.create(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin))
+    enrollment.update(final_grade: "A")
+    assert enrollment.valid?
+  end
+
+  test 'enrollment cannot be created with an invalid grade' do
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin))
+    enrollment.update(final_grade: "E")
+    assert_not enrollment.valid?
+  end
+
+  test 'enrollment can identify a passing grade' do
+    enrollment1 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin2), final_grade: "D-")
+    enrollment2 = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_A), user: users(:not_admin2), final_grade: "WDN")
+    enrollment3 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_A), user: users(:not_admin))
+    enrollment4 = Enrollment.new(role: 'student', offering: offerings(:just_another_course_A), user: users(:not_admin), final_grade: "F")
+
+    assert enrollment1.passed?
+    assert_not enrollment2.passed?
+    assert_not enrollment3.passed?
+    assert_not enrollment4.passed?
   end
 end
