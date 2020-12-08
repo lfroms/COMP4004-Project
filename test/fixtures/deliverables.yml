@@ -2,12 +2,19 @@ first_deliverable:
   title: Assignment 1
   description: Pirates game with JUnit
   weight: 0.15
-  due_date: 2020-11-21 15:32:10
+  due_date: 2021-11-21 15:32:10
   offering: quality_assurance_A
 
 second_deliverable:
   title: Assignment 2
   description: Pirates game with Cucumber
   weight: 0.15
-  due_date: 2020-11-21 15:32:10
+  due_date: 2021-11-21 15:32:10
+  offering: quality_assurance_A
+
+outdated_deliverable:
+  title: Syllabus quiz
+  description: Quiz on the course syllabus
+  weight: 0.05
+  due_date: 2019-11-21 15:32:10
   offering: quality_assurance_A
