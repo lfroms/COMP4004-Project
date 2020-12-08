@@ -83,7 +83,9 @@ export default function TermShow() {
   >(CREATE_ENROLLMENT);
 
   const handleConfirmEnrollment = async (userId?: string, offeringId?: string) => {
-    if (userId && offeringId) {
+    if (!userId || !offeringId) {
+      return;
+    }
       const { data } = await createEnrollment({
         variables: { userId, offeringId },
         refetchQueries: ['TermShowQuery'],
