@@ -73,7 +73,8 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           DISABLE_SPRING: 1
         run: |
-          bundle exec rails db:setup
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
           bundle exec rails test
 
       - name: Lint source code
