@@ -72,7 +72,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
 
       assert_nil results.dig('data', 'enrollment')
     end

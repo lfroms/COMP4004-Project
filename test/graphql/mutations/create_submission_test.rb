@@ -4,7 +4,7 @@ require 'test_helper'
 module Mutations
   class CreateSubmissionTest < ActiveSupport::TestCase
     test '#resolve creates a new submission' do
-      deliverable = deliverables(:first_deliverable)
+      deliverable = deliverables(:pirates_junit)
 
       query = <<~EOF
         mutation CreateSubmission {
@@ -29,7 +29,7 @@ module Mutations
     end
 
     test '#resolve does not create a submission if the user is not enrolled in the course' do
-      deliverable = deliverables(:first_deliverable)
+      deliverable = deliverables(:pirates_junit)
 
       query = <<~EOF
         mutation CreateSubmission {
@@ -49,7 +49,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
       submission = result.dig('data', 'createSubmission', 'submission')
       error_message = result.dig('data', 'createSubmission', 'errors', 0, 'message')
 
@@ -85,7 +85,7 @@ module Mutations
     end
 
     test '#resolve does not create a submission if the user is not authenticated' do
-      deliverable = deliverables(:first_deliverable)
+      deliverable = deliverables(:pirates_junit)
 
       query = <<~EOF
         mutation CreateSubmission {
@@ -109,7 +109,7 @@ module Mutations
     end
 
     test '#resolve does not create a submission if the due date of the deliverable has passed' do
-      deliverable = deliverables(:outdated_deliverable)
+      deliverable = deliverables(:past_deliverable)
 
       query = <<~EOF
         mutation CreateSubmission {

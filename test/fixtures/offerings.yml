@@ -1,19 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-quality_assurance_A:
+quality_assurance_section_a:
   section: A
   course: quality_assurance
-  term: one
+  term: fall
   capacity: 100
 
-quality_assurance_B:
+quality_assurance_section_b:
   section: B
   course: quality_assurance
-  term: one
+  term: fall
   capacity: 150
 
-object_oriented_A:
+object_oriented_section_a:
   section: A
   course: object_oriented
-  term: one
+  term: fall
   capacity: 200

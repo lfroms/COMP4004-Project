@@ -1,9 +1,9 @@
 grade_one:
   value: 0.8
   comment: Some comment
-  submission: assignment_submission_one
+  submission: pirates_junit_submission
 
 grade_two:
   value: 0.9
   comment: Other comment
-  submission: assignment_submission_two
+  submission: pirates_cucumber_submission

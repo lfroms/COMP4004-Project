@@ -4,7 +4,7 @@ module Mutations
   class CreateOfferingTest < ActiveSupport::TestCase
     test '#resolve creates a new offering and saves it to the database' do
       course_id = courses(:quality_assurance).id
-      term_id = terms(:one).id
+      term_id = terms(:fall).id
       query = <<~EOF
         mutation CreateOffering {
           createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {
@@ -24,12 +24,12 @@ module Mutations
       assert_equal 'C', offering.section
       assert_equal 100, offering.capacity
       assert_equal courses(:quality_assurance).code, offering.course.code
-      assert_equal terms(:one).start_date, offering.term.start_date
+      assert_equal terms(:fall).start_date, offering.term.start_date
     end
 
     test '#resolve does not create a new offering if the user is not authenticated' do
       course_id = courses(:quality_assurance).id
-      term_id = terms(:one).id
+      term_id = terms(:fall).id
       query = <<~EOF
         mutation CreateOffering {
           createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {
@@ -50,7 +50,7 @@ module Mutations
 
     test '#resolve does not create a new course if the user is not an admin' do
       course_id = courses(:quality_assurance).id
-      term_id = terms(:one).id
+      term_id = terms(:fall).id
       query = <<~EOF
         mutation CreateOffering {
           createOffering(input: {section: "C", capacity: 100, courseId: #{course_id}, termId: #{term_id}}) {

@@ -1,9 +1,9 @@
-assignment_submission_one:
+pirates_junit_submission:
   user: admin
   attachment_url: http://example.com/file.pdf
-  deliverable: first_deliverable
+  deliverable: pirates_junit
 
-assignment_submission_two:
-  user: not_admin2
+pirates_cucumber_submission:
+  user: bob
   attachment_url: http://example.com/file.pdf
-  deliverable: second_deliverable
+  deliverable: pirates_cucumber

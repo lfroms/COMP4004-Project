@@ -4,7 +4,7 @@ require 'test_helper'
 module Resolvers
   class SpecificOfferingTest < ActiveSupport::TestCase
     test '#resolve returns specified offering' do
-      offering_id = offerings(:quality_assurance_A).id
+      offering_id = offerings(:quality_assurance_section_a).id
       query = <<~EOF
         query Offering {
           offering(id: #{offering_id}) {
@@ -18,12 +18,12 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       offering = results.dig('data', 'offering')
-      assert_equal offerings(:quality_assurance_A).section, offering['section']
-      assert_equal offerings(:quality_assurance_A).course.code, offering.dig('course', 'code')
+      assert_equal offerings(:quality_assurance_section_a).section, offering['section']
+      assert_equal offerings(:quality_assurance_section_a).course.code, offering.dig('course', 'code')
     end
 
     test '#resolve returns specified offering to admins even if they are not enrolled' do
-      offering_id = offerings(:quality_assurance_A).id
+      offering_id = offerings(:quality_assurance_section_a).id
       query = <<~EOF
         query Offering {
           offering(id: #{offering_id}) {
@@ -37,8 +37,8 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       offering = results.dig('data', 'offering')
-      assert_equal offerings(:quality_assurance_A).section, offering['section']
-      assert_equal offerings(:quality_assurance_A).course.code, offering.dig('course', 'code')
+      assert_equal offerings(:quality_assurance_section_a).section, offering['section']
+      assert_equal offerings(:quality_assurance_section_a).course.code, offering.dig('course', 'code')
     end
 
     test '#resolve returns nil when specified offering does not exist' do
@@ -60,7 +60,7 @@ module Resolvers
     end
 
     test '#resolve returns nil if the user is not authenticated' do
-      offering_id = offerings(:quality_assurance_A).id
+      offering_id = offerings(:quality_assurance_section_a).id
       query = <<~EOF
         query Offering {
           offering(id: #{offering_id}) {
@@ -78,7 +78,7 @@ module Resolvers
     end
 
     test '#resolve returns nil if the user is not enrolled in the offering' do
-      offering_id = offerings(:quality_assurance_A).id
+      offering_id = offerings(:quality_assurance_section_a).id
       query = <<~EOF
         query Offering {
           offering(id: #{offering_id}) {
@@ -90,7 +90,7 @@ module Resolvers
         }
       EOF
 
-      results = CmsSchema.execute(query, context: { current_user: users(:not_admin2) }, variables: {}).to_h
+      results = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: {}).to_h
 
       assert_nil results.dig('data', 'offering')
     end

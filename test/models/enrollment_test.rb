@@ -3,13 +3,17 @@ require 'test_helper'
 
 class EnrollmentTest < ActiveSupport::TestCase
   test 'enrollment can be created with valid role, user, and offering' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_B), user: users(:not_admin))
+    enrollment = Enrollment.new(
+      role: 'student',
+       offering: offerings(:quality_assurance_section_b),
+       user: users(:not_admin)
+    )
 
     assert enrollment.valid?
   end
 
   test 'enrollment cannot be created if role is missing' do
-    enrollment = Enrollment.new(offering: offerings(:quality_assurance_A), user: users(:not_admin))
+    enrollment = Enrollment.new(offering: offerings(:quality_assurance_section_a), user: users(:not_admin))
 
     assert_not enrollment.valid?
   end
@@ -21,14 +25,14 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment cannot be created if user is missing' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_A))
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_section_a))
 
     assert_not enrollment.valid?
   end
 
   test 'enrollment cannot be created if role is not valid' do
     assert_raises ArgumentError do
-      Enrollment.new(role: 'guest', offering: offerings(:quality_assurance_A), user: users(:not_admin))
+      Enrollment.new(role: 'guest', offering: offerings(:quality_assurance_section_a), user: users(:not_admin))
     end
   end
 
@@ -39,16 +43,16 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment cannot be created if user does not exist' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_A), user_id: User.last.id + 1)
+    enrollment = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_section_a), user_id: 0)
 
     assert_not enrollment.valid?
   end
 
   test 'enrollment cannot be created if offering is at maximum capacity' do
-    offering = Offering.create(section: 'C', course: courses(:quality_assurance), term: terms(:one), capacity: 1)
+    offering = Offering.create(section: 'C', course: courses(:quality_assurance), term: terms(:fall), capacity: 1)
 
     Enrollment.create(role: 'student', offering: offering, user: users(:not_admin))
-    enrollment = Enrollment.new(role: 'student', offering: offering, user: users(:not_admin2))
+    enrollment = Enrollment.new(role: 'student', offering: offering, user: users(:bob))
 
     assert_not enrollment.valid?
   end

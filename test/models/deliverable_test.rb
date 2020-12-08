@@ -8,7 +8,7 @@ class DeliverableTest < ActiveSupport::TestCase
       description: 'Description',
       weight: 0.5,
       due_date: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert deliverable.valid?
@@ -19,7 +19,7 @@ class DeliverableTest < ActiveSupport::TestCase
       description: 'Description',
       weight: 0.5,
       due_date: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert_not deliverable.valid?
@@ -30,7 +30,7 @@ class DeliverableTest < ActiveSupport::TestCase
       description: 'Description',
       weight: 0.5,
       due_date: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert_not deliverable.valid?
@@ -41,7 +41,7 @@ class DeliverableTest < ActiveSupport::TestCase
       title: 'My Deliverable',
       description: 'Description',
       due_date: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert_not deliverable.valid?
@@ -52,7 +52,7 @@ class DeliverableTest < ActiveSupport::TestCase
       title: 'My Deliverable',
       description: 'Description',
       weight: 0.5,
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert_not deliverable.valid?
@@ -75,7 +75,7 @@ class DeliverableTest < ActiveSupport::TestCase
       description: 'Description',
       weight: 5,
       due_date: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      offering: offerings(:quality_assurance_A)
+      offering: offerings(:quality_assurance_section_a)
     )
 
     assert_not deliverable.valid?
