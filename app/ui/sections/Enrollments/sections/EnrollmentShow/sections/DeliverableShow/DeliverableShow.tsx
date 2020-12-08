@@ -1,55 +1,47 @@
 import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { EnrollmentsDeliverableQuery } from './graphql/EnrollmentsDeliverableQuery';
 import { TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
-import { Button, Card, Col, Row, Statistic, Table } from 'antd';
+import { Button, Card, Descriptions, Row, Table } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { CheckCircleOutlined, FileAddOutlined } from '@ant-design/icons';
-import { EnrollmentsUserRoleQuery } from './graphql/EnrollmentsUserRoleQuery';
 import {
-  EnrollmentsOfferingEnrollmentsQuery,
-  EnrollmentsOfferingEnrollmentsQuery_offering_enrollments_nodes,
-} from './graphql/EnrollmentsOfferingEnrollmentsQuery';
+  DeliverableShowQuery,
+  DeliverableShowQueryVariables,
+  DeliverableShowQuery_deliverable_offering_students_nodes,
+} from './graphql/DeliverableShowQuery';
 
 interface ParamType {
   offeringId: string;
   deliverableId: string;
 }
 
-const SINGLE_DELIVERABLE = gql`
-  query EnrollmentsDeliverableQuery($id: ID!) {
-    deliverable(id: $id) {
-      title
-      description
-      dueDate
-      weight
-    }
-  }
-`;
-
-const USER_ROLE = gql`
-  query EnrollmentsUserRoleQuery($offeringId: ID) {
+const DELIVERABLE = gql`
+  query DeliverableShowQuery($offeringId: ID!, $deliverableId: ID!) {
     currentUser {
+      id
       enrollments(offeringId: $offeringId) {
         nodes {
+          id
           role
         }
       }
     }
-  }
-`;
-
-const OFFERING_ENROLLMENTS = gql`
-  query EnrollmentsOfferingEnrollmentsQuery($offeringId: ID!) {
-    offering(id: $offeringId) {
-      enrollments {
-        nodes {
-          role
-          user {
-            id
-            name
+    deliverable(id: $deliverableId) {
+      id
+      title
+      description
+      dueDate
+      weight
+      offering {
+        id
+        students {
+          nodes {
+            user {
+              id
+              name
+            }
           }
         }
       }
@@ -59,38 +51,19 @@ const OFFERING_ENROLLMENTS = gql`
 
 export default function DeliverableShow() {
   const { deliverableId, offeringId } = useParams<ParamType>();
-  const { data } = useQuery<EnrollmentsDeliverableQuery>(SINGLE_DELIVERABLE, {
-    variables: { id: deliverableId },
-  });
-  const { data: roleData } = useQuery<EnrollmentsUserRoleQuery>(USER_ROLE, {
-    variables: { offeringId: offeringId },
-  });
-  const { data: enrollmentsData } = useQuery<EnrollmentsOfferingEnrollmentsQuery>(
-    OFFERING_ENROLLMENTS,
-    {
-      variables: { offeringId: offeringId },
-    }
-  );
-
-  const role = roleData?.currentUser?.enrollments.nodes?.[0]?.role;
-
-  const students = enrollmentsData?.offering?.enrollments?.nodes?.filter(
-    enrollment => enrollment?.role === 'student'
-  );
-
-  const studentEnrollments = students?.map(student => {
-    return {
-      student: student?.user.name,
-      submitted: false,
-      grade: 0,
-    };
+  const { data } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(DELIVERABLE, {
+    variables: { offeringId: offeringId, deliverableId: deliverableId },
   });
 
-  const columns: ColumnType<EnrollmentsOfferingEnrollmentsQuery_offering_enrollments_nodes>[] = [
+  const currentUserRole = data?.currentUser?.enrollments.nodes?.[0]?.role;
+  const students = data?.deliverable?.offering.students.nodes;
+
+  // TODO: Implement their grade in the deliverable if it exists
+  const columns: ColumnType<DeliverableShowQuery_deliverable_offering_students_nodes>[] = [
     {
       title: 'Student',
-      dataIndex: 'student',
-      key: 'student',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
       title: 'Submitted',
@@ -121,8 +94,11 @@ export default function DeliverableShow() {
   ];
 
   const roleSpecificMarkup =
-    role === 'professor' ? (
-      <Table dataSource={studentEnrollments} columns={columns} />
+    currentUserRole === 'professor' ? (
+      <Table
+        dataSource={students as DeliverableShowQuery_deliverable_offering_students_nodes[]}
+        columns={columns}
+      />
     ) : (
       <Button icon={<FileAddOutlined />}>Add submission</Button>
     );
@@ -133,14 +109,14 @@ export default function DeliverableShow() {
     <>
       <TitleBar title={`Deliverable: ${deliverable?.title}`} />
       <Row gutter={16}>
-        <Col span={12}>
-          <Statistic title="Due" value={createFriendlyDate(deliverable?.dueDate)} />
-        </Col>
-        {role === 'student' && (
-          <Col span={12}>
-            <Statistic title="Grade" value="grade" suffix="/ 100" />
-          </Col>
-        )}
+        <Descriptions title="Deliverable details">
+          <Descriptions.Item label="Due">
+            {createFriendlyDate(deliverable?.dueDate)}
+          </Descriptions.Item>
+          {currentUserRole === 'student' && (
+            <Descriptions.Item label="Grade">Grade</Descriptions.Item>
+          )}
+        </Descriptions>
       </Row>
       <Card title="Description" size="small">
         {deliverable?.description}

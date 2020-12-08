@@ -10,6 +10,16 @@ module Types
     field :full, Boolean, null: false
     field :deliverables, Types::DeliverableType.connection_type, null: false
 
+    field :students, Types::EnrollmentType.connection_type, null: false do
+      argument :role, Types::EnrollmentRoleType, required: false
+    end
+
+    def students(args = nil)
+      return object.enrollments unless args
+
+      object.enrollments.where(args)
+    end
+
     def full
       object.full?
     end
