@@ -37,6 +37,7 @@ export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes_use
 
 export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes {
   __typename: "Enrollment";
+  id: string;
   user: DeliverableShowQuery_deliverable_offering_enrollments_nodes_user;
 }
 
