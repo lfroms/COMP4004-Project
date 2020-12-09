@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given('I am on the course index') do
-  wait_for_page_load
   visit('/admin/courses')
-  wait_for_page_load
 end
 
 Given('there exists a course with code {string}') do |string|

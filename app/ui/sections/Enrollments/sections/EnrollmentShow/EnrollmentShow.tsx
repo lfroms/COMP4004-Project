@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
 import { CheckCircleOutlined, DashboardOutlined, TeamOutlined } from '@ant-design/icons';
 import { Route, Switch, useHistory, useLocation, useParams } from 'react-router-dom';
-import { Dashboard, ParticipantIndex } from './sections';
+import { Dashboard, DeliverableShow, GradeIndex, ParticipantIndex } from './sections';
 import { createTermName } from 'helpers';
 
 import { EnrollmentShowQuery, EnrollmentShowQueryVariables } from './graphql/EnrollmentShowQuery';
@@ -105,6 +105,11 @@ export default function EnrollmentShow() {
       <Switch>
         <Route exact path="/courses/:offeringId" component={Dashboard} />
         <Route exact path="/courses/:offeringId/participants" component={ParticipantIndex} />
+        <Route
+          path="/courses/:offeringId/deliverables/:deliverableId"
+          component={DeliverableShow}
+        />
+        <Route exact path="/courses/:offeringId/grades" component={GradeIndex} />
       </Switch>
     </Page>
   );

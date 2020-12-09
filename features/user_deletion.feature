@@ -4,7 +4,7 @@ Feature: User Deletion
   So that they can no longer access the system
 
   Scenario: An administrator deletes a user
-    Given that I am logged in as an administrator
+    Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com"
     And I am viewing the details of the user with email "myemail@email.com"
     When I select the option to delete
@@ -13,7 +13,7 @@ Feature: User Deletion
     And I am viewing the list of users
 
   Scenario: An administrator cancels deletion of a user
-    Given that I am logged in as an administrator
+    Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com"
     And I am viewing the details of the user with email "myemail@email.com"
     When I select the option to delete
