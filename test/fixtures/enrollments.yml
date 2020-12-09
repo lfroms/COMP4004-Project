@@ -1,5 +1,15 @@
 student:
   role: student
+  offering: just_another_course_A
+  user: not_admin
+
+object_oriented_student:
+  role: student
+  offering: object_oriented_section_a
+  user: not_admin
+
+quality_assurance_student:
+  role: student
   offering: quality_assurance_section_a
   user: not_admin
 
@@ -8,7 +18,3 @@ prof:
   offering: object_oriented_section_a
   user: bob
 
-student_in_object_oriented_section_a:
-  role: student
-  offering: object_oriented_section_a
-  user: not_admin

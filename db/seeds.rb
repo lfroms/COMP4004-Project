@@ -40,9 +40,13 @@ popular_music_course = Course.create!(name: 'Issues in Popular Music', code: 'MU
 evolution_earth_course = Course.create!(name: 'Evolution of the Earth', code: 'ERTH 1011')
 natural_disasters_course = Course.create!(name: 'Natural Disasters', code: 'ERTH 2415')
 computer_music_course = Course.create!(name: 'Computer Music Projects', code: 'MUSI 3604')
+film_course = Course.create!(name: 'Intro to Film', code: 'FILM 1001')
+first_psych_course = Course.create!(name: 'Intro to Psychology', code: 'PYSC 1001')
+second_psych_course = Course.create!(name: 'More Psychology', code: 'PSYC 2001')
 
 quality_assurance_course.prerequisites << object_oriented_course
 natural_disasters_course.prerequisites << evolution_earth_course
+second_psych_course.prerequisites << first_psych_course
 
 Offering.create!(section: 'A', capacity: 100, course: quality_assurance_course, term: term_one)
 Offering.create!(section: 'A', capacity: 150, course: quality_assurance_course, term: term_two)
@@ -75,15 +79,16 @@ Offering.all.each do |offering|
   end
 end
 
-
 self_enrolling_group.users.each do |user|
   Offering.all.sample(5).each do |offering|
-    Enrollment.create!(offering: offering, user: user, role: 'student')
+    if offering.course.prerequisites.empty?
+      Enrollment.create(offering: offering, user: user, role: 'student')
+    end
   end
 end
 
 Offering.all.sample(5).each do |offering|
-  Enrollment.create!(offering: offering, user: admin, role: [true, false].sample ? 'professor' : 'student')
+  Enrollment.create(offering: offering, user: admin, role: 'professor')
 end
 
 self_enrolling_group.users.each do |user|
@@ -93,3 +98,9 @@ self_enrolling_group.users.each do |user|
     end
   end
 end
+
+low_capacity_offering = Offering.create!(section: 'A', capacity: 1, course: film_course, term: term_two)
+prerequisite_offering = Offering.create!(section: 'A', capacity: 200, course: first_psych_course, term: term_one)
+course_with_prereq_offering = Offering.create!(section: 'A', capacity: 200, course: second_psych_course, term: term_two)
+Enrollment.create(offering: low_capacity_offering, user: standard_user, role: 'student')
+

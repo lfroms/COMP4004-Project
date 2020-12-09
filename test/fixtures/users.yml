@@ -19,6 +19,13 @@ bob:
   admin: false
   approved: true
 
+sally:
+  name: Not Admin
+  email: sally@example.com
+  password_digest: <%= BCrypt::Password.create('password', cost: 4) %>
+  admin: false
+  approved: true
+
 pending:
   name: Not Approved
   email: pending@example.com
