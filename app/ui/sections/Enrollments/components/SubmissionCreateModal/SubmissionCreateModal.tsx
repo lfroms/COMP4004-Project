@@ -32,10 +32,11 @@ export default function SubmissionCreateModal({ deliverableId, visible, onReques
   const [createSubmission, { loading }] = useMutation<
     SubmissionCreateModalMutation,
     SubmissionCreateModalMutationVariables
-  >(CREATE_SUBMISSION);
+  >(CREATE_SUBMISSION, {
+    refetchQueries: ['DeliverableShowQuery'],
+  });
 
   const handleFormSubmit = async (formData: SubmissionEditFormData) => {
-    console.log(formData.attachmentUrl);
     const { data } = await createSubmission({
       variables: {
         deliverableId,

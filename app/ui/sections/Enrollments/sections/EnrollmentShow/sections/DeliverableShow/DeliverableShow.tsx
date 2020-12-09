@@ -6,7 +6,12 @@ import { Loading, TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
 import { Button, Descriptions, Space, Table, Typography } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { CheckCircleOutlined, FileAddOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  CheckOutlined,
+  ClockCircleOutlined,
+  FileAddOutlined,
+} from '@ant-design/icons';
 import { SubmissionCreateModal } from 'sections/Enrollments/components';
 
 import {
@@ -77,7 +82,7 @@ export default function DeliverableShow() {
 
   const deliverable = data?.deliverable;
 
-  if (loading) {
+  if (loading || !userId) {
     return <Loading />;
   }
 
@@ -126,8 +131,8 @@ export default function DeliverableShow() {
   const grade = deliverable.currentSubmission.nodes?.[0]?.grade;
 
   const shouldShowSubmissionAction = currentUserRole === 'student';
-  const submissionButtonDisabled =
-    !!deliverable.currentSubmission.nodes?.[0] || deliverable.dueDatePassed;
+  const hasSubmission = !!deliverable.currentSubmission.nodes?.[0];
+  const submissionButtonDisabled = hasSubmission || deliverable.dueDatePassed;
 
   return (
     <>
@@ -137,9 +142,9 @@ export default function DeliverableShow() {
           ? [
               {
                 elementId: 'new_submission',
-                icon: <FileAddOutlined />,
+                icon: getSubmissionIcon(deliverable.dueDatePassed, hasSubmission),
                 onClick: () => setSubmissionCreateModalVisible(true),
-                text: getSubmissionActionText(deliverable.dueDatePassed, submissionButtonDisabled),
+                text: getSubmissionActionText(deliverable.dueDatePassed, hasSubmission),
                 type: 'primary',
                 disabled: submissionButtonDisabled,
               },
@@ -182,4 +187,16 @@ function getSubmissionActionText(dueDatePassed: boolean, alreadySubmitted: boole
   }
 
   return 'Add submission';
+}
+
+function getSubmissionIcon(dueDatePassed: boolean, alreadySubmitted: boolean) {
+  if (dueDatePassed) {
+    return <ClockCircleOutlined />;
+  }
+
+  if (alreadySubmitted) {
+    return <CheckOutlined />;
+  }
+
+  return <FileAddOutlined />;
 }
