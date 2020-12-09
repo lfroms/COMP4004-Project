@@ -37,7 +37,6 @@ export default function GroupEditForm(props: Props) {
         label="Users can self-enroll"
         valuePropName="checked"
         initialValue={false}
-        hasFeedback
       >
         {/* id does indeed exist */}
         {/* eslint-disable-next-line */}
