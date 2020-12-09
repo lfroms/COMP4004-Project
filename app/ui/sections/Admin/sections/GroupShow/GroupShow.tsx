@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Descriptions, Tag } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { Link, useParams } from 'react-router-dom';
-import { Loading, TitleBar } from 'components';
+import { TitleBar } from 'components';
 
 import {
   AdminGroupShowQuery,
@@ -39,10 +39,6 @@ export default function TermShow() {
   });
 
   const group = data?.group;
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (!group) {
     return null;
