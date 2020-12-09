@@ -23,7 +23,6 @@ term_one = Term.create!(
   end_date: Time.zone.local(2020, 12, 15, 0, 0, 0),
   registration_deadline: Time.zone.local(2020, 9, 1, 0, 0, 0),
   withdrawal_deadline: Time.zone.local(2020, 10, 1, 0, 0, 0),
-  financial_deadline: Time.zone.local(2020, 9, 30, 0, 0, 0),
 )
 
 term_two = Term.create!(
@@ -31,7 +30,6 @@ term_two = Term.create!(
   end_date: Time.zone.local(2021, 4, 15, 0, 0, 0),
   registration_deadline: Time.zone.local(2021, 1, 13, 0, 0, 0),
   withdrawal_deadline: Time.zone.local(2021, 3, 20, 0, 0, 0),
-  financial_deadline: Time.zone.local(2021, 1, 24, 0, 0, 0),
 )
 
 quality_assurance_course = Course.create!(name: 'Software Quality Assurance', code: 'COMP 4004')

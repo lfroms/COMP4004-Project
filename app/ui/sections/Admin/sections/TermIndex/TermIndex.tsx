@@ -20,7 +20,6 @@ const ALL_TERMS = gql`
         id
         startDate
         endDate
-        financialDeadline
         registrationDeadline
         withdrawalDeadline
       }

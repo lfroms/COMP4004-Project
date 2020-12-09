@@ -6,7 +6,6 @@ export interface TermEditFormData {
   startToEnd: Date[];
   registrationDeadline: Date;
   withdrawalDeadline: Date;
-  financialDeadline: Date;
 }
 
 interface Props {
@@ -42,16 +41,6 @@ export default function TermEditForm(props: Props) {
         label="Withdrawal Deadline"
         rules={[
           { type: 'object', required: true, message: 'You must select a withdrawal deadline' },
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>
-
-      <Form.Item
-        name="financialDeadline"
-        label="Financial Deadline"
-        rules={[
-          { type: 'object', required: true, message: 'You must select a financial deadline' },
         ]}
       >
         <DatePicker />

@@ -8,7 +8,6 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6)
     )
 
     assert term.valid?
@@ -19,7 +18,6 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -30,7 +28,6 @@ class TermTest < ActiveSupport::TestCase
       start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -41,7 +38,6 @@ class TermTest < ActiveSupport::TestCase
       start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -52,18 +48,6 @@ class TermTest < ActiveSupport::TestCase
       start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
-    )
-
-    assert_not term.valid?
-  end
-
-  test 'term cannot be created when missing if financial_deadline is missing' do
-    term = Term.new(
-      start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
-      end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
-      registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
-      withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -75,7 +59,6 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -87,19 +70,6 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 8, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
-    )
-
-    assert_not term.valid?
-  end
-
-  test 'term cannot be created if financial_deadline is outside the bounds of the term' do
-    term = Term.new(
-      start_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
-      end_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
-      registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
-      withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 8, 30, 4, 5, 6),
     )
 
     assert_not term.valid?
@@ -111,7 +81,6 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 12, 16, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
-      financial_deadline: Time.zone.local(2020, 9, 30, 4, 5, 6),
     )
 
     assert_not term.valid?

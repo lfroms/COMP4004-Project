@@ -19,7 +19,6 @@ const CREATE_TERM = gql`
     $endDate: ISO8601DateTime!
     $registrationDeadline: ISO8601DateTime!
     $withdrawalDeadline: ISO8601DateTime!
-    $financialDeadline: ISO8601DateTime!
   ) {
     createTerm(
       input: {
@@ -27,7 +26,6 @@ const CREATE_TERM = gql`
         endDate: $endDate
         registrationDeadline: $registrationDeadline
         withdrawalDeadline: $withdrawalDeadline
-        financialDeadline: $financialDeadline
       }
     ) {
       term {
@@ -55,7 +53,6 @@ export default function TermCreateModal(props: Props) {
         endDate: formData.startToEnd[1],
         registrationDeadline: formData.registrationDeadline,
         withdrawalDeadline: formData.withdrawalDeadline,
-        financialDeadline: formData.financialDeadline,
       },
       refetchQueries: ['AdminTermIndexQuery', 'AdminTermShowQuery'],
       awaitRefetchQueries: true,
