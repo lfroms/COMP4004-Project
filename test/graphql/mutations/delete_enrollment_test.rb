@@ -37,6 +37,10 @@ module Mutations
             enrollment {
               id
               deletedAt
+              finalGrade
+              user {
+                balance
+              }
             }
             errors {
               message
@@ -45,8 +49,10 @@ module Mutations
         }
       EOF
 
-      assert_equal new_balance, enrollment_to_delete.user.balance
-      assert_equal new_final_grade, enrollment_to_delete.final_grade
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
+      assert_equal new_balance, enrollment['user']['balance']
+      assert_equal new_final_grade, enrollment['finalGrade']
     end
 
     test '#resolve updates final grade after withdrawal deadline' do
