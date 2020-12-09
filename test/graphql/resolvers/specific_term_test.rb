@@ -21,7 +21,6 @@ module Resolvers
       term = results.dig('data', 'term')
       assert_equal terms(:fall).start_date, term['startDate']
       assert_equal terms(:fall).end_date, term['endDate']
-      assert_equal terms(:fall).financial_deadline, term['financialDeadline']
       assert_equal terms(:fall).registration_deadline, term['registrationDeadline']
       assert_equal terms(:fall).withdrawal_deadline, term['withdrawalDeadline']
     end

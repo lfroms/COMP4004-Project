@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_011716) do
+ActiveRecord::Schema.define(version: 2020_12_09_201940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,9 +100,9 @@ ActiveRecord::Schema.define(version: 2020_12_08_011716) do
     t.datetime "end_date", null: false
     t.datetime "registration_deadline", null: false
     t.datetime "withdrawal_deadline", null: false
-    t.datetime "financial_deadline", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "per_credit_fee", default: 0.0
   end
 
   create_table "user_groups", force: :cascade do |t|
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_011716) do
     t.boolean "approved", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "balance", default: 0.0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

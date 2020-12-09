@@ -47,7 +47,6 @@ Given('student with email {string} has passed course with code {string}') do |st
     end_date: Time.zone.local(2018, 12, 31, 4, 5, 6),
     registration_deadline: Time.zone.local(2018, 9, 1, 4, 5, 6),
     withdrawal_deadline: Time.zone.local(2018, 10, 1, 4, 5, 6),
-    financial_deadline: Time.zone.local(2018, 9, 30, 4, 5, 6)
   )
 
   user = User.find_by(email: string)

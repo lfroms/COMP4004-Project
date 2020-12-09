@@ -24,7 +24,6 @@ module Resolvers
       assert_equal 2, terms.length
       assert_equal terms(:fall).start_date, terms[0]['startDate']
       assert_equal terms(:fall).end_date, terms[0]['endDate']
-      assert_equal terms(:fall).financial_deadline, terms[0]['financialDeadline']
       assert_equal terms(:fall).registration_deadline, terms[0]['registrationDeadline']
       assert_equal terms(:fall).withdrawal_deadline, terms[0]['withdrawalDeadline']
     end
