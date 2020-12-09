@@ -9,50 +9,65 @@ import { EnrollmentRole } from "./../../../../../../../graphql/global-types";
 // GraphQL query operation: DeliverableShowQuery
 // ====================================================
 
-export interface DeliverableShowQuery_currentUser_enrollments_nodes {
+export interface DeliverableShowQuery_deliverable_currentSubmission_nodes_grade {
+  __typename: "Grade";
+  id: string;
+  value: number;
+}
+
+export interface DeliverableShowQuery_deliverable_currentSubmission_nodes {
+  __typename: "Submission";
+  id: string;
+  grade: DeliverableShowQuery_deliverable_currentSubmission_nodes_grade | null;
+}
+
+export interface DeliverableShowQuery_deliverable_currentSubmission {
+  __typename: "SubmissionConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (DeliverableShowQuery_deliverable_currentSubmission_nodes | null)[] | null;
+}
+
+export interface DeliverableShowQuery_deliverable_offering_currentEnrollment_nodes {
   __typename: "Enrollment";
   id: string;
   role: EnrollmentRole;
 }
 
-export interface DeliverableShowQuery_currentUser_enrollments {
+export interface DeliverableShowQuery_deliverable_offering_currentEnrollment {
   __typename: "EnrollmentConnection";
   /**
    * A list of nodes.
    */
-  nodes: (DeliverableShowQuery_currentUser_enrollments_nodes | null)[] | null;
+  nodes: (DeliverableShowQuery_deliverable_offering_currentEnrollment_nodes | null)[] | null;
 }
 
-export interface DeliverableShowQuery_currentUser {
-  __typename: "User";
-  id: string;
-  enrollments: DeliverableShowQuery_currentUser_enrollments;
-}
-
-export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes_user {
+export interface DeliverableShowQuery_deliverable_offering_students_nodes_user {
   __typename: "User";
   id: string;
   name: string;
 }
 
-export interface DeliverableShowQuery_deliverable_offering_enrollments_nodes {
+export interface DeliverableShowQuery_deliverable_offering_students_nodes {
   __typename: "Enrollment";
   id: string;
-  user: DeliverableShowQuery_deliverable_offering_enrollments_nodes_user;
+  user: DeliverableShowQuery_deliverable_offering_students_nodes_user;
 }
 
-export interface DeliverableShowQuery_deliverable_offering_enrollments {
+export interface DeliverableShowQuery_deliverable_offering_students {
   __typename: "EnrollmentConnection";
   /**
    * A list of nodes.
    */
-  nodes: (DeliverableShowQuery_deliverable_offering_enrollments_nodes | null)[] | null;
+  nodes: (DeliverableShowQuery_deliverable_offering_students_nodes | null)[] | null;
 }
 
 export interface DeliverableShowQuery_deliverable_offering {
   __typename: "Offering";
   id: string;
-  enrollments: DeliverableShowQuery_deliverable_offering_enrollments;
+  currentEnrollment: DeliverableShowQuery_deliverable_offering_currentEnrollment;
+  students: DeliverableShowQuery_deliverable_offering_students;
 }
 
 export interface DeliverableShowQuery_deliverable {
@@ -61,15 +76,13 @@ export interface DeliverableShowQuery_deliverable {
   title: string;
   description: string;
   dueDate: any;
+  dueDatePassed: boolean;
   weight: number;
+  currentSubmission: DeliverableShowQuery_deliverable_currentSubmission;
   offering: DeliverableShowQuery_deliverable_offering;
 }
 
 export interface DeliverableShowQuery {
-  /**
-   * Specific details about the current user.
-   */
-  currentUser: DeliverableShowQuery_currentUser | null;
   /**
    * Specific details about a given deliverable.
    */
@@ -77,6 +90,6 @@ export interface DeliverableShowQuery {
 }
 
 export interface DeliverableShowQueryVariables {
-  offeringId: string;
+  userId: string;
   deliverableId: string;
 }
