@@ -35,5 +35,4 @@ export interface CreateTermModalMutationVariables {
   endDate: any;
   registrationDeadline: any;
   withdrawalDeadline: any;
-  financialDeadline: any;
 }

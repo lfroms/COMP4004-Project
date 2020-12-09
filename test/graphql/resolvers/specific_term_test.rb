@@ -10,7 +10,6 @@ module Resolvers
           term(id: #{term_id}) {
             startDate
             endDate
-            financialDeadline
             registrationDeadline
             withdrawalDeadline
           }
@@ -31,7 +30,6 @@ module Resolvers
           term(id: 0) {
             startDate
             endDate
-            financialDeadline
             registrationDeadline
             withdrawalDeadline
           }
@@ -52,7 +50,6 @@ module Resolvers
           term(id: #{term_id}) {
             startDate
             endDate
-            financialDeadline
             registrationDeadline
             withdrawalDeadline
           }

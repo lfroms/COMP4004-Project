@@ -11,7 +11,6 @@ module Mutations
             endDate: "2020-12-01T04:05:06Z"
             registrationDeadline: "2020-09-01T04:05:06Z"
             withdrawalDeadline: "2020-09-10T04:05:06Z"
-            financialDeadline: "2020-09-10T04:05:06Z"
           }) {
             term {
               id
@@ -38,7 +37,6 @@ module Mutations
             endDate: "2020-12-01T04:05:06Z"
             registrationDeadline: "2020-09-01T04:05:06Z"
             withdrawalDeadline: "2020-09-10T04:05:06Z"
-            financialDeadline: "2020-09-10T04:05:06Z"
           }) {
             term {
               id
@@ -65,7 +63,6 @@ module Mutations
             endDate: "2020-12-01T04:05:06Z"
             registrationDeadline: "2020-09-01T04:05:06Z"
             withdrawalDeadline: "2020-09-10T04:05:06Z"
-            financialDeadline: "2020-09-10T04:05:06Z"
           }) {
             term {
               id
@@ -92,7 +89,6 @@ module Mutations
             endDate: "2020-12-01T04:05:06Z"
             registrationDeadline: "2020-09-01T04:05:06Z"
             withdrawalDeadline: "2020-09-10T04:05:06Z"
-            financialDeadline: "2020-09-10T04:05:06Z"
           }) {
             term {
               id

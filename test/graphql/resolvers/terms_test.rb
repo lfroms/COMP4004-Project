@@ -10,7 +10,6 @@ module Resolvers
             nodes {
               startDate
               endDate
-              financialDeadline
               registrationDeadline
               withdrawalDeadline
             }
@@ -35,7 +34,6 @@ module Resolvers
             nodes {
               startDate
               endDate
-              financialDeadline
               registrationDeadline
               withdrawalDeadline
             }

@@ -27,7 +27,6 @@ const TERM = gql`
       id
       startDate
       endDate
-      financialDeadline
       registrationDeadline
       withdrawalDeadline
       offerings {
@@ -137,9 +136,6 @@ export default function TermShow() {
           {createFriendlyDate(term.startDate)}
         </Descriptions.Item>
         <Descriptions.Item label="End date">{createFriendlyDate(term.endDate)}</Descriptions.Item>
-        <Descriptions.Item label="Financial deadline">
-          {createFriendlyDate(term.financialDeadline)}
-        </Descriptions.Item>
         <Descriptions.Item label="Registration deadline">
           {createFriendlyDate(term.registrationDeadline)}
         </Descriptions.Item>
