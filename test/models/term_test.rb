@@ -8,6 +8,7 @@ class TermTest < ActiveSupport::TestCase
       end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
       registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
       withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
+      per_credit_fee: 900.00
     )
 
     assert term.valid?
@@ -51,6 +52,17 @@ class TermTest < ActiveSupport::TestCase
     )
 
     assert_not term.valid?
+  end
+
+  test 'default per_credit_fee is 0' do
+    term = Term.new(
+      start_date: Time.zone.local(2020, 9, 1, 4, 5, 6),
+      end_date: Time.zone.local(2020, 12, 15, 4, 5, 6),
+      registration_deadline: Time.zone.local(2020, 9, 1, 4, 5, 6),
+      withdrawal_deadline: Time.zone.local(2020, 10, 1, 4, 5, 6),
+    )
+
+    assert_equal 0, term.per_credit_fee
   end
 
   test 'term cannot be created if end_date is before start_date' do

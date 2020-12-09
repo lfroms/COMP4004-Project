@@ -26,7 +26,7 @@ module Mutations
       assert_not_nil enrollment['deletedAt']
     end
 
-    test '#resolve updates user balance and grade before withdrawal deadline' do
+    test '#resolve updates user balance before withdrawal deadline' do
       enrollment_to_delete = enrollments(:future_enrollment)
       new_balance = enrollment_to_delete.user.balance - enrollment_to_delete.offering.term.per_credit_fee
       new_final_grade = enrollment_to_delete.final_grade
@@ -49,7 +49,7 @@ module Mutations
       assert_equal new_final_grade, enrollment_to_delete.final_grade
     end
 
-    test '#resolve updates user balance and grade after withdrawal deadline' do
+    test '#resolve updates final grade after withdrawal deadline' do
       enrollment_to_delete = enrollments(:student)
       new_balance = enrollment_to_delete.user.balance
       new_final_grade = 'WDN'
