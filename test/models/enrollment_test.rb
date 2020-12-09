@@ -39,7 +39,11 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment cannot be created if user does not exist' do
-    enrollment = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a), user_id: User.last.id + 1)
+    enrollment = Enrollment.new(
+      role: 'student',
+      offering: offerings(:object_oriented_section_a),
+      user_id: User.last.id + 1
+    )
 
     assert_not enrollment.valid?
   end
@@ -63,7 +67,11 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment can be updated with a valid grade' do
-    enrollment = Enrollment.create(role: 'student', offering: offerings(:object_oriented_section_a), user: users(:sally))
+    enrollment = Enrollment.create(
+      role: 'student',
+      offering: offerings(:object_oriented_section_a),
+      user: users(:sally)
+    )
     enrollment.update(final_grade: 'A')
     assert enrollment.valid?
   end
@@ -75,10 +83,26 @@ class EnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'enrollment can identify a passing grade' do
-    enrollment1 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a), user: users(:sally), final_grade: 'D-')
-    enrollment2 = Enrollment.new(role: 'student', offering: offerings(:quality_assurance_section_a), user: users(:sally), final_grade: 'WDN')
-    enrollment3 = Enrollment.new(role: 'student', offering: offerings(:object_oriented_section_a), user: users(:not_admin))
-    enrollment4 = Enrollment.new(role: 'student', offering: offerings(:just_another_course_A), user: users(:sally), final_grade: 'F')
+    enrollment1 = Enrollment.new(
+      role: 'student',
+      offering: offerings(:object_oriented_section_a),
+      user: users(:sally), final_grade: 'D-'
+    )
+    enrollment2 = Enrollment.new(
+      role: 'student',
+      offering: offerings(:quality_assurance_section_a),
+      user: users(:sally), final_grade: 'WDN'
+    )
+    enrollment3 = Enrollment.new(
+      role: 'student',
+      offering: offerings(:object_oriented_section_a),
+      user: users(:not_admin)
+    )
+    enrollment4 = Enrollment.new(
+      role: 'student',
+      offering: offerings(:just_another_course_A),
+      user: users(:sally), final_grade: 'F'
+    )
 
     assert enrollment1.passed?
     assert_not enrollment2.passed?

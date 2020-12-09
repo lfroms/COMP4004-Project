@@ -53,5 +53,5 @@ Given('student with email {string} has passed course with code {string}') do |st
   user = User.find_by(email: string)
   course = Course.find_by(code: string2)
   offering = Offering.create!(section: 'A', course: course, term: term)
-  enrollment = Enrollment.create!(offering: offering, user: user, role: 'student', final_grade: 'A')
+  Enrollment.create!(offering: offering, user: user, role: 'student', final_grade: 'A')
 end
