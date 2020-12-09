@@ -6,6 +6,7 @@ import * as styles from './TitleBar.module.scss';
 
 interface Action {
   elementId?: string;
+  disabled?: boolean;
   icon?: React.ReactNode;
   text?: string;
   type?: ButtonType;
@@ -24,6 +25,7 @@ function mapButtons(actions: Action[]) {
       id={action.elementId}
       icon={action.icon}
       type={action.type}
+      disabled={action.disabled}
       onClick={action.onClick}
     >
       {action.text}
