@@ -46,9 +46,8 @@ module Mutations
         new_final_grade = 'WDN'
       end
 
-      if enrollment.update(deleted_at: Time.zone.now) &&
-        enrollment.user.update(balance: new_balance) &&
-        enrollment.update(final_grade: new_final_grade)
+      if enrollment.user.update(balance: new_balance) &&
+        enrollment.update(deleted_at: Time.zone.now, final_grade: new_final_grade)
         {
           enrollment: enrollment,
           errors: [],
