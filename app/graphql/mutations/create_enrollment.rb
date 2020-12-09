@@ -22,7 +22,10 @@ module Mutations
         }
       end
 
-      if enrollment.save
+      per_credit_fee = enrollment.offering.term.per_credit_fee
+      new_balance = enrollment.user.balance + per_credit_fee
+
+      if enrollment.save && enrollment.user.update(balance: new_balance)
         {
           enrollment: enrollment,
           errors: [],

@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_201940) do
     t.boolean "approved", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "balance"
+    t.float "balance", default: 0.0
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
