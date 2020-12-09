@@ -48,10 +48,6 @@ quality_assurance_course.prerequisites << object_oriented_course
 natural_disasters_course.prerequisites << evolution_earth_course
 second_psych_course.prerequisites << first_psych_course
 
-low_capacity_offering = Offering.create!(section: 'A', capacity: 1, course: film_course, term: term_two)
-prerequisite_offering = Offering.create!(section: 'A', capacity: 200, course: first_psych_course, term: term_one)
-course_with_prereq_offering = Offering.create!(section: 'A', capacity: 200, course: second_psych_course, term: term_two)
-
 Offering.create!(section: 'A', capacity: 100, course: quality_assurance_course, term: term_one)
 Offering.create!(section: 'A', capacity: 150, course: quality_assurance_course, term: term_two)
 Offering.create!(section: 'B', capacity: 220, course: quality_assurance_course, term: term_two)
@@ -83,8 +79,6 @@ Offering.all.each do |offering|
   end
 end
 
-Enrollment.create(offering: low_capacity_offering, user: standard_user, role: 'student')
-
 self_enrolling_group.users.each do |user|
   Offering.all.sample(5).each do |offering|
     if offering.course.prerequisites.empty?
@@ -104,3 +98,9 @@ self_enrolling_group.users.each do |user|
     end
   end
 end
+
+low_capacity_offering = Offering.create!(section: 'A', capacity: 1, course: film_course, term: term_two)
+prerequisite_offering = Offering.create!(section: 'A', capacity: 200, course: first_psych_course, term: term_one)
+course_with_prereq_offering = Offering.create!(section: 'A', capacity: 200, course: second_psych_course, term: term_two)
+Enrollment.create(offering: low_capacity_offering, user: standard_user, role: 'student')
+
