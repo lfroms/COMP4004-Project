@@ -85,9 +85,10 @@ const DELETE_DELIVERABLE = gql`
 
 export default function DeliverableShow() {
   const { user } = useContext(CurrentUserContext);
-  const { deliverableId, offeringId } = useParams<ParamType>();
   const history = useHistory();
 
+  const { deliverableId, offeringId } = useParams<ParamType>();
+  const [createGradeModalVisible, setCreateGradeModalVisible] = useState(false);
   const [submissionCreateModalVisible, setSubmissionCreateModalVisible] = useState(false);
 
   const { data, loading } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(
@@ -222,6 +223,12 @@ export default function DeliverableShow() {
         deliverableId={deliverable.id}
         visible={submissionCreateModalVisible}
         onRequestClose={() => setSubmissionCreateModalVisible(false)}
+      />
+
+      <CreateGradeModal
+        submissionId="0"
+        visible={createGradeModalVisible}
+        onRequestClose={() => setCreateGradeModalVisible(false)}
       />
     </>
   );
