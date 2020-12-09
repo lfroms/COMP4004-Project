@@ -32,7 +32,7 @@ const TERM = gql`
     }
   }
 `;
-export default function TermShow() {
+export default function GroupShow() {
   const { groupId } = useParams<ParamType>();
   const { data, loading } = useQuery<AdminGroupShowQuery>(TERM, {
     variables: { id: groupId },
