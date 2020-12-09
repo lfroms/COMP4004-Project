@@ -4,7 +4,7 @@ require 'test_helper'
 module Mutations
   class DeleteEnrollmentTest < ActiveSupport::TestCase
     test '#resolve soft deletes and returns specified enrollment' do
-      enrollment_to_delete = enrollments(:student)
+      enrollment_to_delete = enrollments(:future_enrollment)
 
       query = <<~EOF
         mutation TestMutation {
@@ -24,6 +24,58 @@ module Mutations
       enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
 
       assert_not_nil enrollment['deletedAt']
+    end
+
+    test '#resolve updates user balance and grade before withdrawal deadline' do
+      enrollment_to_delete = enrollments(:future_enrollment)
+      new_balance = enrollment_to_delete.user.balance - enrollment_to_delete.offering.term.per_credit_fee
+      new_final_grade = enrollment_to_delete.final_grade
+
+      query = <<~EOF
+        mutation TestMutation {
+          deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
+            enrollment {
+              id
+              deletedAt
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      assert_equal new_balance, enrollment_to_delete.user.balance
+      assert_equal new_final_grade, enrollment_to_delete.final_grade
+    end
+
+    test '#resolve updates user balance and grade after withdrawal deadline' do
+      enrollment_to_delete = enrollments(:student)
+      new_balance = enrollment_to_delete.user.balance
+      new_final_grade = "WDN"
+
+      query = <<~EOF
+        mutation TestMutation {
+          deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
+            enrollment {
+              id
+              deletedAt
+              finalGrade
+              user {
+                balance
+              }
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
+      enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
+      assert_equal new_balance, enrollment['user']['balance']
+      assert_equal new_final_grade, enrollment['finalGrade']
     end
 
     test '#resolve returns nil if specified enrollment does not exist' do

@@ -21,3 +21,9 @@ just_another_course_A:
   course: just_another_course
   term: fall
   capacity: 200
+
+future_offering:
+  section: A
+  course: just_another_course
+  term: future
+  capacity: 200

@@ -9,3 +9,9 @@ winter:
   end_date: 2020-4-15 15:32:10
   registration_deadline: 2019-11-21 15:32:10
   withdrawal_deadline: 2020-2-21 15:32:10
+
+future:
+  start_date: 2021-1-4 15:32:10
+  end_date: 2021-4-15 15:32:10
+  registration_deadline: 2020-11-21 15:32:10
+  withdrawal_deadline: 2021-2-21 15:32:10

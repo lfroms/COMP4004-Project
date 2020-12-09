@@ -34,7 +34,22 @@ module Mutations
         }
       end
 
-      if enrollment.update(deleted_at: Time.zone.now)
+
+      term = enrollment.offering.term
+      per_credit_fee = term.per_credit_fee
+      current_balance = enrollment.user.balance
+      new_balance = current_balance
+      new_final_grade = enrollment.final_grade
+
+      if Time.zone.now < term.withdrawal_deadline
+        new_balance = current_balance - per_credit_fee
+      else
+        new_final_grade = "WDN"
+      end
+
+      if enrollment.update(deleted_at: Time.zone.now) &&
+        enrollment.user.update(balance: new_balance) &&
+        enrollment.update(final_grade: new_final_grade)
         {
           enrollment: enrollment,
           errors: [],

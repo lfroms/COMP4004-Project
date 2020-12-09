@@ -13,6 +13,11 @@ quality_assurance_student:
   offering: quality_assurance_section_a
   user: not_admin
 
+future_enrollment:
+  role: student
+  offering: future_offering
+  user: not_admin
+
 prof:
   role: professor
   offering: object_oriented_section_a
