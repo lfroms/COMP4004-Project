@@ -19,7 +19,7 @@ module Resolvers
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       offerings = results.dig('data', 'offerings', 'edges')
 
-      assert_equal 3, offerings.length
+      assert_equal Offering.all.length, offerings.length
     end
 
     test '#resolve does not return anything if the current user is not authenticated' do

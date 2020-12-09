@@ -2,6 +2,10 @@ user_in_self_enrolling:
   user: not_admin
   group: self_enrolling
 
+second_user_in_self_enrolling:
+  user: sally
+  group: self_enrolling
+
 user_in_not_self_enrolling:
   user: bob
   group: not_self_enrolling

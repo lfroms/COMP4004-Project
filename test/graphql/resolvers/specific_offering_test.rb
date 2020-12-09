@@ -4,7 +4,7 @@ require 'test_helper'
 module Resolvers
   class SpecificOfferingTest < ActiveSupport::TestCase
     test '#resolve returns specified offering' do
-      offering_id = offerings(:quality_assurance_section_a).id
+      offering_id = offerings(:just_another_course_A).id
       query = <<~EOF
         query Offering {
           offering(id: #{offering_id}) {
@@ -18,8 +18,8 @@ module Resolvers
 
       results = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       offering = results.dig('data', 'offering')
-      assert_equal offerings(:quality_assurance_section_a).section, offering['section']
-      assert_equal offerings(:quality_assurance_section_a).course.code, offering.dig('course', 'code')
+      assert_equal offerings(:just_another_course_A).section, offering['section']
+      assert_equal offerings(:just_another_course_A).course.code, offering.dig('course', 'code')
     end
 
     test '#resolve returns specified offering to admins even if they are not enrolled' do

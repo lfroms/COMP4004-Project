@@ -60,6 +60,7 @@ export interface TermShowQuery_terms_nodes {
   id: string;
   startDate: any;
   endDate: any;
+  registrationDeadline: any;
   offerings: TermShowQuery_terms_nodes_offerings;
 }
 

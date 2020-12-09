@@ -11,11 +11,14 @@ module Mutations
           createSubmission(input:
             {
               attachmentUrl: "https://example.com/doc.pdf",
-              deliverableId: "#{deliverable.id}",
+              deliverableId: "#{deliverable.id}"
             }) {
             submission {
               id
               attachmentUrl
+            }
+            errors {
+              message
             }
           }
         }
