@@ -15,7 +15,7 @@ class Enrollment < ApplicationRecord
   end
 
   def has_prerequisites
-    return false if role == 'professor' || !offering
+    return false if role == 'professor' || !offering || !offering.course
 
     prerequisites = offering.course.prerequisites
 

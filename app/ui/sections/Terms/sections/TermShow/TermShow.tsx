@@ -86,13 +86,12 @@ export default function TermShow() {
     if (!userId || !offeringId) {
       return;
     }
-      const { data } = await createEnrollment({
-        variables: { userId, offeringId },
-        refetchQueries: ['TermShowQuery'],
-        awaitRefetchQueries: true,
-      });
-      data?.createEnrollment?.errors.forEach(error => message.error(error.message));
-    }
+    const { data: enrollData } = await createEnrollment({
+      variables: { userId, offeringId },
+      refetchQueries: ['TermShowQuery'],
+      awaitRefetchQueries: true,
+    });
+    enrollData?.createEnrollment?.errors.forEach(error => message.error(error.message));
   };
 
   const alreadyEnrolled = (
@@ -179,7 +178,7 @@ export default function TermShow() {
               cancelText="Cancel"
               okButtonProps={{ loading: enrollLoading }}
             >
-              <Button id="enroll" icon={<UserAddOutlined />} />
+              <Button id="enroll_button" icon={<UserAddOutlined />} />
             </Popconfirm>
           );
         }

@@ -5,7 +5,7 @@ Given('I am viewing the list of offered courses for term {string}') do |_string|
 end
 
 When('I click the enroll button') do
-  click_button('enroll')
+  click_button('enroll_button')
 end
 
 Given('student with email {string} is a self-enrolling user') do |string|
@@ -35,22 +35,24 @@ Given('student with email {string} is already enrolled in course with code {stri
   Enrollment.create(offering: offering, user: user, role: 'student')
 end
 
-Given('that student with email {string} has not completed course with code {string}') do |_string, _string2|
-  pending # Write code here that turns the phrase above into concrete actions
+Given('course with code {string} has prerequisite {string}') do |string, string2|
+  course = Course.find_by(code: string)
+  prerequisite = Course.find_by(code: string2)
+  course.prerequisites << prerequisite
 end
 
-When('I select course offering for course with code {string} with section {string}') do |_string, _string2|
-  pending # Write code here that turns the phrase above into concrete actions
+Given('student with email {string} has passed course with code {string}') do |string, string2|
+  term = Term.create!(
+    start_date: Time.zone.local(2018, 9, 1, 4, 5, 6),
+    end_date: Time.zone.local(2018, 12, 31, 4, 5, 6),
+    registration_deadline: Time.zone.local(2018, 9, 1, 4, 5, 6),
+    withdrawal_deadline: Time.zone.local(2018, 10, 1, 4, 5, 6),
+    financial_deadline: Time.zone.local(2018, 9, 30, 4, 5, 6)
+  )
+
+  user = User.find_by(email: string)
+  course = Course.find_by(code: string2)
+  offering = Offering.create!(section: "A", course: course, term: term)
+  enrollment = Enrollment.create!(offering: offering, user: user, role: "student", final_grade: "A")
 end
 
-When('course with code {string} has prerequisite {string}') do |_string, _string2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-When('I select the option to register') do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then('student with email {string} is not enrolled in course offering for course with code {string} with section {string}') do |_string, _string2, _string3|
-  pending # Write code here that turns the phrase above into concrete actions
-end
