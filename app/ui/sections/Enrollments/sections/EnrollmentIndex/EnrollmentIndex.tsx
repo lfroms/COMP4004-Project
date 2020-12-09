@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, Row, Spin } from 'antd';
+import { Col, Row } from 'antd';
 import { gql, useQuery } from '@apollo/client';
 
 import { EnrollmentIndexQuery } from './graphql/EnrollmentIndexQuery';
-import { TitleBar } from 'components';
+import { Loading, TitleBar } from 'components';
 import { EnrollmentCard } from './components';
 
 import * as styles from './EnrollmentIndex.module.scss';
@@ -43,11 +43,7 @@ export default function EnrollmentIndex() {
   const history = useHistory();
 
   if (!data || loading) {
-    return (
-      <div className={styles.Loading}>
-        <Spin size="large" />
-      </div>
-    );
+    return <Loading />;
   }
 
   const items = data.currentUser?.enrollments.nodes?.map((enrollment, index) => {

@@ -80,4 +80,28 @@ class DeliverableTest < ActiveSupport::TestCase
 
     assert_not deliverable.valid?
   end
+
+  test '#due_date_passed is true if the current date is greater than the due date' do
+    deliverable = Deliverable.new(
+      title: 'My Deliverable',
+      description: 'Description',
+      weight: 0.5,
+      due_date: 1.hour.ago,
+      offering: offerings(:quality_assurance_section_a)
+    )
+
+    assert deliverable.due_date_passed
+  end
+
+  test '#due_date_passed is false if the current date is less than the due date' do
+    deliverable = Deliverable.new(
+      title: 'My Deliverable',
+      description: 'Description',
+      weight: 0.5,
+      due_date: Time.zone.tomorrow,
+      offering: offerings(:quality_assurance_section_a)
+    )
+
+    assert_not deliverable.due_date_passed
+  end
 end

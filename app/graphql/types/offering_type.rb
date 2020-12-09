@@ -7,6 +7,7 @@ module Types
     field :course, Types::CourseType, null: false
     field :term, Types::TermType, null: false
     field :enrollments, Types::EnrollmentType.connection_type, null: false do
+      argument :user_id, ID, required: false
       argument :role, Types::EnrollmentRoleType, required: false
     end
     field :full, Boolean, null: false

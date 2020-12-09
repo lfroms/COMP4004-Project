@@ -5,4 +5,8 @@ class Deliverable < ApplicationRecord
 
   belongs_to :offering
   has_many :submissions, dependent: :destroy
+
+  def due_date_passed
+    Time.zone.now > due_date
+  end
 end
