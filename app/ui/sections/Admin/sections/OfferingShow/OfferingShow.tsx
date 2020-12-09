@@ -11,6 +11,7 @@ import { AssignProfessorModal } from 'sections/Admin/components';
 import {
   AdminOfferingShowQuery,
   AdminOfferingShowQuery_offering_enrollments_nodes,
+  AdminOfferingShowQuery_offering_enrollments_nodes_user,
 } from './graphql/AdminOfferingShowQuery';
 import * as styles from './OfferingShow.module.scss';
 import Table, { ColumnType } from 'antd/lib/table';
@@ -62,17 +63,22 @@ export default function OfferingShow() {
     return null;
   }
 
-  const enrollments = offering.enrollments?.nodes;
+  const enrollments = data?.offering?.enrollments.nodes?.filter(Boolean) ?? [];
+
   const professor = offering.enrollments?.nodes?.find(enrollment => enrollment?.role == 'professor')
     ?.user.name;
 
   const columns: ColumnType<AdminOfferingShowQuery_offering_enrollments_nodes>[] = [
     {
       title: 'Name',
-      dataIndex: 'name',
-      render: (record: AdminOfferingShowQuery_offering_enrollments_nodes) => (
-        <p>{record?.user.name}</p>
-      ),
+      dataIndex: 'user',
+      render: (record: AdminOfferingShowQuery_offering_enrollments_nodes_user) => {
+        if (!record) {
+          return null;
+        }
+
+        return <p>{record?.name}</p>;
+      },
     },
     {
       title: 'Role',
@@ -105,6 +111,7 @@ export default function OfferingShow() {
           Assign professor
         </Button>
       )}
+      <TitleBar.Secondary title="Enrollments:" />
       <Table
         columns={columns}
         dataSource={enrollments as AdminOfferingShowQuery_offering_enrollments_nodes[]}
