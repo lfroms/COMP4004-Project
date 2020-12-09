@@ -12,9 +12,18 @@ export interface TermShowEnrollmentCreationMutation_createEnrollment_enrollment 
   id: string;
 }
 
+export interface TermShowEnrollmentCreationMutation_createEnrollment_errors {
+  __typename: "UserError";
+  /**
+   * A description of the error
+   */
+  message: string;
+}
+
 export interface TermShowEnrollmentCreationMutation_createEnrollment {
   __typename: "CreateEnrollmentPayload";
   enrollment: TermShowEnrollmentCreationMutation_createEnrollment_enrollment | null;
+  errors: TermShowEnrollmentCreationMutation_createEnrollment_errors[];
 }
 
 export interface TermShowEnrollmentCreationMutation {

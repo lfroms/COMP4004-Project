@@ -6,5 +6,6 @@ module Types
     field :user, Types::UserType, null: false
     field :offering, Types::OfferingType, null: false
     field :deleted_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :final_grade, String, null: true
   end
 end

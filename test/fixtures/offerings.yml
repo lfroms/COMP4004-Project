@@ -15,3 +15,9 @@ object_oriented_section_a:
   course: object_oriented
   term: fall
   capacity: 200
+
+just_another_course_A:
+  section: A
+  course: just_another_course
+  term: fall
+  capacity: 200
