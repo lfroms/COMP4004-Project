@@ -3,7 +3,7 @@ require 'test_helper'
 module Mutations
   class CreateEnrollmentTest < ActiveSupport::TestCase
     test '#resolve creates a new enrollment and saves it to the database' do
-      user_id = users(:not_admin).id
+      user_id = users(:sally).id
       offering_id = offerings(:object_oriented_section_a).id
       query = <<~EOF
         mutation CreateEnrollment {
