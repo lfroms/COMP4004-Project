@@ -34,7 +34,6 @@ export interface AdminTermShowQuery_term {
   id: string;
   startDate: any;
   endDate: any;
-  financialDeadline: any;
   registrationDeadline: any;
   withdrawalDeadline: any;
   offerings: AdminTermShowQuery_term_offerings;

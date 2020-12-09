@@ -12,7 +12,6 @@ export interface AdminTermIndexQuery_terms_nodes {
   id: string;
   startDate: any;
   endDate: any;
-  financialDeadline: any;
   registrationDeadline: any;
   withdrawalDeadline: any;
 }
