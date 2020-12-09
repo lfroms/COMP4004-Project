@@ -34,7 +34,6 @@ module Mutations
         }
       end
 
-
       term = enrollment.offering.term
       per_credit_fee = term.per_credit_fee
       current_balance = enrollment.user.balance
@@ -44,7 +43,7 @@ module Mutations
       if Time.zone.now < term.withdrawal_deadline
         new_balance = current_balance - per_credit_fee
       else
-        new_final_grade = "WDN"
+        new_final_grade = 'WDN'
       end
 
       if enrollment.update(deleted_at: Time.zone.now) &&
