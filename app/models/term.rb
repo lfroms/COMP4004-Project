@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 class Term < ApplicationRecord
-  validates :start_date, :end_date, :registration_deadline, :withdrawal_deadline, presence: true
+  validates :start_date, :end_date, :registration_deadline, :withdrawal_deadline, :per_credit_fee, presence: true
+  validate :validate_positive_credit_fee, if: :per_credit_fee_present?
   validate :validate_start_end, if: :start_end_present?
   validate :validate_deadlines, if: :deadlines_present?
-
   has_many :offerings, dependent: :destroy
 
   def validate_start_end
@@ -26,11 +26,21 @@ class Term < ApplicationRecord
     end
   end
 
+  def validate_positive_credit_fee
+    if per_credit_fee < 0
+      errors.add(:per_credit_fee, 'per_credit_fee must be greater than 0')
+    end
+  end
+
   def start_end_present?
     start_date.presence && end_date.presence
   end
 
   def deadlines_present?
     withdrawal_deadline.presence && registration_deadline.presence
+  end
+
+  def per_credit_fee_present?
+    per_credit_fee.presence
   end
 end

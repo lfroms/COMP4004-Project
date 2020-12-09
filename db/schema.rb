@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_201940) do
     t.datetime "withdrawal_deadline", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "per_credit_fee", default: 0.0
   end
 
   create_table "user_groups", force: :cascade do |t|
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_201940) do
     t.boolean "approved", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "balance"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

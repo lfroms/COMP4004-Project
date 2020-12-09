@@ -23,6 +23,7 @@ term_one = Term.create!(
   end_date: Time.zone.local(2020, 12, 15, 0, 0, 0),
   registration_deadline: Time.zone.local(2020, 9, 1, 0, 0, 0),
   withdrawal_deadline: Time.zone.local(2020, 10, 1, 0, 0, 0),
+  per_credit_fee: 1000.00,
 )
 
 term_two = Term.create!(
@@ -30,6 +31,7 @@ term_two = Term.create!(
   end_date: Time.zone.local(2021, 4, 15, 0, 0, 0),
   registration_deadline: Time.zone.local(2021, 1, 13, 0, 0, 0),
   withdrawal_deadline: Time.zone.local(2021, 3, 20, 0, 0, 0),
+  per_credit_fee: 1000.00,
 )
 
 quality_assurance_course = Course.create!(name: 'Software Quality Assurance', code: 'COMP 4004')
@@ -101,4 +103,5 @@ low_capacity_offering = Offering.create!(section: 'A', capacity: 1, course: film
 prerequisite_offering = Offering.create!(section: 'A', capacity: 200, course: first_psych_course, term: term_one)
 course_with_prereq_offering = Offering.create!(section: 'A', capacity: 200, course: second_psych_course, term: term_two)
 Enrollment.create(offering: low_capacity_offering, user: standard_user, role: 'student')
+
 
