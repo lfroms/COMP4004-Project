@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given('I am on the course offering index') do
-  wait_for_page_load
   visit('admin/offerings')
-  wait_for_page_load
 end
 
 Given('there exists a term {string}') do |string|

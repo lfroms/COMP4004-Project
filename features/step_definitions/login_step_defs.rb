@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Given('that I am on the login page') do
-  wait_for_page_load
   visit('/login')
-  wait_for_page_load
 end
 
 Given('there exists a user with email {string} password {string} approved status {string}') do |string, string2, string3|
@@ -20,6 +18,5 @@ When('I enter password {string}') do |string|
 end
 
 Then('I get redirected to courses') do
-  wait_for_page_load
-  assert_equal '/courses', current_path
+  assert_current_path '/courses'
 end
