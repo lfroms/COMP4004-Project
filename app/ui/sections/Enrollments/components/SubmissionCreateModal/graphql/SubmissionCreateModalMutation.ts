@@ -32,5 +32,5 @@ export interface SubmissionCreateModalMutation {
 
 export interface SubmissionCreateModalMutationVariables {
   deliverableId: string;
-  attachmentURL: string;
+  attachmentUrl: string;
 }

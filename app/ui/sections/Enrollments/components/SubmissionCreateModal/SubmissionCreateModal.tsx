@@ -10,7 +10,7 @@ import {
 const FORM_NAME = 'submissionCreateForm';
 
 const CREATE_SUBMISSION = gql`
-  mutation SubmissionCreateModalMutation($deliverableId: ID!, $attachmentURL: String!) {
+  mutation SubmissionCreateModalMutation($deliverableId: ID!, $attachmentUrl: String!) {
     createSubmission(input: { deliverableId: $deliverableId, attachmentUrl: $attachmentUrl }) {
       submission {
         id
@@ -35,10 +35,11 @@ export default function SubmissionCreateModal({ deliverableId, visible, onReques
   >(CREATE_SUBMISSION);
 
   const handleFormSubmit = async (formData: SubmissionEditFormData) => {
+    console.log(formData.attachmentUrl);
     const { data } = await createSubmission({
       variables: {
         deliverableId,
-        attachmentURL: formData.attachmentUrl,
+        attachmentUrl: formData.attachmentUrl,
       },
     });
 

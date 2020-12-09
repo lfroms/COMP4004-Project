@@ -14,7 +14,7 @@ export default function SubmissionEditFormEditForm({ name, onSubmit }: Props) {
   return (
     <Form name={name} onFinish={onSubmit}>
       <Form.Item
-        name="title"
+        name="attachmentUrl"
         rules={[{ required: true, message: 'You must enter a URL', type: 'url' }]}
       >
         <Input id="submission_url_field" placeholder="Address of attachment" />
