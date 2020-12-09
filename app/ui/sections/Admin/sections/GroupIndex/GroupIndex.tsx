@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table } from 'antd';
+import { Link } from 'react-router-dom';
 import { AppstoreAddOutlined } from '@ant-design/icons';
 import { gql, useQuery } from '@apollo/client';
 import { ColumnType } from 'antd/lib/table';
@@ -34,6 +35,7 @@ export default function GroupIndex() {
       dataIndex: 'name',
       sorter: (first, second) => first.name.localeCompare(second.name),
       sortDirections: ['ascend', 'descend'],
+      render: (text, record) => <Link to={`/admin/groups/${record.id}`}>{text}</Link>,
     },
     {
       title: 'Users',
