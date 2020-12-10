@@ -97,7 +97,7 @@ export default function DeliverableShow() {
   const columns: ColumnType<DeliverableShowQuery_deliverable_offering_students_nodes>[] = [
     {
       title: 'Student',
-      dataIndex: 'name',
+      dataIndex: ['user', 'name'],
     },
     {
       key: 'action',
