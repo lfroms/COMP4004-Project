@@ -21,6 +21,29 @@ module Mutations
       assert_equal user.email, 'fake@fake.com'
     end
 
+    test '#resolve creates a new user with group memberships and saves it to the database' do
+      group_id = groups(:not_self_enrolling).id
+
+      query = <<~EOF
+        mutation CreateUser {
+          createUser(input: {name: "Test User", email: "fake@fake.com", password: "password", admin: false, groupIds: [#{group_id}]}) {
+            user {
+              id
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      id = result.dig('data', 'createUser', 'user', 'id')
+
+      user = User.find(id)
+
+      assert_equal user.name, 'Test User'
+      assert_equal user.email, 'fake@fake.com'
+      assert_equal groups(:not_self_enrolling), user.groups.first
+    end
+
     test '#resolve does not create a new user if the user is not authenticated' do
       query = <<~EOF
         mutation CreateUser {
