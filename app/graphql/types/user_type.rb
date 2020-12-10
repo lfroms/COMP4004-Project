@@ -8,6 +8,7 @@ module Types
     field :approved, Boolean, null: false
     field :can_self_enroll, Boolean, null: false
     field :balance, Float, null: false
+    field :groups, Types::GroupType.connection_type, null: false
 
     field :enrollments, Types::EnrollmentType.connection_type, null: false do
       argument :offering_id, ID, required: false
