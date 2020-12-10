@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { EnrollmentRole } from "./../../../../../../../graphql/global-types";
+
 // ====================================================
 // GraphQL query operation: DashboardQuery
 // ====================================================
@@ -24,10 +26,25 @@ export interface DashboardQuery_offering_deliverables {
   nodes: (DashboardQuery_offering_deliverables_nodes | null)[] | null;
 }
 
+export interface DashboardQuery_offering_enrollments_nodes {
+  __typename: "Enrollment";
+  id: string;
+  role: EnrollmentRole;
+}
+
+export interface DashboardQuery_offering_enrollments {
+  __typename: "EnrollmentConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (DashboardQuery_offering_enrollments_nodes | null)[] | null;
+}
+
 export interface DashboardQuery_offering {
   __typename: "Offering";
   id: string;
   deliverables: DashboardQuery_offering_deliverables;
+  enrollments: DashboardQuery_offering_enrollments;
 }
 
 export interface DashboardQuery {
@@ -39,4 +56,5 @@ export interface DashboardQuery {
 
 export interface DashboardQueryVariables {
   offeringId: string;
+  userId: string;
 }
