@@ -3,3 +3,4 @@ export * from './Admin';
 export * from './Enrollments';
 export * from './Terms';
 export * from './Registration';
+export * from './Logout';

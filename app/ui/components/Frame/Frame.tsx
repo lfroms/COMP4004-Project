@@ -2,7 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { BookOutlined, CalendarOutlined, ControlOutlined } from '@ant-design/icons';
+import { BookOutlined, CalendarOutlined, ControlOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FrameQuery } from './graphql/FrameQuery';
 
 import * as styles from './Frame.module.scss';
@@ -24,6 +24,7 @@ enum MenuItem {
   'admin',
   'enrollments',
   'terms',
+  'logout',
 }
 
 export default function Frame(props: Props) {
@@ -41,6 +42,7 @@ export default function Frame(props: Props) {
     if (pathnameMatches('/admin')) return MenuItem.admin;
     if (pathnameMatches('/terms')) return MenuItem.terms;
     if (pathnameMatches('/courses')) return MenuItem.enrollments;
+    if (pathnameMatches('/logout')) return MenuItem.logout;
 
     return MenuItem.terms;
   };
@@ -58,27 +60,41 @@ export default function Frame(props: Props) {
   return (
     <div className={styles.Frame}>
       <Layout.Sider collapsed theme="dark" className={styles.GlobalNav}>
-        <div className={styles.Logo} />
+        <div className={styles.MenuContainer}>
+          <div>
+            <div className={styles.Logo} />
 
-        <Menu theme="dark" mode="inline" selectedKeys={[getSelectedKey().toString()]}>
-          {adminItem}
+            <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
+              {adminItem}
 
-          <Menu.Item
-            key={MenuItem.enrollments}
-            icon={<BookOutlined />}
-            onClick={() => history.push('/courses')}
-          >
-            Courses
-          </Menu.Item>
+              <Menu.Item
+                key={MenuItem.enrollments}
+                icon={<BookOutlined />}
+                onClick={() => history.push('/courses')}
+              >
+                Courses
+              </Menu.Item>
 
-          <Menu.Item
-            key={MenuItem.terms}
-            icon={<CalendarOutlined />}
-            onClick={() => history.push('/terms')}
-          >
-            Course Directory
-          </Menu.Item>
-        </Menu>
+              <Menu.Item
+                key={MenuItem.terms}
+                icon={<CalendarOutlined />}
+                onClick={() => history.push('/terms')}
+              >
+                Course Directory
+              </Menu.Item>
+            </Menu>
+          </div>
+
+          <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
+            <Menu.Item
+              key={MenuItem.logout}
+              icon={<LogoutOutlined />}
+              onClick={() => history.push('/logout')}
+            >
+              Log out
+            </Menu.Item>
+          </Menu>
+        </div>
       </Layout.Sider>
 
       <Layout.Content>{children}</Layout.Content>
