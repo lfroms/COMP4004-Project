@@ -99,9 +99,8 @@ export default function DeliverableShow() {
   const history = useHistory();
 
   const { deliverableId, offeringId } = useParams<ParamType>();
-  const [createGradeModalVisible, setCreateGradeModalVisible] = useState(false);
   const [submissionCreateModalVisible, setSubmissionCreateModalVisible] = useState(false);
-  const [focusedUserSubmissionId, setFocusedUserSubmissionId] = useState<string>('');
+  const [focusedUserSubmissionId, setFocusedUserSubmissionId] = useState<string | undefined>('');
 
   const { data, loading } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(
     DELIVERABLE,
@@ -141,18 +140,21 @@ export default function DeliverableShow() {
   const currentUserRole = deliverable.offering.currentEnrollment.nodes?.[0]?.role;
   const students = deliverable.offering.students.nodes ?? [];
 
-  // TODO: Implement their grade in the deliverable if it exists
   const columns: ColumnType<DeliverableShowQuery_deliverable_offering_students_nodes>[] = [
     {
       title: 'Student',
       dataIndex: ['user', 'name'],
     },
     {
+      title: 'Submission URL',
+      dataIndex: ['user', 'submissions', 'nodes'],
+      render: record => (record.length > 0 ? <p>{record[0].attachmentUrl}</p> : null),
+    },
+    {
       key: 'action',
       fixed: 'right',
       align: 'right',
       render: record => {
-        console.log(record);
         const recordSubmission = record.user.submissions.nodes[0];
 
         if (recordSubmission) {
@@ -167,7 +169,6 @@ export default function DeliverableShow() {
             disabled={!recordSubmission}
             onClick={() => {
               setFocusedUserSubmissionId(recordSubmission.id);
-              setCreateGradeModalVisible(true);
             }}
           >
             Add grade
@@ -251,9 +252,9 @@ export default function DeliverableShow() {
       />
 
       <GradeCreateModal
-        submissionId={focusedUserSubmissionId}
-        visible={createGradeModalVisible}
-        onRequestClose={() => setCreateGradeModalVisible(false)}
+        submissionId={focusedUserSubmissionId!}
+        visible={!!focusedUserSubmissionId}
+        onRequestClose={() => setFocusedUserSubmissionId(undefined)}
       />
     </>
   );
