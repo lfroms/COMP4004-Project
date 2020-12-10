@@ -7,6 +7,7 @@ import * as styles from './TitleBar.module.scss';
 interface Action {
   elementId?: string;
   disabled?: boolean;
+  hidden?: boolean;
   icon?: React.ReactNode;
   text?: string;
   type?: ButtonType;
@@ -19,18 +20,24 @@ interface Props {
 }
 
 function mapButtons(actions: Action[]) {
-  return actions.map((action, index) => (
-    <Button
-      key={`titlebar-action-${index}`}
-      id={action.elementId}
-      icon={action.icon}
-      type={action.type}
-      disabled={action.disabled}
-      onClick={action.onClick}
-    >
-      {action.text}
-    </Button>
-  ));
+  return actions.map((action, index) => {
+    if (action.hidden) {
+      return null;
+    }
+
+    return (
+      <Button
+        key={`titlebar-action-${index}`}
+        id={action.elementId}
+        icon={action.icon}
+        type={action.type}
+        disabled={action.disabled}
+        onClick={action.onClick}
+      >
+        {action.text}
+      </Button>
+    );
+  });
 }
 
 function Secondary(props: Props) {
