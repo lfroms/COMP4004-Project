@@ -19,7 +19,7 @@ Given('there exists a course offering for course with code {string} section {str
   Offering.create!(section: string2, course: course, term_id: @term.id)
 end
 
-Given('user with email {string} is the professor for course offering for course with code {string} with section {string} and term {string}') do |email, code, section, term|
+Given('user with email {string} is the professor for course offering for course with code {string} with section {string} and term {string}') do |email, code, section, _term|
   prof = User.find_by(email: email)
   course = Course.find_by(code: code)
   offering = Offering.find_by(section: section, course_id: course.id, term_id: @term.id)
@@ -27,7 +27,7 @@ Given('user with email {string} is the professor for course offering for course 
   Enrollment.create!(role: 'professor', offering: offering, user: prof)
 end
 
-Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section, term|
+Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section, _term|
   course = Course.find_by(code: code)
   offering = Offering.find_by(course_id: course.id, section: section)
 

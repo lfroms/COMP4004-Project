@@ -10,10 +10,10 @@ Feature: Deliverable Creation
     And there exists a course offering for course with code "COMP 4004" section "A"
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
-    When I fill field "deliverable_title_field" in with "final"
-    And I fill field "deliverable_description_field" in with "final examination"
-    And I fill field "deliverable_due_date_field" in with "12-15-20"
-    And I fill field "deliverable_weight_field" in with "0.25"
+    When I enter deliverable title "final"
+    And I enter deliverable description "final examination"
+    And I enter deliverable weight "0.25"
+    And I enter deliverable due date "12-15-20"
     And I click the "Create" button
     Then there exists a deliverable with title "final" with the description "final examination"
 
@@ -24,9 +24,9 @@ Feature: Deliverable Creation
     And there exists a course offering for course with code "COMP 4004" section "A"
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
-    When I fill field "deliverable_title_field" in with "final"
-    And I fill field "deliverable_description_field" in with "final examination"
-    And I fill field "deliverable_due_date_field" in with "12-15-20"
+    When I enter deliverable title "final"
+    And I enter deliverable description "final examination"
+    And I enter deliverable due date "12-15-20"
     And I click the "Create" button
     Then I receive a message saying "You must enter a weight"
 

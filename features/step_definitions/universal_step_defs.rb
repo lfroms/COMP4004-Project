@@ -25,7 +25,7 @@ end
 
 Given('I successfully log in as a professor with email {string}') do |string|
   password = '123456'
-  User.create(name: 'admin', email: string, password: password, admin: false, approved: true)
+  User.create(name: 'professor', email: string, password: password, admin: false, approved: true)
   visit('/')
   fill_in('login_email_field', with: string)
   fill_in('login_password_field', with: password)
