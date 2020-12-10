@@ -27,6 +27,7 @@ module Types
     field :delete_enrollment, mutation: Mutations::DeleteEnrollment
 
     field :create_deliverable, mutation: Mutations::CreateDeliverable
+    field :delete_deliverable, mutation: Mutations::DeleteDeliverable
 
     field :create_submission, mutation: Mutations::CreateSubmission
 
