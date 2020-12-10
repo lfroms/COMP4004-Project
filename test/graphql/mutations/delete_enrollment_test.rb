@@ -79,7 +79,6 @@ module Mutations
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      p result
       enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
       assert_equal new_balance, enrollment['user']['balance']
       assert_equal new_final_grade, enrollment['finalGrade']
