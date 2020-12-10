@@ -13,7 +13,7 @@ import {
   DeleteOutlined,
   FileAddOutlined,
 } from '@ant-design/icons';
-import { SubmissionCreateModal } from 'sections/Enrollments/components';
+import { GradeCreateModal, SubmissionCreateModal } from 'sections/Enrollments/components';
 
 import {
   DeliverableShowQuery,
@@ -62,6 +62,17 @@ const DELIVERABLE = gql`
             user {
               id
               name
+
+              submissions(deliverableId: $deliverableId) {
+                nodes {
+                  id
+                  attachmentUrl
+                  grade {
+                    value
+                    comment
+                  }
+                }
+              }
             }
           }
         }
@@ -90,6 +101,7 @@ export default function DeliverableShow() {
   const { deliverableId, offeringId } = useParams<ParamType>();
   const [createGradeModalVisible, setCreateGradeModalVisible] = useState(false);
   const [submissionCreateModalVisible, setSubmissionCreateModalVisible] = useState(false);
+  const [focusedUserSubmissionId, setFocusedUserSubmissionId] = useState<string>('');
 
   const { data, loading } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(
     DELIVERABLE,
@@ -140,11 +152,23 @@ export default function DeliverableShow() {
       fixed: 'right',
       align: 'right',
       render: record => {
+        console.log(record);
+        const recordSubmission = record.user.submissions.nodes[0];
+
+        if (recordSubmission) {
+          return <p>Grade: {recordSubmission.grade.value * 100}%</p>;
+        }
+
         return (
           <Button
             id={`add-grade-button-${record.user.id}`}
-            style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
+            style={recordSubmission ? { color: '#6BCC3C', borderColor: '#6BCC3C' } : {}}
             icon={<CheckCircleOutlined />}
+            disabled={!recordSubmission}
+            onClick={() => {
+              setFocusedUserSubmissionId(recordSubmission.id);
+              setCreateGradeModalVisible(true);
+            }}
           >
             Add grade
           </Button>
@@ -160,6 +184,7 @@ export default function DeliverableShow() {
         <Table
           dataSource={students as DeliverableShowQuery_deliverable_offering_students_nodes[]}
           columns={columns}
+          pagination={false}
         />
       </>
     ) : null;
@@ -225,8 +250,8 @@ export default function DeliverableShow() {
         onRequestClose={() => setSubmissionCreateModalVisible(false)}
       />
 
-      <CreateGradeModal
-        submissionId="0"
+      <GradeCreateModal
+        submissionId={focusedUserSubmissionId}
         visible={createGradeModalVisible}
         onRequestClose={() => setCreateGradeModalVisible(false)}
       />

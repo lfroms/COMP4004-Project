@@ -21,6 +21,15 @@ module Types
       object.enrollments.where(args)
     end
 
+    field :submissions, Types::SubmissionType.connection_type, null: false do
+      argument :deliverable_id, ID, required: false
+    end
+
+    def submissions(args = nil)
+      return object.submissions unless args
+      object.submissions.where(args)
+    end
+
     def can_self_enroll
       object.can_self_enroll?
     end

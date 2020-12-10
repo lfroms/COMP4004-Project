@@ -16,9 +16,9 @@ export default function GradeEditForm({ name, onSubmit }: Props) {
     <Form name={name} onFinish={onSubmit}>
       <Form.Item
         name="value"
-        rules={[{ required: true, message: 'You must enter a value' }, { max: 1 }, { min: 0 }]}
+        rules={[{ required: true, message: 'You must enter a value' }, { type: 'number' }]}
       >
-        <InputNumber id="grade_value_field" placeholder="Value" />
+        <InputNumber id="grade_value_field" placeholder="Value" min={0} max={1} step={0.01} />
       </Form.Item>
       <Form.Item name="comment" rules={[{ required: true, message: 'You must enter a comment' }]}>
         <Input id="grade_comment_field" placeholder="Comment" />

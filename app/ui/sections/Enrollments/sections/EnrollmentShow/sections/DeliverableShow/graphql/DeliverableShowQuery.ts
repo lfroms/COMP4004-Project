@@ -43,16 +43,37 @@ export interface DeliverableShowQuery_deliverable_offering_currentEnrollment {
   nodes: (DeliverableShowQuery_deliverable_offering_currentEnrollment_nodes | null)[] | null;
 }
 
+export interface DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes_grade {
+  __typename: "Grade";
+  value: number;
+  comment: string;
+}
+
+export interface DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes {
+  __typename: "Submission";
+  attachmentUrl: string;
+  grade: DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes_grade | null;
+}
+
+export interface DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions {
+  __typename: "SubmissionConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes | null)[] | null;
+}
+
 export interface DeliverableShowQuery_deliverable_offering_students_nodes_user {
   __typename: "User";
   id: string;
   name: string;
+  submissions: DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions;
 }
 
 export interface DeliverableShowQuery_deliverable_offering_students_nodes {
   __typename: "Enrollment";
   id: string;
-  user: DeliverableShowQuery_deliverable_offering_enrollments_nodes_user;
+  user: DeliverableShowQuery_deliverable_offering_students_nodes_user;
 }
 
 export interface DeliverableShowQuery_deliverable_offering_students {

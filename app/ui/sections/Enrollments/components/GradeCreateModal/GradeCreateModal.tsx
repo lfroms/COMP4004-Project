@@ -11,7 +11,7 @@ const FORM_NAME = 'gradeCreateForm';
 
 const CREATE_GRADE = gql`
   mutation CreateGradeModalMutation($submissionId: ID!, $value: Float!, $comment: String!) {
-    createGrade(input: { submissionId: $submissionid, value: $value, comment: $comment }) {
+    createGrade(input: { submissionId: $submissionId, value: $value, comment: $comment }) {
       grade {
         id
       }
@@ -28,7 +28,7 @@ interface Props {
   onRequestClose: () => void;
 }
 
-export default function CreateGradeModal({ submissionId, visible, onRequestClose }: Props) {
+export default function GradeCreateModal({ submissionId, visible, onRequestClose }: Props) {
   const [createGrade, { loading }] = useMutation<
     CreateGradeModalMutation,
     CreateGradeModalMutationVariables
@@ -41,6 +41,7 @@ export default function CreateGradeModal({ submissionId, visible, onRequestClose
         value: formData.value,
         comment: formData.comment,
       },
+      refetchQueries: ['DeliverableShowQuery'],
     });
 
     data?.createGrade?.errors.forEach(error => message.error(error.message));
