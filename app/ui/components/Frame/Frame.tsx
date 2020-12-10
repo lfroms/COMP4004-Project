@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
 import { BookOutlined, CalendarOutlined, ControlOutlined, LogoutOutlined } from '@ant-design/icons';
 import { CurrentUserContext } from 'foundation';
 
@@ -75,15 +75,19 @@ export default function Frame(props: Props) {
             </Menu>
           </div>
 
-          <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
-            <Menu.Item
-              key={MenuItem.logout}
-              icon={<LogoutOutlined />}
-              onClick={() => history.push('/logout')}
-            >
-              Log out
-            </Menu.Item>
-          </Menu>
+          <div className={styles.Options}>
+            <Typography.Text className={styles.UserName}>{user?.name}</Typography.Text>
+
+            <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
+              <Menu.Item
+                key={MenuItem.logout}
+                icon={<LogoutOutlined />}
+                onClick={() => history.push('/logout')}
+              >
+                Log out
+              </Menu.Item>
+            </Menu>
+          </div>
         </div>
       </Layout.Sider>
 
