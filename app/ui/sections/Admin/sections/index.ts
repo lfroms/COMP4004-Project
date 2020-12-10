@@ -1,6 +1,7 @@
 export * from './UserIndex';
 export * from './UserShow';
 export * from './GroupIndex';
+export * from './GroupShow';
 export * from './TermIndex';
 export * from './TermShow';
 export * from './OfferingIndex';
