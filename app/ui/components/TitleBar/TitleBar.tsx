@@ -1,17 +1,20 @@
 import React, { NamedExoticComponent } from 'react';
 import Button, { ButtonType } from 'antd/lib/button';
 import { Col, Divider, Row, Space, Typography } from 'antd';
+import Popconfirm, { PopconfirmProps } from 'antd/lib/popconfirm';
 
 import * as styles from './TitleBar.module.scss';
 
 interface Action {
   elementId?: string;
   disabled?: boolean;
+  danger?: boolean;
   hidden?: boolean;
   icon?: React.ReactNode;
   text?: string;
   type?: ButtonType;
-  onClick: () => void;
+  onClick?: () => void;
+  popConfirm?: PopconfirmProps;
 }
 
 interface Props {
@@ -25,7 +28,7 @@ function mapButtons(actions: Action[]) {
       return null;
     }
 
-    return (
+    const button = (
       <Button
         key={`titlebar-action-${index}`}
         id={action.elementId}
@@ -33,10 +36,17 @@ function mapButtons(actions: Action[]) {
         type={action.type}
         disabled={action.disabled}
         onClick={action.onClick}
+        danger={action.danger}
       >
         {action.text}
       </Button>
     );
+
+    if (action.popConfirm) {
+      return <Popconfirm {...action.popConfirm}>{button}</Popconfirm>;
+    }
+
+    return button;
   });
 }
 
