@@ -27,6 +27,33 @@ module Mutations
       assert_equal 'Arnold', user.name
     end
 
+    test '#resolve updates a user with new groups and saves it to the db' do
+      user_to_update = users(:not_admin)
+      group = groups(:not_self_enrolling)
+
+      query = <<~EOF
+        mutation UpdateUser {
+          updateUser(input: {id: "#{user_to_update.id}", groupIds: [#{group.id}]}) {
+            user {
+              name
+              id
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
+      id = result.dig('data', 'updateUser', 'user', 'id')
+      user = User.find(id)
+
+      assert_equal 'Not Admin', user.name
+      assert_equal 1, user.groups.count
+      assert_equal group, user.groups.first
+    end
+
     test '#resolve returns error if id is not provided' do
       query = <<~EOF
         mutation UpdateUser {

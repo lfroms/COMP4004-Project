@@ -11,6 +11,8 @@ module Types
     field :create_group, mutation: Mutations::CreateGroup
     field :update_group, mutation: Mutations::UpdateGroup
     field :delete_group, mutation: Mutations::DeleteGroup
+    field :add_user_to_group, mutation: Mutations::AddUserToGroup
+    field :remove_user_from_group, mutation: Mutations::RemoveUserFromGroup
 
     field :create_course, mutation: Mutations::CreateCourse
     field :update_course, mutation: Mutations::UpdateCourse

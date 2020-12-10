@@ -12,22 +12,27 @@ module Mutations
     argument :password, String, required: false
     argument :admin, Boolean, required: false
     argument :approved, Boolean, required: false
+    argument :group_ids, [ID], required: false
 
     def resolve(args)
       assert_authenticated!
       assert_admin_user!
 
-      filtered_args = args.compact
+      provided_args = args.compact
+      group_ids = args.delete(:group_ids)
 
-      user = User.find_by(id: filtered_args[:id])
+      updated_args = provided_args
+      updated_args[:groups] = Group.where(id: group_ids) if group_ids
+
+      user = User.find_by(id: args[:id])
       unless user
         return {
           user: nil,
-          errors: Types::UserError.from("Could not find user with id #{filtered_args[:id]}"),
+          errors: Types::UserError.from("Could not find user with id #{args[:id]}"),
         }
       end
 
-      if user.update(filtered_args)
+      if user.update(updated_args)
         {
           user: user,
           errors: [],

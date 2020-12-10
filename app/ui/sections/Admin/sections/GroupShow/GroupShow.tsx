@@ -1,20 +1,26 @@
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { Descriptions, Tag } from 'antd';
+import React, { useState } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { Button, Descriptions, Popconfirm, Tag, message } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { Link, useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
+import { UsergroupAddOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+import { UserGroupAddModal } from 'sections/Admin/components';
 
 import {
   AdminGroupShowQuery,
   AdminGroupShowQuery_group_users_nodes,
 } from './graphql/AdminGroupShowQuery';
+import {
+  AdminGroupShowRemoveUserMutation,
+  AdminGroupShowRemoveUserMutationVariables,
+} from './graphql/AdminGroupShowRemoveUserMutation';
 
 interface ParamType {
   groupId: string;
 }
 
-const TERM = gql`
+const GROUP = gql`
   query AdminGroupShowQuery($id: ID!) {
     group(id: $id) {
       id
@@ -32,11 +38,35 @@ const TERM = gql`
     }
   }
 `;
+
+const REMOVE_USER = gql`
+  mutation AdminGroupShowRemoveUserMutation($userId: ID!, $groupId: ID!) {
+    removeUserFromGroup(input: { userId: $userId, groupId: $groupId }) {
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 export default function GroupShow() {
   const { groupId } = useParams<ParamType>();
-  const { data, loading } = useQuery<AdminGroupShowQuery>(TERM, {
+  const [addUserModalVisible, setAddUserModalVisible] = useState(false);
+  const { data, loading } = useQuery<AdminGroupShowQuery>(GROUP, {
     variables: { id: groupId },
   });
+
+  const [removeUserFromGroup, { loading: removeUserLoading }] = useMutation<
+    AdminGroupShowRemoveUserMutation,
+    AdminGroupShowRemoveUserMutationVariables
+  >(REMOVE_USER, {
+    refetchQueries: ['AdminGroupShowQuery'],
+  });
+
+  const handleConfirmRemove = (id: string) => async () => {
+    const { data } = await removeUserFromGroup({ variables: { userId: id, groupId } });
+    data?.removeUserFromGroup?.errors.forEach(error => message.error(error.message));
+  };
 
   const group = data?.group;
 
@@ -72,6 +102,23 @@ export default function GroupShow() {
       sorter: (first, second) => (first.admin ? 1 : 0) - (second.admin ? 1 : 0),
       sortDirections: ['ascend', 'descend'],
     },
+    {
+      key: 'action',
+      fixed: 'right',
+      align: 'right',
+      render: (_value, record) => (
+        <Popconfirm
+          placement="rightBottom"
+          title="Are you sure you want to remove this user from the group?"
+          onConfirm={handleConfirmRemove(record.id)}
+          okText="Confirm"
+          okButtonProps={{ id: 'confirm_user_approval', loading: removeUserLoading }}
+          cancelText="Cancel"
+        >
+          <Button id={`remove_user_id_${record.id}`} danger icon={<UsergroupDeleteOutlined />} />
+        </Popconfirm>
+      ),
+    },
   ];
 
   return (
@@ -85,13 +132,29 @@ export default function GroupShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <TitleBar.Secondary title="Members" />
+      <TitleBar.Secondary
+        title="Members"
+        actions={[
+          {
+            elementId: 'add_member',
+            icon: <UsergroupAddOutlined />,
+            text: 'Add group member',
+            onClick: () => setAddUserModalVisible(true),
+          },
+        ]}
+      />
 
       <Table
         columns={columns}
         dataSource={group.users.nodes as AdminGroupShowQuery_group_users_nodes[]}
         pagination={false}
         loading={loading}
+      />
+
+      <UserGroupAddModal
+        groupId={groupId}
+        visible={addUserModalVisible}
+        onRequestClose={() => setAddUserModalVisible(false)}
       />
     </>
   );

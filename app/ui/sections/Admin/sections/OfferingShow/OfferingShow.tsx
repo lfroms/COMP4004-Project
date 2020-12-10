@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Descriptions, Tag } from 'antd';
-import { UserAddOutlined } from '@ant-design/icons';
+import { Descriptions, Tag } from 'antd';
+import { CheckOutlined, UserAddOutlined } from '@ant-design/icons';
 import { TitleBar } from 'components';
 import { createTermName } from 'helpers';
-
 import { AssignProfessorModal } from 'sections/Admin/components';
+import Table, { ColumnType } from 'antd/lib/table';
 
 import {
   AdminOfferingShowQuery,
   AdminOfferingShowQuery_offering_enrollments_nodes,
 } from './graphql/AdminOfferingShowQuery';
-import * as styles from './OfferingShow.module.scss';
-import Table, { ColumnType } from 'antd/lib/table';
 
 interface ParamType {
   offeringId: string;
@@ -85,7 +83,18 @@ export default function OfferingShow() {
 
   return (
     <>
-      <TitleBar title={`${offering.course.code} ${offering.section}`} />
+      <TitleBar
+        title={`${offering.course.code} ${offering.section}`}
+        actions={[
+          {
+            elementId: 'assign_professor',
+            icon: professor ? <CheckOutlined /> : <UserAddOutlined />,
+            onClick: () => setAssignProfessorModalVisible(true),
+            text: professor ? 'Professor assigned' : 'Assign professor',
+            disabled: !!professor,
+          },
+        ]}
+      />
 
       <Descriptions>
         <Descriptions.Item label="Course name">{offering.course.name}</Descriptions.Item>
@@ -97,16 +106,6 @@ export default function OfferingShow() {
         </Descriptions.Item>
         {professor && <Descriptions.Item label="Professor">{professor}</Descriptions.Item>}
       </Descriptions>
-      {!professor && (
-        <Button
-          id="assign_professor"
-          icon={<UserAddOutlined />}
-          onClick={() => setAssignProfessorModalVisible(true)}
-          className={styles.AssignProfButton}
-        >
-          Assign professor
-        </Button>
-      )}
       <TitleBar.Secondary title="Enrollments" />
       <Table
         columns={columns}

@@ -12,3 +12,5 @@ export * from './DeliverableEditForm';
 export * from './DeliverableCreateModal';
 export * from './GroupEditForm';
 export * from './GroupCreateModal';
+export * from './UserGroupAddModal';
+export * from './UserGroupEditForm';
