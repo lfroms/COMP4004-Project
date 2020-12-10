@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { Button, Descriptions, Popconfirm, Tag, message } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { Link, useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
-import { UsergroupDeleteOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, UsergroupDeleteOutlined } from '@ant-design/icons';
+import { UserGroupAddModal } from 'sections/Admin/components';
 
 import {
   AdminGroupShowQuery,
@@ -50,6 +51,7 @@ const REMOVE_USER = gql`
 
 export default function GroupShow() {
   const { groupId } = useParams<ParamType>();
+  const [addUserModalVisible, setAddUserModalVisible] = useState(false);
   const { data, loading } = useQuery<AdminGroupShowQuery>(GROUP, {
     variables: { id: groupId },
   });
@@ -130,13 +132,29 @@ export default function GroupShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <TitleBar.Secondary title="Members" />
+      <TitleBar.Secondary
+        title="Members"
+        actions={[
+          {
+            elementId: 'add_member',
+            icon: <UsergroupAddOutlined />,
+            text: 'Add group member',
+            onClick: () => setAddUserModalVisible(true),
+          },
+        ]}
+      />
 
       <Table
         columns={columns}
         dataSource={group.users.nodes as AdminGroupShowQuery_group_users_nodes[]}
         pagination={false}
         loading={loading}
+      />
+
+      <UserGroupAddModal
+        groupId={groupId}
+        visible={addUserModalVisible}
+        onRequestClose={() => setAddUserModalVisible(false)}
       />
     </>
   );

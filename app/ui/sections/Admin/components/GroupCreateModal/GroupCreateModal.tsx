@@ -15,7 +15,7 @@ interface Props {
   onRequestClose?: () => void;
 }
 
-const CREATE_USER = gql`
+const CREATE_GROUP = gql`
   mutation GroupCreateModalMutation($name: String!, $canSelfEnroll: Boolean!) {
     createGroup(input: { name: $name, canSelfEnroll: $canSelfEnroll }) {
       group {
@@ -32,7 +32,7 @@ export default function GroupCreateModal({ visible, onRequestClose }: Props) {
   const [createGroup, { loading }] = useMutation<
     GroupCreateModalMutation,
     GroupCreateModalMutationVariables
-  >(CREATE_USER);
+  >(CREATE_GROUP);
 
   const handleFormSubmit = async (formData: GroupEditFormData) => {
     const { data } = await createGroup({
