@@ -3,15 +3,18 @@ fall:
   end_date: 2020-12-15 15:32:10
   registration_deadline: 2020-11-21 15:32:10
   withdrawal_deadline: 2020-11-21 15:32:10
+  per_credit_fee: 900.00
 
 winter:
   start_date: 2020-1-4 15:32:10
   end_date: 2020-4-15 15:32:10
   registration_deadline: 2019-11-21 15:32:10
   withdrawal_deadline: 2020-2-21 15:32:10
+  per_credit_fee: 1000.00
 
 future:
   start_date: 2021-1-4 15:32:10
   end_date: 2021-4-15 15:32:10
   registration_deadline: 2020-11-21 15:32:10
   withdrawal_deadline: 2021-2-21 15:32:10
+  per_credit_fee: 1500.00
