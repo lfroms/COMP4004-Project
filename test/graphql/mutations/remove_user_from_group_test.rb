@@ -182,7 +182,7 @@ module Mutations
       assert_equal "User is not a member of group #{group.id}.", error_message
     end
 
-    test '#resolve does not delete a user if the user is not authenticated' do
+    test '#resolve does not delete a membership if the user is not authenticated' do
       user = users(:not_admin)
       group = groups(:self_enrolling)
 
@@ -214,7 +214,7 @@ module Mutations
       assert user.groups.include?(group)
     end
 
-    test '#resolve does not delete a user if the user is not an admin' do
+    test '#resolve does not delete a membership if the user is not an admin' do
       user = users(:not_admin)
       group = groups(:self_enrolling)
 

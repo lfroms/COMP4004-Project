@@ -61,7 +61,7 @@ module Mutations
         {
           user: user,
           group: group,
-          errors: Types::UserError.from(groups.errors_hash),
+          errors: Types::UserError.from(membership.errors_hash),
         }
       end
     end
