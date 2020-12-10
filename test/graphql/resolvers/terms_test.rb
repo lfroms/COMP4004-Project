@@ -20,7 +20,7 @@ module Resolvers
       results = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       terms = results.dig('data', 'terms', 'nodes')
 
-      assert_equal 2, terms.length
+      assert_equal Term.all.length, terms.length
       assert_equal terms(:fall).start_date, terms[0]['startDate']
       assert_equal terms(:fall).end_date, terms[0]['endDate']
       assert_equal terms(:fall).registration_deadline, terms[0]['registrationDeadline']

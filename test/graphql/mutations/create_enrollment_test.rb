@@ -2,9 +2,10 @@
 require 'test_helper'
 module Mutations
   class CreateEnrollmentTest < ActiveSupport::TestCase
-    test '#resolve creates a new enrollment and saves it to the database' do
+    test '#resolve creates a new enrollment, saves it to the database and updates user balance' do
       user_id = users(:sally).id
       offering_id = offerings(:object_oriented_section_a).id
+      new_balance = users(:sally).balance + offerings(:object_oriented_section_a).term.per_credit_fee
       query = <<~EOF
         mutation CreateEnrollment {
           createEnrollment(input: {role: "student", userId: #{user_id}, offeringId: #{offering_id}}) {
@@ -23,6 +24,7 @@ module Mutations
       assert_equal enrollment.role, 'student'
       assert_equal enrollment.user.id, user_id
       assert_equal enrollment.offering.id, offering_id
+      assert_equal new_balance, enrollment.user.balance
     end
 
     test '#resolve does not create a new enrollment if the user is not authenticated' do

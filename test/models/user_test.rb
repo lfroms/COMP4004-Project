@@ -20,6 +20,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
+  test 'default balance is 0' do
+    user = User.new(name: 'Lukas', email: 'example@example.com', password: '123456', admin: true, approved: true)
+
+    assert_equal 0, user.balance
+  end
+
   test 'email must be valid' do
     user = User.new(name: 'Lukas', email: 'test.con', password: '123456', admin: true, approved: true)
 

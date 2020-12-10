@@ -34,15 +34,32 @@ module Mutations
         }
       end
 
-      if enrollment.update(deleted_at: Time.zone.now)
-        {
-          enrollment: enrollment,
-          errors: [],
-        }
-      else
+      begin
+        enrollment.transaction do
+          term = enrollment.offering.term
+          per_credit_fee = term.per_credit_fee
+          current_balance = enrollment.user.balance
+          new_balance = current_balance
+          new_final_grade = enrollment.final_grade
+
+          if Time.zone.now < term.withdrawal_deadline
+            new_balance = current_balance - per_credit_fee
+          else
+            new_final_grade = 'WDN'
+          end
+
+          enrollment.user.update!(balance: new_balance)
+          enrollment.update!(deleted_at: Time.zone.now, final_grade: new_final_grade)
+
+          return {
+            enrollment: enrollment,
+            errors: [],
+          }
+        end
+      rescue ActiveRecord::RecordInvalid => error
         {
           enrollment: nil,
-          errors: Types::UserError.from(enrollment.errors_hash),
+          errors: Types::UserError.from(error.record.errors_hash),
         }
       end
     end

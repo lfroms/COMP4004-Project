@@ -6,6 +6,7 @@ module Types
     field :end_date, GraphQL::Types::ISO8601DateTime, null: false
     field :registration_deadline, GraphQL::Types::ISO8601DateTime, null: false
     field :withdrawal_deadline, GraphQL::Types::ISO8601DateTime, null: false
+    field :per_credit_fee, Float, null: false
     field :offerings, Types::OfferingType.connection_type, null: false
   end
 end

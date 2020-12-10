@@ -7,6 +7,7 @@ module Types
     field :admin, Boolean, null: false
     field :approved, Boolean, null: false
     field :can_self_enroll, Boolean, null: false
+    field :balance, Float, null: false
 
     field :enrollments, Types::EnrollmentType.connection_type, null: false do
       argument :offering_id, ID, required: false
