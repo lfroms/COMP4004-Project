@@ -51,7 +51,7 @@ export default function UserCreateModal({ groupId, visible, onRequestClose }: Pr
 
   return (
     <Modal
-      title="Add user"
+      title="Add group member"
       visible={visible}
       onCancel={onRequestClose}
       destroyOnClose
@@ -60,7 +60,7 @@ export default function UserCreateModal({ groupId, visible, onRequestClose }: Pr
           Cancel
         </Button>,
         <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
-          Add user
+          Add
         </Button>,
       ]}
     >
