@@ -29,7 +29,6 @@ module Mutations
     test '#resolve updates user balance before withdrawal deadline' do
       enrollment_to_delete = enrollments(:future_enrollment)
       new_balance = enrollment_to_delete.user.balance - enrollment_to_delete.offering.term.per_credit_fee
-      new_final_grade = enrollment_to_delete.final_grade
 
       query = <<~EOF
         mutation TestMutation {
@@ -52,7 +51,7 @@ module Mutations
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
       assert_equal new_balance, enrollment['user']['balance']
-      assert_equal new_final_grade, enrollment['finalGrade']
+      assert_nil enrollment['finalGrade']
     end
 
     test '#resolve updates final grade after withdrawal deadline' do
