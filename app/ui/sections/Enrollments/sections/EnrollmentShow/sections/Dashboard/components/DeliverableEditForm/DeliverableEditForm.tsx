@@ -26,15 +26,20 @@ export default function DeliverableEditForm({ name, onSubmit }: Props) {
         <Input id="deliverable_description_field" placeholder="Description" />
       </Form.Item>
       <Form.Item
+        id="deliverable_weight_form_item"
         name="weight"
-        rules={[
-          { required: true, type: 'number', message: 'You must enter a weight', max: 1, min: 0 },
-        ]}
+        rules={[{ required: true, type: 'number', message: 'You must enter a weight' }]}
       >
-        <InputNumber id="deliverable_weight_field" placeholder="Weight" />
+        <InputNumber
+          id="deliverable_weight_field"
+          placeholder="Weight"
+          min={0}
+          max={1}
+          step={0.01}
+        />
       </Form.Item>
       <Form.Item name="dueDate" rules={[{ required: true, message: 'You must enter a due date' }]}>
-        <DatePicker />
+        <DatePicker id="deliverable_due_date_field" format="MM-DD-YY" />
       </Form.Item>
     </Form>
   );

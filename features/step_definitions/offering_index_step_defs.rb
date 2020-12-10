@@ -6,17 +6,33 @@ end
 
 Given('there exists a term {string}') do |string|
   dates = string.split(' - ')
-  @term = Term.create(
+  @term = Term.create!(
     start_date: Time.zone.parse(dates.first),
     end_date: Time.zone.parse(dates.last),
-    registration_deadline: Time.zone.local(2021, 2, 1, 4, 5, 6),
-    withdrawal_deadline: Time.zone.local(2021, 2, 15, 4, 5, 6),
+    registration_deadline: Time.zone.parse(dates.first),
+    withdrawal_deadline: Time.zone.parse(dates.first) + 5,
   )
 end
 
 Given('there exists a course offering for course with code {string} section {string}') do |string, string2|
   course = Course.find_by(code: string)
-  Offering.create(section: string2, course: course, term: @term)
+  Offering.create!(section: string2, course: course, term_id: @term.id)
+end
+
+Given('user with email {string} is the professor for course offering for course with code {string} with section {string} and term {string}') do |email, code, section, term|
+  prof = User.find_by(email: email)
+  course = Course.find_by(code: code)
+  offering = Offering.find_by(section: section, course_id: course.id, term_id: @term.id)
+
+  Enrollment.create!(role: 'professor', offering: offering, user: prof)
+end
+
+Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section, term|
+  course = Course.find_by(code: code)
+  offering = Offering.find_by(course_id: course.id, section: section)
+
+  visit("/courses/#{offering.id}")
+  click_button('add_deliverable_button')
 end
 
 When('I enter section {string}') do |string|
