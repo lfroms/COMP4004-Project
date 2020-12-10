@@ -5,7 +5,7 @@ Given('I am on the course index') do
 end
 
 Given('there exists a course with code {string}') do |string|
-  Course.create(code: string, name: 'Existent course')
+  Course.create!(code: string, name: 'Existent course')
 end
 
 When('I enter code {string}') do |string|
