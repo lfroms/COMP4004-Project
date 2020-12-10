@@ -179,7 +179,7 @@ module Mutations
 
       assert_not_nil data['user']
       assert_not_nil data['group']
-      assert_equal "User is already a member of group #{group.id}.", error_message
+      assert_equal 'Not Admin is already a member of Self-enrolling.', error_message
     end
 
     test '#resolve does not delete a membership if the user is not authenticated' do

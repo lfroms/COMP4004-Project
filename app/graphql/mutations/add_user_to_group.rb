@@ -45,7 +45,7 @@ module Mutations
         return {
           user: user,
           group: group,
-          errors: Types::UserError.from("User is already a member of group #{group_id}."),
+          errors: Types::UserError.from("#{user.name} is already a member of #{group.name}."),
         }
       end
 
