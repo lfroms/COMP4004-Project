@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useHistory, useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
 import { Space } from 'antd';
-import { DeliverableCard } from './components';
+import { DeliverableCard, DeliverableCreateModal } from './components';
 
 import { DashboardQuery, DashboardQueryVariables } from './graphql/DashboardQuery';
+import { AppstoreAddOutlined } from '@ant-design/icons';
 
 const DELIVERABLES = gql`
   query DashboardQuery($offeringId: ID!) {
@@ -30,6 +31,7 @@ interface ParamType {
 
 export default function Dashboard() {
   const { offeringId } = useParams<ParamType>();
+  const [deliverableCreateModalVisible, setDeliverableCreateModalVisible] = useState(false);
   const history = useHistory();
 
   const { data } = useQuery<DashboardQuery, DashboardQueryVariables>(DELIVERABLES, {
@@ -56,10 +58,24 @@ export default function Dashboard() {
 
   return (
     <>
-      <TitleBar title="Dashboard" />
+      <TitleBar
+        title="Dashboard"
+        actions={[
+          {
+            text: 'Add Deliverable',
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setDeliverableCreateModalVisible(true),
+          },
+        ]}
+      />
       <Space direction="vertical" size="large">
         {deliverables}
       </Space>
+      <DeliverableCreateModal
+        offeringId={offeringId}
+        visible={deliverableCreateModalVisible}
+        onRequestClose={() => setDeliverableCreateModalVisible(false)}
+      />
     </>
   );
 }

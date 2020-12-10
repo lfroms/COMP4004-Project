@@ -58,6 +58,8 @@ export default function DeliverableCreateModal({ offeringId, visible, onRequestC
         dueDate: formData.dueDate,
         offeringId: offeringId,
       },
+      refetchQueries: ['DashboardQuery'],
+      awaitRefetchQueries: true,
     });
 
     data?.createDeliverable?.errors.forEach(error => message.error(error.message));

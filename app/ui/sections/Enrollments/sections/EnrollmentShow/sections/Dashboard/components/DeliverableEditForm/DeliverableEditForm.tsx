@@ -27,7 +27,9 @@ export default function DeliverableEditForm({ name, onSubmit }: Props) {
       </Form.Item>
       <Form.Item
         name="weight"
-        rules={[{ required: true, message: 'You must enter a weight' }, { max: 1 }, { min: 0 }]}
+        rules={[
+          { required: true, type: 'number', message: 'You must enter a weight', max: 1, min: 0 },
+        ]}
       >
         <InputNumber id="deliverable_weight_field" placeholder="Weight" />
       </Form.Item>
