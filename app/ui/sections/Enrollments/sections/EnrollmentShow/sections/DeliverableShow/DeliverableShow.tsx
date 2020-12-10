@@ -111,8 +111,7 @@ export default function DeliverableShow() {
     data?.deleteDeliverable?.errors.forEach(error => message.error(error.message));
 
     if (data?.deleteDeliverable?.deliverable) {
-      // Replace the current location so that the user can't go back to a broken screen.
-      history.replace(`/courses/${offeringId}`);
+      history.push(`/courses/${offeringId}`);
     }
   };
 
