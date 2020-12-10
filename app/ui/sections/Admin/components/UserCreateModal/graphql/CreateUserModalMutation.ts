@@ -35,5 +35,5 @@ export interface CreateUserModalMutationVariables {
   email: string;
   password: string;
   admin: boolean;
-  groupIds: string[];
+  groupIds?: string[] | null;
 }
