@@ -6,6 +6,8 @@ const CURRENT_USER = gql`
   query CurrentUserContextQuery {
     currentUser {
       id
+      name
+      admin
     }
   }
 `;
@@ -15,7 +17,11 @@ interface Props {
 }
 
 interface Value {
-  id?: string;
+  user?: {
+    id: string;
+    name: string;
+    admin: boolean;
+  };
 }
 
 export const CurrentUserContext = createContext<Value>({});
@@ -24,7 +30,7 @@ export default function CurrentUserContextProvider({ children }: Props) {
   const { data } = useQuery<CurrentUserContextQuery>(CURRENT_USER);
 
   const value: Value = {
-    id: data?.currentUser?.id,
+    user: data?.currentUser ?? undefined,
   };
 
   return <CurrentUserContext.Provider value={value}>{children}</CurrentUserContext.Provider>;

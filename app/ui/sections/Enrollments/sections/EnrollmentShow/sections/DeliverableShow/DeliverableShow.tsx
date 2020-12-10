@@ -66,7 +66,7 @@ const DELIVERABLE = gql`
 `;
 
 export default function DeliverableShow() {
-  const { id: userId } = useContext(CurrentUserContext);
+  const { user } = useContext(CurrentUserContext);
   const { deliverableId } = useParams<ParamType>();
 
   const [submissionCreateModalVisible, setSubmissionCreateModalVisible] = useState(false);
@@ -74,15 +74,15 @@ export default function DeliverableShow() {
   const { data, loading } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(
     DELIVERABLE,
     {
-      skip: !userId,
+      skip: !user,
       // Non-null assertion since we skip this query if userID is undefined
-      variables: { deliverableId, userId: userId! },
+      variables: { deliverableId, userId: user!.id },
     }
   );
 
   const deliverable = data?.deliverable;
 
-  if (loading || !userId) {
+  if (loading || !user) {
     return <Loading />;
   }
 
