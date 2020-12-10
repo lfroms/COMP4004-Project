@@ -74,7 +74,7 @@ export default function Dashboard() {
       ? [
           {
             elementId: 'add_deliverable_button',
-            text: 'New Deliverable',
+            text: 'New deliverable',
             icon: <AppstoreAddOutlined />,
             onClick: () => setDeliverableCreateModalVisible(true),
           },
