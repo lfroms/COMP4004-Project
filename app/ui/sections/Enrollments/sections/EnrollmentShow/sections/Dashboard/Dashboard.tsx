@@ -38,15 +38,16 @@ interface ParamType {
 }
 
 export default function Dashboard() {
-  const { id: userId } = useContext(CurrentUserContext);
+  const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
   const [deliverableCreateModalVisible, setDeliverableCreateModalVisible] = useState(false);
   const history = useHistory();
 
   const { data } = useQuery<DashboardQuery, DashboardQueryVariables>(DELIVERABLES, {
+    skip: !user,
     variables: {
       offeringId,
-      userId: userId!,
+      userId: user!.id,
     },
   });
 
