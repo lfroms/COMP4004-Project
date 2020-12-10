@@ -43,6 +43,10 @@ function mapButtons(actions: Action[]) {
 function Secondary(props: Props) {
   const { title, actions = [] } = props;
 
+  if (actions.length === 0) {
+    return <Divider orientation="left">{title}</Divider>;
+  }
+
   return (
     <Row align="middle" gutter={12}>
       <Col flex={1}>

@@ -8,8 +8,6 @@ export * from './UserCreateModal';
 export * from './UserEditForm';
 export * from './AssignProfessorModal';
 export * from './AssignProfessorForm';
-export * from './DeliverableEditForm';
-export * from './DeliverableCreateModal';
 export * from './GroupEditForm';
 export * from './GroupCreateModal';
 export * from './UserGroupAddModal';

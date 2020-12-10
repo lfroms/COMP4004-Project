@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useHistory, useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
 import { Space } from 'antd';
-import { DeliverableCard } from './components';
+import { DeliverableCard, DeliverableCreateModal } from './components';
 
 import { DashboardQuery, DashboardQueryVariables } from './graphql/DashboardQuery';
+import { AppstoreAddOutlined } from '@ant-design/icons';
+import { CurrentUserContext } from 'foundation';
 
 const DELIVERABLES = gql`
-  query DashboardQuery($offeringId: ID!) {
+  query DashboardQuery($offeringId: ID!, $userId: ID!) {
     offering(id: $offeringId) {
       id
       deliverables {
@@ -20,6 +22,13 @@ const DELIVERABLES = gql`
           weight
         }
       }
+
+      enrollments(userId: $userId) {
+        nodes {
+          id
+          role
+        }
+      }
     }
   }
 `;
@@ -29,14 +38,20 @@ interface ParamType {
 }
 
 export default function Dashboard() {
+  const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
+  const [deliverableCreateModalVisible, setDeliverableCreateModalVisible] = useState(false);
   const history = useHistory();
 
   const { data } = useQuery<DashboardQuery, DashboardQueryVariables>(DELIVERABLES, {
+    skip: !user,
     variables: {
       offeringId,
+      userId: user!.id,
     },
   });
+
+  const currentUserRole = data?.offering?.enrollments.nodes?.[0]?.role;
 
   const deliverables = data?.offering?.deliverables.nodes?.map((deliverable, index) => {
     if (!deliverable) {
@@ -54,12 +69,29 @@ export default function Dashboard() {
     );
   });
 
+  const titleBarActions =
+    currentUserRole === 'professor'
+      ? [
+          {
+            elementId: 'add_deliverable_button',
+            text: 'New Deliverable',
+            icon: <AppstoreAddOutlined />,
+            onClick: () => setDeliverableCreateModalVisible(true),
+          },
+        ]
+      : [];
+
   return (
     <>
-      <TitleBar title="Dashboard" />
+      <TitleBar title="Dashboard" actions={titleBarActions} />
       <Space direction="vertical" size="large">
         {deliverables}
       </Space>
+      <DeliverableCreateModal
+        offeringId={offeringId}
+        visible={deliverableCreateModalVisible}
+        onRequestClose={() => setDeliverableCreateModalVisible(false)}
+      />
     </>
   );
 }

@@ -10,6 +10,8 @@
 export interface CurrentUserContextQuery_currentUser {
   __typename: "User";
   id: string;
+  name: string;
+  admin: boolean;
 }
 
 export interface CurrentUserContextQuery {
