@@ -21,8 +21,11 @@ const CREATE_USER = gql`
     $email: String!
     $password: String!
     $admin: Boolean!
+    $groupIds: [ID!]!
   ) {
-    createUser(input: { name: $name, email: $email, password: $password, admin: $admin }) {
+    createUser(
+      input: { name: $name, email: $email, password: $password, admin: $admin, groupIds: $groupIds }
+    ) {
       user {
         id
       }
@@ -46,6 +49,7 @@ export default function UserCreateModal({ visible, onRequestClose }: Props) {
         email: formData.email,
         password: formData.password,
         admin: formData.admin,
+        groupIds: formData.groupIds,
       },
       refetchQueries: ['AdminUserIndexQuery'],
       awaitRefetchQueries: true,
