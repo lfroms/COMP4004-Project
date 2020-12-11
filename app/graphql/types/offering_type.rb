@@ -9,14 +9,18 @@ module Types
     field :enrollments, Types::EnrollmentType.connection_type, null: false do
       argument :user_id, ID, required: false
       argument :role, Types::EnrollmentRoleType, required: false
+      argument :including_dropped, Boolean, required: false
     end
     field :full, Boolean, null: false
     field :deliverables, Types::DeliverableType.connection_type, null: false
 
     def enrollments(args = nil)
-      return object.enrollments unless args
+      return object.enrollments.where(deleted_at: nil) unless args
 
-      object.enrollments.where(args)
+      including_dropped = args.delete(:including_dropped)
+      return object.enrollments.where(args) if including_dropped
+
+      object.enrollments.where(deleted_at: nil).where(args)
     end
 
     def full

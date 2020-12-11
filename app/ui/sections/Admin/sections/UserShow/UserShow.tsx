@@ -53,7 +53,7 @@ export default function UserDetails() {
         <Descriptions.Item label="Type">{renderTypeTag(user.admin)}</Descriptions.Item>
         <Descriptions.Item label="Status">{renderStatusTag(user.approved)}</Descriptions.Item>
         <Descriptions.Item label="Fees">${user.fees}</Descriptions.Item>
-        <Descriptions.Item label="Enrollments">
+        <Descriptions.Item label="Active enrollments">
           {user.enrollments.nodes?.length ?? 0}
         </Descriptions.Item>
       </Descriptions>
