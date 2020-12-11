@@ -3,7 +3,7 @@ class Offering < ApplicationRecord
   validates :section, presence: true, format: { with: /\A[A-Z]{1}\z/ }
   validates :section, uniqueness: { scope: [:term_id, :course_id] }
   validates :capacity, presence: true, inclusion: 1..400
-  validate :maximum_capacity
+  validate :maximum_capacity, :on => :create
 
   belongs_to :course
   belongs_to :term
@@ -19,7 +19,6 @@ class Offering < ApplicationRecord
   end
 
   def full?
-    # student_count > capacity
     student_count >= capacity
   end
 
