@@ -19,7 +19,7 @@ const SINGLE_USER = gql`
       approved
       admin
       fees
-      enrollments {
+      enrollments(includingDropped: true) {
         nodes {
           id
         }
@@ -53,7 +53,7 @@ export default function UserDetails() {
         <Descriptions.Item label="Type">{renderTypeTag(user.admin)}</Descriptions.Item>
         <Descriptions.Item label="Status">{renderStatusTag(user.approved)}</Descriptions.Item>
         <Descriptions.Item label="Fees">${user.fees}</Descriptions.Item>
-        <Descriptions.Item label="Enrollments">
+        <Descriptions.Item label="Enrollments (including WDN)">
           {user.enrollments.nodes?.length ?? 0}
         </Descriptions.Item>
       </Descriptions>

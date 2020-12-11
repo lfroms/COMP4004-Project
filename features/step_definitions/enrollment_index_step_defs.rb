@@ -43,7 +43,7 @@ Then('student with email {string} now owes {float} in fees') do |string, float|
   fill_in('login_password_field', with: password)
   click_button('login')
   visit("/admin/users/#{student.id}")
-  assert has_text?("$#{float}")
+  assert_text "$#{float.to_i}"
 end
 
 Then('student with email {string} has no final grade for the enrollment') do |_string|
