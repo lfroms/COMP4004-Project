@@ -1,9 +1,13 @@
 import React from 'react';
 import { Form, Select } from 'antd';
 
+export interface FinalGradeFormData {
+  finalGrade: string;
+}
+
 interface Props {
   name: string;
-  onSubmit(): void;
+  onSubmit(data: FinalGradeFormData): void;
 }
 
 const GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'WDN'];

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
-import { FinalGradeForm } from '../FinalGradeForm';
+import { Button, Modal, message } from 'antd';
+import { FinalGradeForm, FinalGradeFormData } from '../FinalGradeForm';
 import { gql, useMutation } from '@apollo/client';
 import {
   FinalGradeModalMutation,
@@ -10,6 +10,7 @@ import {
 const FORM_NAME = 'finalGradeForm';
 
 interface Props {
+  enrollmentId: string;
   visible: boolean;
   onRequestClose(): void;
 }
@@ -28,11 +29,27 @@ const FINAL_GRADE = gql`
   }
 `;
 
-export default function FinalGradeModal({ visible, onRequestClose }: Props) {
-  const [finalGrade, { loading }] = useMutation<
+export default function FinalGradeModal({ enrollmentId, visible, onRequestClose }: Props) {
+  const [updateFinalGrade, { loading }] = useMutation<
     FinalGradeModalMutation,
     FinalGradeModalMutationVariables
   >(FINAL_GRADE);
+
+  const handleFormSubmit = async (formData: FinalGradeFormData) => {
+    const { data } = await updateFinalGrade({
+      variables: {
+        enrollmentId: enrollmentId,
+        finalGrade: formData.finalGrade,
+      },
+      refetchQueries: ['DeliverableShowQuery'],
+    });
+
+    data?.updateEnrollment?.errors.forEach(error => message.error(error.message));
+
+    if (data?.updateEnrollment?.enrollment) {
+      onRequestClose?.();
+    }
+  };
 
   return (
     <Modal
