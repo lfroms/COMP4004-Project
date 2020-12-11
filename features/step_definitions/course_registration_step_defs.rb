@@ -16,7 +16,12 @@ end
 
 Given('there exists a course offering for course with code {string} section {string} capacity {int}') do |string, string2, int|
   course = Course.find_by(code: string)
-  Offering.create(section: string2, course: course, term: @term, capacity: int)
+  Offering.create!(section: string2, course: course, term: @term, capacity: int)
+end
+
+Given('there exists a course offering for course with code {string} section {string}') do |string, string2|
+  course = Course.find_by(code: string)
+  Offering.create!(section: string2, course: course, term: @term, capacity: 100)
 end
 
 Given('a student is already enrolled in course offering with code {string} section {string}') do |string, string2|
@@ -51,6 +56,6 @@ Given('student with email {string} has passed course with code {string}') do |st
 
   user = User.find_by(email: string)
   course = Course.find_by(code: string2)
-  offering = Offering.create!(section: 'A', course: course, term: term)
+  offering = Offering.create!(section: 'A', course: course, term: term, capacity: 100)
   Enrollment.create!(offering: offering, user: user, role: 'student', final_grade: 'A')
 end

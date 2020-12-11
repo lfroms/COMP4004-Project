@@ -4,7 +4,7 @@ Given('I am on the course offering index') do
   visit('admin/offerings')
 end
 
-Given('there exists a term {string}') do |string|
+Given('the current term is {string}') do |string|
   dates = string.split(' - ')
   @term = Term.create!(
     start_date: Time.zone.parse(dates.first),
@@ -71,11 +71,6 @@ Given('student with email {string} has failed course with code {string}') do |st
   )
   offering = Offering.create(course: course, term: term, section: 'A', capacity: 100)
   Enrollment.create(user: user, offering: offering, role: 'student', final_grade: 'F')
-end
-
-Given('there exists a course offering for course with code {string} section {string}') do |string, string2|
-  course = Course.find_by(code: string)
-  Offering.create!(section: string2, course: course, term_id: @term.id)
 end
 
 Given('user with email {string} is the professor for course offering for course with code {string} with section {string} and term {string}') do |email, code, section, _term|
