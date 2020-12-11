@@ -4,6 +4,17 @@ Given('I am on the course offering index') do
   visit('admin/offerings')
 end
 
+Given('there exists a term {string}') do |string|
+  dates = string.split(' - ')
+  @term = Term.create!(
+    start_date: Time.zone.parse(dates.first),
+    end_date: Time.zone.parse(dates.last),
+    registration_deadline: Time.zone.parse(dates.first),
+    withdrawal_deadline: Time.zone.parse(dates.first) + 5,
+    per_credit_fee: 1000,
+  )
+end
+
 Given('the current term is {string}') do |string|
   dates = string.split(' - ')
   @term = Term.create!(
@@ -89,6 +100,10 @@ Given('I am viewing the deliverable creation form for course offering for course
   click_button('add_deliverable_button')
 end
 
+Given('there exists a user with email {string} name {string}') do |string, string2|
+  User.create(name: string2, email: string, password: "123456", approved: true)
+end
+
 When('I enter section {string}') do |string|
   fill_in('offering_section_field', with: string)
 end
@@ -99,8 +114,9 @@ When('I enter capacity {int}') do |int|
 end
 
 When('I select course {string}') do |string|
-  find('#offering_course_select', visible: false).click
-  find('.offering_form_course_option', text: string).click
+  pending
+  # find('#offering_course_select', visible: false).click
+  # find('.offering_form_course_option', text: string).click
 end
 
 When('I select term {string}') do |string|
@@ -110,6 +126,17 @@ end
 
 When('I click the delete offering button') do
   click_button('delete_offering')
+end
+
+When('I visit the show page for for course with code {string} section {string} for the current term') do |string, string2|
+  course = Course.find_by(code: string)
+  offering_id = Offering.find_by(course: course, section: string2, term: @term).id
+  visit("admin/offerings/#{offering_id}")
+end
+
+When('I select the user with name {string}') do |string|
+  find('input', text: 'Select a professor').click
+  find('.ant-select-item', text: "#{string}").click
 end
 
 Then('there now exists a course offering for course with code {string} section {string} term {string}') do |string, string2, string3|
@@ -136,3 +163,7 @@ end
 Then('there are no enroll buttons') do
   assert has_no_button?('enroll_button')
 end
+
+Then('the professor for the course offering has name {string}') do |string|
+  assert_text string
+endt

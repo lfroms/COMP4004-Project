@@ -45,3 +45,8 @@ Then('new course with code {string} has prerequisite {string}') do |string, stri
   click_link("#{string}")
   assert_text string2
 end
+
+Then('new course with code {string} has no prerequisites') do |string|
+  click_link("#{string}")
+  assert_text "None"
+end

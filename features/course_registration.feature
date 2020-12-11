@@ -8,7 +8,7 @@ Feature: Course Registration
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And I am viewing the list of offered courses for the current term
     When I click the enroll button
     And I click the "Confirm" button
@@ -22,7 +22,7 @@ Feature: Course Registration
     And there exists a course with code "COMP 3004"
     And there exists a course with code "COMP 4004"
     And course with code "COMP 4004" has prerequisite "COMP 3004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" has passed course with code "COMP 3004"
     And I am viewing the list of offered courses for the current term
     When I click the enroll button
@@ -37,7 +37,7 @@ Feature: Course Registration
     And there exists a course with code "COMP 3004"
     And there exists a course with code "COMP 4004"
     And course with code "COMP 4004" has prerequisite "COMP 3004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And I am viewing the list of offered courses for the current term
     When I click the enroll button
     And I click the "Confirm" button
@@ -50,7 +50,7 @@ Feature: Course Registration
     And there exists a course with code "COMP 3004"
     And there exists a course with code "COMP 4004"
     And course with code "COMP 4004" has prerequisite "COMP 3004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" has failed course with code "COMP 3004"
     And I am viewing the list of offered courses for the current term
     When I click the enroll button
@@ -62,7 +62,7 @@ Scenario: Registration deadline has passed
     And student with email "student@email.com" is a self-enrolling user
     And the current term has registration deadline earlier than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A" capacity 1
+    And there exists a course offering for course with code "COMP 4004" section "A" capacity 1 for the current term
     And I am viewing the list of offered courses for the current term
     Then there are no enroll buttons
 
@@ -71,7 +71,7 @@ Scenario: Registration deadline has passed
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A" capacity 1
+    And there exists a course offering for course with code "COMP 4004" section "A" capacity 1 for the current term
     And a student is already enrolled in course offering with code "COMP 4004" section "A"
     And I am viewing the list of offered courses for the current term
     Then I receive a message saying "Full"
@@ -81,7 +81,7 @@ Scenario: Registration deadline has passed
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is already enrolled in course with code "COMP 4004" section "A"
     And I am viewing the list of offered courses for the current term
     Then I receive a message saying "Enrolled"
