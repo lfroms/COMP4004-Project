@@ -9,24 +9,18 @@ import { EnrollmentRole } from "./../../../../../../../graphql/global-types";
 // GraphQL query operation: ParticipantIndexQuery
 // ====================================================
 
-export interface ParticipantIndexQuery_currentUser_enrollments_nodes {
+export interface ParticipantIndexQuery_offering_currentEnrollment_nodes {
   __typename: "Enrollment";
   id: string;
   role: EnrollmentRole;
 }
 
-export interface ParticipantIndexQuery_currentUser_enrollments {
+export interface ParticipantIndexQuery_offering_currentEnrollment {
   __typename: "EnrollmentConnection";
   /**
    * A list of nodes.
    */
-  nodes: (ParticipantIndexQuery_currentUser_enrollments_nodes | null)[] | null;
-}
-
-export interface ParticipantIndexQuery_currentUser {
-  __typename: "User";
-  id: string;
-  enrollments: ParticipantIndexQuery_currentUser_enrollments;
+  nodes: (ParticipantIndexQuery_offering_currentEnrollment_nodes | null)[] | null;
 }
 
 export interface ParticipantIndexQuery_offering_enrollments_nodes_user {
@@ -54,14 +48,11 @@ export interface ParticipantIndexQuery_offering_enrollments {
 export interface ParticipantIndexQuery_offering {
   __typename: "Offering";
   id: string;
+  currentEnrollment: ParticipantIndexQuery_offering_currentEnrollment;
   enrollments: ParticipantIndexQuery_offering_enrollments;
 }
 
 export interface ParticipantIndexQuery {
-  /**
-   * Specific details about the current user.
-   */
-  currentUser: ParticipantIndexQuery_currentUser | null;
   /**
    * Specific details about a given offering.
    */
@@ -70,4 +61,5 @@ export interface ParticipantIndexQuery {
 
 export interface ParticipantIndexQueryVariables {
   offeringId: string;
+  userId: string;
 }

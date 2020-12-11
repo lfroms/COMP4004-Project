@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { TitleBar } from 'components';
 import { useParams } from 'react-router-dom';
@@ -11,20 +11,18 @@ import {
   ParticipantIndexQueryVariables,
   ParticipantIndexQuery_offering_enrollments_nodes,
 } from './graphql/ParticipantIndexQuery';
+import { CurrentUserContext } from 'foundation';
 
 const PARTICIPANTS = gql`
-  query ParticipantIndexQuery($offeringId: ID!) {
-    currentUser {
+  query ParticipantIndexQuery($offeringId: ID!, $userId: ID!) {
+    offering(id: $offeringId) {
       id
-      enrollments(offeringId: $offeringId) {
+      currentEnrollment: enrollments(userId: $userId) {
         nodes {
           id
           role
         }
       }
-    }
-    offering(id: $offeringId) {
-      id
       enrollments {
         nodes {
           id
@@ -45,16 +43,22 @@ interface ParamType {
 }
 
 export default function ParticipantIndex() {
+  const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
 
   const { data, loading } = useQuery<ParticipantIndexQuery, ParticipantIndexQueryVariables>(
     PARTICIPANTS,
     {
+      skip: !user,
       variables: {
         offeringId,
+        // Will always be present since we skip this query if it is not.
+        userId: user?.id ?? '0',
       },
     }
   );
+
+  const currentUserEnrollment = data?.offering?.currentEnrollment.nodes?.[0];
 
   const columns: ColumnType<ParticipantIndexQuery_offering_enrollments_nodes>[] = [
     {
@@ -76,10 +80,7 @@ export default function ParticipantIndex() {
     },
   ];
 
-  if (
-    data?.currentUser?.enrollments.nodes &&
-    data.currentUser.enrollments.nodes[0]?.role === 'professor'
-  ) {
+  if (currentUserEnrollment?.role === 'professor') {
     const status: ColumnType<ParticipantIndexQuery_offering_enrollments_nodes> = {
       title: 'Status',
       dataIndex: 'deletedAt',
