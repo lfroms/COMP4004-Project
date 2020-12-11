@@ -22,18 +22,12 @@ module Mutations
         }
       end
 
-      begin
-        enrollment.transaction do
-          per_credit_fee = enrollment.offering.term.per_credit_fee
-          new_balance = enrollment.user.balance + per_credit_fee
-          enrollment.save!
-          enrollment.user.update!(balance: new_balance)
-          return {
-            enrollment: enrollment,
-            errors: [],
-          }
-        end
-      rescue ActiveRecord::RecordInvalid => error
+      if enrollment.save!
+        {
+          enrollment: enrollment,
+          errors: [],
+        }
+      else
         {
           enrollment: nil,
           errors: Types::UserError.from(error.record.errors_hash),

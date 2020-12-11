@@ -6,7 +6,6 @@ Feature: Course Dropping
   Scenario: A student successfully drops a course before withdrawal deadline
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
-    And student with email "student@email.com" has an account balance of 1000
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
@@ -16,12 +15,11 @@ Feature: Course Dropping
     And I click the "Confirm" button
     Then enrollment in course with code "COMP 4004" section "A" no longer appears in my enrollments
     # And student with email "student@email.com" has no final grade for the enrollment
-    And student with email "student@email.com" now has an account balance of 0
+    And student with email "student@email.com" now owes 0 in fees
 
   Scenario: A student successfully drops a course after withdrawal deadline
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
-    And student with email "student@email.com" has an account balance of 1000
     And the current term has per credit fee 1000 withdrawal deadline earlier than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
@@ -31,12 +29,11 @@ Feature: Course Dropping
     And I click the "Confirm" button
     Then enrollment in course with code "COMP 4004" section "A" no longer appears in my enrollments
     # And student with email "student@email.com" has final grade "WDN" for the enrollment
-    And student with email "student@email.com" now has an account balance of 1000
+    And student with email "student@email.com" now owes 1000 in fees
 
 Scenario: A student cancels decision to drop a course
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
-    And student with email "student@email.com" has an account balance of 1000
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"

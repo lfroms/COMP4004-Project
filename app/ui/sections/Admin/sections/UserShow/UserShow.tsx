@@ -18,7 +18,7 @@ const SINGLE_USER = gql`
       email
       approved
       admin
-      balance
+      fees
       enrollments {
         nodes {
           id

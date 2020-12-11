@@ -38,7 +38,6 @@ module Mutations
         enrollment.transaction do
           term = enrollment.offering.term
           if Time.zone.now < term.withdrawal_deadline
-            enrollment.user.update!(balance: enrollment.user.balance - term.per_credit_fee)
             enrollment.destroy!
           else
             enrollment.update!(deleted_at: Time.zone.now, final_grade: 'WDN')

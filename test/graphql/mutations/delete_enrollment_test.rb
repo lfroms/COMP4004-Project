@@ -51,37 +51,8 @@ module Mutations
       assert_not_nil Enrollment.find_by(id: enrollment_to_delete.id)
     end
 
-    test '#resolve updates user balance before withdrawal deadline' do
-      enrollment_to_delete = enrollments(:future_enrollment)
-      new_balance = enrollment_to_delete.user.balance - enrollment_to_delete.offering.term.per_credit_fee
-
-      query = <<~EOF
-        mutation TestMutation {
-          deleteEnrollment(input: {id: #{enrollment_to_delete.id}}) {
-            enrollment {
-              id
-              deletedAt
-              finalGrade
-              user {
-                balance
-              }
-            }
-            errors {
-              message
-            }
-          }
-        }
-      EOF
-
-      result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
-      enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
-      assert_equal new_balance, enrollment['user']['balance']
-      assert_nil enrollment['finalGrade']
-    end
-
     test '#resolve updates final grade after withdrawal deadline' do
       enrollment_to_delete = enrollments(:student)
-      new_balance = enrollment_to_delete.user.balance
       new_final_grade = 'WDN'
 
       query = <<~EOF
@@ -91,9 +62,6 @@ module Mutations
               id
               deletedAt
               finalGrade
-              user {
-                balance
-              }
             }
             errors {
               message
@@ -104,7 +72,6 @@ module Mutations
 
       result = CmsSchema.execute(query, context: { current_user: users(:not_admin) }, variables: {}).to_h
       enrollment = result.dig('data', 'deleteEnrollment', 'enrollment')
-      assert_equal new_balance, enrollment['user']['balance']
       assert_equal new_final_grade, enrollment['finalGrade']
     end
 

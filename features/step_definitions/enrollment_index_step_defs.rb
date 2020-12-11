@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-Given('student with email {string} has an account balance of {int}') do |string, _int|
-  User.find_by(email: string).update(balance: 1000)
-end
-
 Given('student with email {string} is enrolled in course with code {string} section {string}') do |string, string2, string3|
   user = User.find_by(email: string)
   course = Course.find_by(code: string2)
@@ -36,7 +32,7 @@ Then('there is no unenroll button') do
   assert has_no_button?('unenroll_button')
 end
 
-Then('student with email {string} now has an account balance of {int}') do |string, int|
+Then('student with email {string} now owes {float} in fees') do |string, float|
   visit('/logout')
   student = User.find_by(email: string)
   email = 'admin@example.com'
@@ -47,7 +43,7 @@ Then('student with email {string} now has an account balance of {int}') do |stri
   fill_in('login_password_field', with: password)
   click_button('login')
   visit("/admin/users/#{student.id}")
-  assert has_text?("$#{int}")
+  assert has_text?("$#{float}")
 end
 
 Then('student with email {string} has no final grade for the enrollment') do |_string|

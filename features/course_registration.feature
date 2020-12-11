@@ -13,6 +13,7 @@ Feature: Course Registration
     When I click the enroll button
     And I click the "Confirm" button
     Then I receive a message saying "Enrolled"
+    And student with email "student@email.com" now owes 1000 in fees
 
   Scenario: A student successfully registers in a course with prerequisites
     Given I successfully log in as a student with email "student@email.com"
@@ -27,6 +28,7 @@ Feature: Course Registration
     When I click the enroll button
     And I click the "Confirm" button
     Then I receive a message saying "Enrolled"
+    And student with email "student@email.com" now owes 1000 in fees
 
   Scenario: A student attempts to register in a course with not-taken prerequisites
     Given I successfully log in as a student with email "student@email.com"

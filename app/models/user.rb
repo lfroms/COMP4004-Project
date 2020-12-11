@@ -15,4 +15,10 @@ class User < ApplicationRecord
   def can_self_enroll?
     groups.any?(&:can_self_enroll)
   end
+
+  def fees
+    enrollments.student.includes(offering: :term).reduce(0) do |sum, enrollment|
+    sum += enrollment.offering.term.per_credit_fee
+    end
+  end
 end
