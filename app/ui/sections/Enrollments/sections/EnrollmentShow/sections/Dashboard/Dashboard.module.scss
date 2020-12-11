@@ -1,0 +1,28 @@
+.OverviewContainer {
+  height: 120px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.CourseTitle {
+  color: #fff !important;
+  margin: 0 !important;
+}
+
+.FinalGrade {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  > * {
+    color: #fff !important;
+  }
+}
+
+.FinalGradeContent {
+  margin: 0 !important;
+  font-weight: 800 !important;
+}
