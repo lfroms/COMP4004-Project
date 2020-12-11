@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Link, useParams } from 'react-router-dom';
-import { Descriptions, Tag } from 'antd';
+import { Descriptions, Tag, Typography } from 'antd';
 import { CheckOutlined, UserAddOutlined } from '@ant-design/icons';
 import { TitleBar } from 'components';
-import { createTermName } from 'helpers';
+import { createFriendlyDate, createTermName } from 'helpers';
 import { AssignProfessorModal } from 'sections/Admin/components';
 import Table, { ColumnType } from 'antd/lib/table';
 
@@ -35,7 +35,10 @@ const OFFERING = gql`
       }
       enrollments {
         nodes {
+          id
           role
+          deletedAt
+          finalGrade
           user {
             id
             name
@@ -78,6 +81,26 @@ export default function OfferingShow() {
       title: 'Role',
       dataIndex: 'role',
       render: renderRoleTag,
+    },
+    {
+      title: 'Status',
+      render: (_value, record) => (
+        <span>
+          <Tag color={record.deletedAt ? 'red' : 'blue'}>
+            {record.deletedAt ? 'Dropped' : 'Enrolled'}
+          </Tag>
+
+          {record.deletedAt ? (
+            <Typography.Text type="secondary">{`as of ${createFriendlyDate(
+              record.deletedAt
+            )}`}</Typography.Text>
+          ) : null}
+        </span>
+      ),
+    },
+    {
+      title: 'Final grade',
+      dataIndex: ['finalGrade'],
     },
   ];
 

@@ -31,7 +31,10 @@ export interface AdminOfferingShowQuery_offering_enrollments_nodes_user {
 
 export interface AdminOfferingShowQuery_offering_enrollments_nodes {
   __typename: "Enrollment";
+  id: string;
   role: EnrollmentRole;
+  deletedAt: any | null;
+  finalGrade: string | null;
   user: AdminOfferingShowQuery_offering_enrollments_nodes_user;
 }
 
