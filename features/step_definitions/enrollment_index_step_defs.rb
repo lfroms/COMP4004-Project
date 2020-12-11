@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given('student with email {string} has an account balance of {int}') do |string, int|
+Given('student with email {string} has an account balance of {int}') do |string, _int|
   User.find_by(email: string).update(balance: 1000)
 end
 
@@ -8,11 +8,11 @@ Given('student with email {string} is enrolled in course with code {string} sect
   user = User.find_by(email: string)
   course = Course.find_by(code: string2)
   offering = Offering.find_by(course: course, term: @term, section: string3)
-  @enrollment = Enrollment.create(user: user, offering: offering, role: "student")
+  @enrollment = Enrollment.create(user: user, offering: offering, role: 'student')
 end
 
-Given('student with email {string} has received a final grade in the enrollment') do |string|
-  @enrollment.update(final_grade: "B")
+Given('student with email {string} has received a final grade in the enrollment') do |_string|
+  @enrollment.update(final_grade: 'B')
 end
 
 Given('I am on the enrollments index') do
@@ -33,11 +33,11 @@ Then('enrollment in course with code {string} section {string} still appears in 
 end
 
 Then('there is no unenroll button') do
-  assert has_no_button?("unenroll_button")
+  assert has_no_button?('unenroll_button')
 end
 
 Then('student with email {string} now has an account balance of {int}') do |string, int|
-  #LOGOUT FIRST
+  # LOGOUT FIRST
   student = User.find_by(email: string)
   email = 'admin@example.com'
   password = '123456'
@@ -50,10 +50,10 @@ Then('student with email {string} now has an account balance of {int}') do |stri
   assert has_text?("$#{int}")
 end
 
-Then('student with email {string} has no final grade for the enrollment') do |string|
+Then('student with email {string} has no final grade for the enrollment') do |_string|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then('student with email {string} has final grade {string} for the enrollment') do |string, string2|
+Then('student with email {string} has final grade {string} for the enrollment') do |_string, _string2|
   pending # Write code here that turns the phrase above into concrete actions
 end

@@ -5,7 +5,7 @@ Given('I am on the course offering index') do
 end
 
 Given('there exists a term with per credit fee {float} withdrawal deadline later than today') do |float|
-  today = Date.today
+  today = Time.zone.today
   @term = Term.create!(
     start_date: today + 14,
     end_date: today + 130,
@@ -16,7 +16,7 @@ Given('there exists a term with per credit fee {float} withdrawal deadline later
 end
 
 Given('there exists a term with per credit fee {float} withdrawal deadline earlier than today') do |float|
-  today = Date.today
+  today = Time.zone.today
   @term = Term.create!(
     start_date: today - 60,
     end_date: today + 60,
@@ -27,7 +27,7 @@ Given('there exists a term with per credit fee {float} withdrawal deadline earli
 end
 
 Given('there exists a term with per credit fee {float} registration deadline later than today') do |float|
-  today = Date.today
+  today = Time.zone.today
   @term = Term.create!(
     start_date: today + 14,
     end_date: today + 130,
@@ -38,7 +38,7 @@ Given('there exists a term with per credit fee {float} registration deadline lat
 end
 
 Given('there exists a term with registration deadline earlier than today') do
-  today = Date.today
+  today = Time.zone.today
   @term = Term.create!(
     start_date: today - 60,
     end_date: today + 60,
@@ -50,7 +50,7 @@ end
 Given('student with email {string} has failed course with code {string}') do |string, string2|
   user = User.find_by(email: string)
   course = Course.find_by(code: string2)
-  today = Date.today
+  today = Time.zone.today
   term = Term.create!(
     start_date: today - 150,
     end_date: today - 30,
@@ -58,8 +58,8 @@ Given('student with email {string} has failed course with code {string}') do |st
     withdrawal_deadline: today - 100,
     per_credit_fee: 1000,
   )
-  offering = Offering.create(course: course, term: term, section: "A", capacity: 100)
-  Enrollment.create(user: user, offering: offering, role: "student", final_grade: "F")
+  offering = Offering.create(course: course, term: term, section: 'A', capacity: 100)
+  Enrollment.create(user: user, offering: offering, role: 'student', final_grade: 'F')
 end
 
 Given('there exists a course offering for course with code {string} section {string}') do |string, string2|
