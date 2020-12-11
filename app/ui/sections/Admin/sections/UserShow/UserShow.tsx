@@ -52,7 +52,7 @@ export default function UserDetails() {
         <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
         <Descriptions.Item label="Type">{renderTypeTag(user.admin)}</Descriptions.Item>
         <Descriptions.Item label="Status">{renderStatusTag(user.approved)}</Descriptions.Item>
-        <Descriptions.Item label="Balance">${user.balance}</Descriptions.Item>
+        <Descriptions.Item label="Fees">${user.fees}</Descriptions.Item>
         <Descriptions.Item label="Enrollments">
           {user.enrollments.nodes?.length ?? 0}
         </Descriptions.Item>
