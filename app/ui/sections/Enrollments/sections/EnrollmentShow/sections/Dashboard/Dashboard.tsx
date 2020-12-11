@@ -97,7 +97,7 @@ export default function Dashboard() {
           bordered={false}
         >
           <div className={styles.OverviewContainer}>
-            <Typography.Title level={2} className={styles.CourseTitle}>
+            <Typography.Title level={3} className={styles.CourseTitle}>
               {data?.offering?.course.name}
             </Typography.Title>
 
