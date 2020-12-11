@@ -19,12 +19,12 @@ class Offering < ApplicationRecord
   end
 
   def full?
-    student_count >= capacity
+    student_count > capacity
   end
 
   private
 
   def student_count
-    enrollments.student.count
+    enrollments.where(deleted_at: nil).student.count
   end
 end

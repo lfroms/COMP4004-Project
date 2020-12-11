@@ -36,6 +36,8 @@ export interface EnrollmentIndexQuery_currentUser_enrollments_nodes {
   __typename: "Enrollment";
   id: string;
   role: EnrollmentRole;
+  deletedAt: any | null;
+  finalGrade: string | null;
   offering: EnrollmentIndexQuery_currentUser_enrollments_nodes_offering;
 }
 

@@ -22,6 +22,8 @@ const ENROLLMENTS = gql`
         nodes {
           id
           role
+          deletedAt
+          finalGrade
           offering {
             id
             section
@@ -83,23 +85,24 @@ export default function EnrollmentIndex() {
     const role = `${enrollment?.role[0].toUpperCase()}${enrollment?.role.substr(1).toLowerCase()}`;
 
     return (
-      <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
-        <EnrollmentCard
-          title={enrollment?.offering.course.name}
-          subtitle={`${enrollment?.offering.course.code} ${
-            enrollment?.offering.section
-          } (${createTermName(
-            enrollment?.offering.term.startDate,
-            enrollment?.offering.term.endDate
-          )})`}
-          role={role}
-          onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
-          // TODO: Hide when withdrawal deadline has passed.
-          canUnenroll={enrollment?.role === 'student'}
-          onConfirmUnenroll={handleConfirmUnenroll(enrollment?.id)}
-          loading={unenrollLoading}
-        />
-      </Col>
+      !enrollment?.deletedAt && (
+        <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
+          <EnrollmentCard
+            title={enrollment?.offering.course.name}
+            subtitle={`${enrollment?.offering.course.code} ${
+              enrollment?.offering.section
+            } (${createTermName(
+              enrollment?.offering.term.startDate,
+              enrollment?.offering.term.endDate
+            )})`}
+            role={role}
+            onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
+            canUnenroll={enrollment?.role === 'student' && !enrollment?.finalGrade}
+            onConfirmUnenroll={handleConfirmUnenroll(enrollment?.id)}
+            loading={unenrollLoading}
+          />
+        </Col>
+      )
     );
   });
 
