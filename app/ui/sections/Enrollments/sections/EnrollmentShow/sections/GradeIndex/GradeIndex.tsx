@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { Table, Tag } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { TitleBar } from 'components';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Redirect, useParams } from 'react-router-dom';
+import { CurrentUserContext } from 'foundation';
 
-import { GradeIndexCurrentUserQuery } from './graphql/GradeIndexCurrentUserQuery';
 import {
   GradeIndexQuery,
   GradeIndexQueryVariables,
@@ -16,18 +16,16 @@ interface ParamType {
   offeringId: string;
 }
 
-const CURRENT_USER = gql`
-  query GradeIndexCurrentUserQuery {
-    currentUser {
-      id
-    }
-  }
-`;
-
 const GRADES = gql`
   query GradeIndexQuery($userId: ID!, $offeringId: ID!) {
     offering(id: $offeringId) {
       id
+      currentEnrollment: enrollments(userId: $userId) {
+        nodes {
+          id
+          role
+        }
+      }
       deliverables {
         nodes {
           id
@@ -49,20 +47,21 @@ const GRADES = gql`
 `;
 
 export default function GradeIndex() {
+  const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
 
-  const { data: currentUserData, loading: currentUserLoading } = useQuery<
-    GradeIndexCurrentUserQuery
-  >(CURRENT_USER);
-
   const { data, loading } = useQuery<GradeIndexQuery, GradeIndexQueryVariables>(GRADES, {
-    skip: !currentUserData?.currentUser?.id,
+    skip: !user,
     variables: {
       // Otherwise value will never be used as this query is skipped if the current user ID is not present.
-      userId: currentUserData?.currentUser?.id ?? '0',
+      userId: user?.id ?? '0',
       offeringId,
     },
   });
+
+  if (data?.offering?.currentEnrollment.nodes?.[0]?.role === 'professor') {
+    return <Redirect to={`/courses/${offeringId}`} />;
+  }
 
   const columns: ColumnType<GradeIndexQuery_offering_deliverables_nodes>[] = [
     {
@@ -109,7 +108,7 @@ export default function GradeIndex() {
             []) as GradeIndexQuery_offering_deliverables_nodes[]
         }
         pagination={false}
-        loading={loading || currentUserLoading}
+        loading={loading}
       />
     </>
   );
