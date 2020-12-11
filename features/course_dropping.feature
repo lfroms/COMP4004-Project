@@ -8,7 +8,7 @@ Feature: Course Dropping
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
     When I click the unenroll button
@@ -22,7 +22,7 @@ Feature: Course Dropping
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline earlier than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
     When I click the unenroll button
@@ -36,7 +36,7 @@ Scenario: A student cancels decision to drop a course
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
     When I click the unenroll button
@@ -48,7 +48,7 @@ Scenario: A student cancels decision to drop a course
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And student with email "student@email.com" has received a final grade in the enrollment
     And I am on the enrollments index

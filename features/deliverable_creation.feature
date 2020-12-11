@@ -7,7 +7,7 @@ Feature: Deliverable Creation
     Given I successfully log in as a professor with email "prof@email.com"
     And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     When I enter deliverable title "final"
@@ -21,7 +21,7 @@ Feature: Deliverable Creation
     Given I successfully log in as a professor with email "prof@email.com"
     And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
-    And there exists a course offering for course with code "COMP 4004" section "A"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     When I enter deliverable title "final"
