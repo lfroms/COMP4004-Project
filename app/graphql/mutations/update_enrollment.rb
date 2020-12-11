@@ -7,7 +7,7 @@ module Mutations
     field :errors, [Types::UserError], null: false
 
     argument :id, ID, required: true
-    argument :final_grade, string, required: false
+    argument :final_grade, String, required: false
 
     def resolve(id:, final_grade:)
       assert_authenticated!
@@ -37,9 +37,10 @@ module Mutations
     private
 
     def user_is_offering_instructor(enrollment)
-      offering = enrollment.offering
-
-      context[:current_user].enrollments.find_by(offering_id: offering.id)&.role == 'professor'
+      if enrollment
+        offering = enrollment&.offering
+        context[:current_user].enrollments.find_by(offering_id: offering.id)&.role == 'professor'
+      end
     end
   end
 end
