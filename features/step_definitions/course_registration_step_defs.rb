@@ -78,6 +78,6 @@ Then('student with email {string} is no longer enrolled in course offering with 
   fill_in('login_email_field', with: email)
   fill_in('login_password_field', with: password)
   click_button('login')
-  visit("/courses")
+  visit('/courses')
   assert has_no_text?("$#{string2} #{string3} (#{string4})")
 end

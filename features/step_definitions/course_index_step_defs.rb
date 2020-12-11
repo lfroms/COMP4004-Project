@@ -18,7 +18,7 @@ end
 
 When('I select prerequisite {string}') do |string|
   find('span', text: 'Prerequisites').click
-  find('.ant-select-item', text: "#{string}").click
+  find('.ant-select-item', text: string.to_s).click
 end
 
 When('I click the delete course button') do
@@ -42,11 +42,11 @@ Then('there no longer exists a course with code {string}') do |string|
 end
 
 Then('new course with code {string} has prerequisite {string}') do |string, string2|
-  click_link("#{string}")
+  click_link(string.to_s)
   assert_text string2
 end
 
 Then('new course with code {string} has no prerequisites') do |string|
-  click_link("#{string}")
-  assert_text "None"
+  click_link(string.to_s)
+  assert_text 'None'
 end
