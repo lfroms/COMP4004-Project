@@ -53,7 +53,7 @@ export default function EnrollmentCard(props: Props) {
                   okButtonProps={{ loading }}
                   cancelText="Cancel"
                 >
-                  <UserDeleteOutlined class="unenroll_button" />
+                  <UserDeleteOutlined id="unenroll_button" />
                 </Popconfirm>
               </div>,
             ]

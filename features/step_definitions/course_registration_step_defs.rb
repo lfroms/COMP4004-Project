@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given('I am viewing the list of offered courses for term {string}') do |_string|
+Given('I am viewing the list of offered courses for the current term') do
   visit("terms/#{@term.id}/courses")
 end
 
@@ -21,7 +21,7 @@ end
 
 Given('a student is already enrolled in course offering with code {string} section {string}') do |string, string2|
   course = Course.find_by(code: string)
-  offering = Offering.find_by(course: course, section: string2)
+  offering = Offering.find_by(course: course, section: string2, term: @term)
   user = User.create(name: 'Other User', email: 'other@email.com', password: '123456')
   group = Group.create!(name: 'more self-enrolling users', can_self_enroll: true)
   group.users << user

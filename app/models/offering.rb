@@ -19,7 +19,8 @@ class Offering < ApplicationRecord
   end
 
   def full?
-    student_count > capacity
+    # student_count > capacity
+    student_count >= capacity
   end
 
   private
