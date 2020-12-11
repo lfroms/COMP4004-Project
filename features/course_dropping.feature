@@ -7,7 +7,7 @@ Feature: Course Dropping
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And student with email "student@email.com" has an account balance of 1000
-    And there exists a term with per credit fee 1000 withdrawal deadline later than today
+    And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
@@ -22,7 +22,7 @@ Feature: Course Dropping
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And student with email "student@email.com" has an account balance of 1000
-    And there exists a term with per credit fee 1000 withdrawal deadline earlier than today
+    And the current term has per credit fee 1000 withdrawal deadline earlier than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
@@ -37,7 +37,7 @@ Scenario: A student cancels decision to drop a course
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And student with email "student@email.com" has an account balance of 1000
-    And there exists a term with per credit fee 1000 withdrawal deadline later than today
+    And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
@@ -49,7 +49,7 @@ Scenario: A student cancels decision to drop a course
   Scenario: A student attempts to drop a course after receiving final grade
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
-    And there exists a term with per credit fee 1000 withdrawal deadline later than today
+    And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"

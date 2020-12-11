@@ -4,7 +4,18 @@ Given('I am on the course offering index') do
   visit('admin/offerings')
 end
 
-Given('there exists a term with per credit fee {float} withdrawal deadline later than today') do |float|
+Given('there exists a term {string}') do |string|
+  dates = string.split(' - ')
+  @term = Term.create!(
+    start_date: Time.zone.parse(dates.first),
+    end_date: Time.zone.parse(dates.last),
+    registration_deadline: Time.zone.parse(dates.first),
+    withdrawal_deadline: Time.zone.parse(dates.first) + 5,
+    per_credit_fee: float,
+  )
+end
+
+Given('the current term has per credit fee {float} withdrawal deadline later than today') do |float|
   today = Time.zone.today
   @term = Term.create!(
     start_date: today + 14,
@@ -15,7 +26,7 @@ Given('there exists a term with per credit fee {float} withdrawal deadline later
   )
 end
 
-Given('there exists a term with per credit fee {float} withdrawal deadline earlier than today') do |float|
+Given('the current term has per credit fee {float} withdrawal deadline earlier than today') do |float|
   today = Time.zone.today
   @term = Term.create!(
     start_date: today - 60,
@@ -26,7 +37,7 @@ Given('there exists a term with per credit fee {float} withdrawal deadline earli
   )
 end
 
-Given('there exists a term with per credit fee {float} registration deadline later than today') do |float|
+Given('the current term has per credit fee {float} registration deadline later than today') do |float|
   today = Time.zone.today
   @term = Term.create!(
     start_date: today + 14,
@@ -37,7 +48,7 @@ Given('there exists a term with per credit fee {float} registration deadline lat
   )
 end
 
-Given('there exists a term with registration deadline earlier than today') do
+Given('the current term has registration deadline earlier than today') do
   today = Time.zone.today
   @term = Term.create!(
     start_date: today - 60,
