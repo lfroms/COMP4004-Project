@@ -166,4 +166,4 @@ end
 
 Then('the professor for the course offering has name {string}') do |string|
   assert_text string
-endt
+end
