@@ -14,6 +14,7 @@ export interface AdminUserShowQuery_user {
   email: string;
   approved: boolean;
   admin: boolean;
+  balance: number;
 }
 
 export interface AdminUserShowQuery {

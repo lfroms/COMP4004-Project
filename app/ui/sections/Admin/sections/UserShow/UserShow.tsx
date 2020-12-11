@@ -1,9 +1,10 @@
-import { gql, useQuery } from '@apollo/client';
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+import { Descriptions, Tag } from 'antd';
+import { Loading, TitleBar } from 'components';
+
 import { AdminUserShowQuery } from './graphql/AdminUserShowQuery';
-import { Descriptions } from 'antd';
-import { TitleBar } from 'components';
 
 interface ParamType {
   userId: string;
@@ -17,6 +18,7 @@ const SINGLE_USER = gql`
       email
       approved
       admin
+      balance
     }
   }
 `;
@@ -24,18 +26,43 @@ const SINGLE_USER = gql`
 export default function UserDetails() {
   const { userId } = useParams<ParamType>();
 
-  const { data } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
+  const { data, loading } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
     variables: { id: userId },
   });
+
   const user = data?.user;
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
       <TitleBar title={user?.name} />
-      <Descriptions>
-        <Descriptions.Item label="Email">{user?.email}</Descriptions.Item>
-        <Descriptions.Item label="Type">{user?.admin ? 'Admin' : 'Standard'}</Descriptions.Item>
+      <Descriptions bordered layout="horizontal">
+        <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
+        <Descriptions.Item label="Type">{renderTypeTag(user.admin)}</Descriptions.Item>
+        <Descriptions.Item label="Status">{renderStatusTag(user.approved)}</Descriptions.Item>
+        <Descriptions.Item label="Balance">${user.balance}</Descriptions.Item>
       </Descriptions>
     </>
   );
 }
+
+const renderStatusTag = (approved: boolean) => {
+  const label = approved ? 'Approved' : 'Pending';
+  const color = approved ? 'green' : 'orange';
+
+  return <Tag color={color}>{label}</Tag>;
+};
+
+const renderTypeTag = (admin: boolean) => {
+  const label = admin ? 'Admin' : 'Standard';
+  const color = admin ? 'magenta' : 'geekblue';
+
+  return <Tag color={color}>{label}</Tag>;
+};
