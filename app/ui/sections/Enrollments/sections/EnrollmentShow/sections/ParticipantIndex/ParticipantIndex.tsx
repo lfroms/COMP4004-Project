@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { TitleBar } from 'components';
 import { useParams } from 'react-router-dom';
-import { Tag, Typography } from 'antd';
+import { Button, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate } from 'helpers';
+
+import { FinalGradeModal } from 'sections/Enrollments/components';
 
 import {
   ParticipantIndexQuery,
@@ -45,6 +47,7 @@ interface ParamType {
 export default function ParticipantIndex() {
   const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
+  const [focusedEnrollmentId, setFocusedEnrollmentId] = useState<string | undefined>(undefined);
 
   const { data, loading } = useQuery<ParticipantIndexQuery, ParticipantIndexQueryVariables>(
     PARTICIPANTS,
@@ -77,6 +80,24 @@ export default function ParticipantIndex() {
       ),
       sorter: (first, second) => second.role.localeCompare(first.role),
       sortDirections: ['ascend', 'descend'],
+    },
+    {
+      key: 'action',
+      fixed: 'right',
+      align: 'right',
+      render: (_value, record) => {
+        return (
+          <Button
+            id={`add-final-grade-${record.user.id}`}
+            type="primary"
+            onClick={() => {
+              setFocusedEnrollmentId(record.id);
+            }}
+          >
+            Add final grade
+          </Button>
+        );
+      },
     },
   ];
 
@@ -116,6 +137,12 @@ export default function ParticipantIndex() {
         }
         pagination={false}
         loading={loading}
+      />
+
+      <FinalGradeModal
+        visible={!!focusedEnrollmentId}
+        enrollmentId={focusedEnrollmentId!}
+        onRequestClose={() => setFocusedEnrollmentId(undefined)}
       />
     </>
   );
