@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useHistory, useParams } from 'react-router-dom';
 import { TitleBar } from 'components';
 import { Card, Space, Typography } from 'antd';
-import { AppstoreAddOutlined } from '@ant-design/icons';
+import { FileAddOutlined } from '@ant-design/icons';
 import { CurrentUserContext } from 'foundation';
 import { createCourseColor } from 'helpers';
 import { DeliverableCard, DeliverableCreateModal } from './components';
@@ -77,21 +77,9 @@ export default function Dashboard() {
     );
   });
 
-  const titleBarActions =
-    currentUserRole === 'professor'
-      ? [
-          {
-            elementId: 'add_deliverable_button',
-            text: 'New deliverable',
-            icon: <AppstoreAddOutlined />,
-            onClick: () => setDeliverableCreateModalVisible(true),
-          },
-        ]
-      : [];
-
   return (
     <>
-      <Space direction="vertical" size="large">
+      <Space direction="vertical" size={40}>
         <Card
           style={{ backgroundColor: createCourseColor(data?.offering?.course.name) }}
           bordered={false}
@@ -112,7 +100,18 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        <TitleBar title="Course deliverables" actions={titleBarActions} />
+        <TitleBar
+          title="Deliverables"
+          actions={[
+            {
+              elementId: 'add_deliverable_button',
+              text: 'New deliverable',
+              icon: <FileAddOutlined />,
+              onClick: () => setDeliverableCreateModalVisible(true),
+              hidden: currentUserRole !== 'professor',
+            },
+          ]}
+        />
       </Space>
 
       <Space direction="vertical" size="large">
