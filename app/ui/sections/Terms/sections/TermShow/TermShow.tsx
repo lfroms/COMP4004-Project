@@ -46,6 +46,7 @@ const TERMS = gql`
             }
             enrollments {
               nodes {
+                deletedAt
                 user {
                   id
                 }
@@ -100,7 +101,9 @@ export default function TermShow() {
   ) => {
     return (
       enrollments.nodes &&
-      enrollments.nodes.find(enrollment => enrollment?.user.id == current_user.id)
+      enrollments.nodes.find(
+        enrollment => enrollment?.user.id == current_user.id && !enrollment?.deletedAt
+      )
     );
   };
   const groups: NavigationGroup[] =

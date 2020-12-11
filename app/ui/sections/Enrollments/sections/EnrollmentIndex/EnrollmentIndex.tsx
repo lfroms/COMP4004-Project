@@ -1,9 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, Row } from 'antd';
-import { gql, useQuery } from '@apollo/client';
+import { Col, Row, message } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
 
 import { EnrollmentIndexQuery } from './graphql/EnrollmentIndexQuery';
+import {
+  EnrollmentIndexUnenrollMutation,
+  EnrollmentIndexUnenrollMutationVariables,
+} from './graphql/EnrollmentIndexUnenrollMutation';
 import { Loading, TitleBar } from 'components';
 import { EnrollmentCard } from './components';
 
@@ -30,6 +34,7 @@ const ENROLLMENTS = gql`
               id
               startDate
               endDate
+              registrationDeadline
             }
           }
         }
@@ -38,9 +43,37 @@ const ENROLLMENTS = gql`
   }
 `;
 
+const UNENROLL = gql`
+  mutation EnrollmentIndexUnenrollMutation($id: ID!) {
+    deleteEnrollment(input: { id: $id }) {
+      enrollment {
+        id
+        deletedAt
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 export default function EnrollmentIndex() {
   const { data, loading } = useQuery<EnrollmentIndexQuery>(ENROLLMENTS);
   const history = useHistory();
+
+  const [unenroll, { loading: unenrollLoading }] = useMutation<
+    EnrollmentIndexUnenrollMutation,
+    EnrollmentIndexUnenrollMutationVariables
+  >(UNENROLL, {
+    refetchQueries: ['EnrollmentIndexQuery'],
+  });
+
+  const handleConfirmUnenroll = (enrollmentId?: string) => async () => {
+    if (enrollmentId) {
+      const { data } = await unenroll({ variables: { id: enrollmentId } });
+      data?.deleteEnrollment?.errors.forEach(error => message.error(error.message));
+    }
+  };
 
   if (!data || loading) {
     return <Loading />;
@@ -63,7 +96,8 @@ export default function EnrollmentIndex() {
           onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
           // TODO: Hide when withdrawal deadline has passed.
           canUnenroll={enrollment?.role === 'student'}
-          onConfirmUnenroll={() => {}}
+          onConfirmUnenroll={handleConfirmUnenroll(enrollment?.id)}
+          loading={unenrollLoading}
         />
       </Col>
     );

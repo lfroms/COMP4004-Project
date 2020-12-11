@@ -41,15 +41,14 @@ module Mutations
           current_balance = enrollment.user.balance
           new_balance = current_balance
           new_final_grade = enrollment.final_grade
+          deadline_passed = true
 
           if Time.zone.now < term.withdrawal_deadline
-            new_balance = current_balance - per_credit_fee
+            enrollment.user.update!(balance: current_balance - per_credit_fee)
+            enrollment.destroy!
           else
-            new_final_grade = 'WDN'
+            enrollment.update!(deleted_at: Time.zone.now, final_grade: 'WDN')
           end
-
-          enrollment.user.update!(balance: new_balance)
-          enrollment.update!(deleted_at: Time.zone.now, final_grade: new_final_grade)
 
           return {
             enrollment: enrollment,

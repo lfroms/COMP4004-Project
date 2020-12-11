@@ -21,6 +21,7 @@ export interface EnrollmentIndexQuery_currentUser_enrollments_nodes_offering_ter
   id: string;
   startDate: any;
   endDate: any;
+  registrationDeadline: any;
 }
 
 export interface EnrollmentIndexQuery_currentUser_enrollments_nodes_offering {

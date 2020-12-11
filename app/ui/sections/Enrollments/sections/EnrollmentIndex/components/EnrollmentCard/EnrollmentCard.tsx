@@ -10,10 +10,11 @@ interface Props {
   canUnenroll?: boolean;
   onClick?: () => void;
   onConfirmUnenroll?: () => void;
+  loading?: boolean;
 }
 
 export default function EnrollmentCard(props: Props) {
-  const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll } = props;
+  const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll, loading } = props;
 
   return (
     <Card
@@ -39,6 +40,7 @@ export default function EnrollmentCard(props: Props) {
                   placement="top"
                   okText="Confirm"
                   onConfirm={onConfirmUnenroll}
+                  okButtonProps={{ loading }}
                   cancelText="Cancel"
                 >
                   <UserDeleteOutlined />
