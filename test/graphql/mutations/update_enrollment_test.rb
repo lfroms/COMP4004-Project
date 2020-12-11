@@ -38,7 +38,7 @@ module Mutations
         }
       EOF
 
-      result = CmsSchema.execute(query, context: { }, variables: {}).to_h
+      result = CmsSchema.execute(query, context: {}, variables: {}).to_h
       enrollment = result.dig('data', 'updateEnrollment', 'enrollment')
 
       assert_nil enrollment
@@ -54,13 +54,18 @@ module Mutations
               id
               finalGrade
             }
+
+            errors {
+              message
+            }
+
           }
         }
       EOF
 
       result = CmsSchema.execute(query, context: { current_user: users(:sally) }, variables: {}).to_h
       enrollment = result.dig('data', 'updateEnrollment', 'enrollment')
-      error_message = result.dig('data', 'updateEnrollment', 'errors', 0, message)
+      error_message = result.dig('data', 'updateEnrollment', 'errors', 0, 'message')
 
       assert_nil enrollment
       assert_equal 'You do not have permission to perform this action.', error_message

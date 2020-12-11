@@ -39,7 +39,7 @@ module Mutations
     def user_is_offering_instructor(enrollment)
       if enrollment
         offering = enrollment&.offering
-        context[:current_user].enrollments.find_by(offering_id: offering.id)&.role == 'professor'
+        context[:current_user].enrollments.professor.find_by(offering_id: offering.id)
       end
     end
   end
