@@ -96,6 +96,11 @@ export default function EnrollmentIndex() {
               enrollment?.offering.term.endDate
             )})`}
             role={role}
+            confirmMessage={
+              new Date() < enrollment?.offering.term.registrationDeadline
+                ? 'Are you sure you want to drop this course? You will receive a refund and your gpa will not be affected.'
+                : 'Are you sure you want to drop this course? You will not receive a refund and you will have a final grade of WDN.'
+            }
             onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
             canUnenroll={enrollment?.role === 'student' && !enrollment?.finalGrade}
             onConfirmUnenroll={handleConfirmUnenroll(enrollment?.id)}

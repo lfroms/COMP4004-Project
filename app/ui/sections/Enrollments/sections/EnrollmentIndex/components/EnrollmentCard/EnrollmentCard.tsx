@@ -8,13 +8,23 @@ interface Props {
   subtitle?: string;
   role?: string;
   canUnenroll?: boolean;
+  confirmMessage?: string;
   onClick?: () => void;
   onConfirmUnenroll?: () => void;
   loading?: boolean;
 }
 
 export default function EnrollmentCard(props: Props) {
-  const { title, subtitle, role, canUnenroll = false, onClick, onConfirmUnenroll, loading } = props;
+  const {
+    title,
+    subtitle,
+    role,
+    canUnenroll = false,
+    confirmMessage = 'Are you sure you want to unenroll in this course?',
+    onClick,
+    onConfirmUnenroll,
+    loading,
+  } = props;
 
   return (
     <Card
@@ -36,7 +46,7 @@ export default function EnrollmentCard(props: Props) {
           ? [
               <div onClick={e => e.stopPropagation()} key="unenroll">
                 <Popconfirm
-                  title="Are you sure you want to unenroll in this course?"
+                  title={confirmMessage}
                   placement="top"
                   okText="Confirm"
                   onConfirm={onConfirmUnenroll}
