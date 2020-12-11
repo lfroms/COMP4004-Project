@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { CurrentUserContext } from 'foundation';
 import { Loading, TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
-import { Button, Descriptions, Space, Table, Typography, message } from 'antd';
+import { Button, Descriptions, Space, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import {
   CheckCircleOutlined,
@@ -13,7 +13,7 @@ import {
   DeleteOutlined,
   FileAddOutlined,
 } from '@ant-design/icons';
-import { SubmissionCreateModal } from 'sections/Enrollments/components';
+import { GradeCreateModal, SubmissionCreateModal } from 'sections/Enrollments/components';
 
 import {
   DeliverableShowQuery,
@@ -62,6 +62,17 @@ const DELIVERABLE = gql`
             user {
               id
               name
+              submissions(deliverableId: $deliverableId) {
+                nodes {
+                  id
+                  attachmentUrl
+                  grade {
+                    id
+                    value
+                    comment
+                  }
+                }
+              }
             }
           }
         }
@@ -85,10 +96,11 @@ const DELETE_DELIVERABLE = gql`
 
 export default function DeliverableShow() {
   const { user } = useContext(CurrentUserContext);
-  const { deliverableId, offeringId } = useParams<ParamType>();
   const history = useHistory();
 
+  const { deliverableId, offeringId } = useParams<ParamType>();
   const [submissionCreateModalVisible, setSubmissionCreateModalVisible] = useState(false);
+  const [focusedUserSubmissionId, setFocusedUserSubmissionId] = useState<string | undefined>('');
 
   const { data, loading } = useQuery<DeliverableShowQuery, DeliverableShowQueryVariables>(
     DELIVERABLE,
@@ -128,22 +140,64 @@ export default function DeliverableShow() {
   const currentUserRole = deliverable.offering.currentEnrollment.nodes?.[0]?.role;
   const students = deliverable.offering.students.nodes ?? [];
 
-  // TODO: Implement their grade in the deliverable if it exists
   const columns: ColumnType<DeliverableShowQuery_deliverable_offering_students_nodes>[] = [
     {
       title: 'Student',
       dataIndex: ['user', 'name'],
     },
     {
+      title: 'Submission URL',
+      render: (_value, record) => {
+        const attachmentUrl = record.user.submissions.nodes?.[0]?.attachmentUrl;
+
+        if (!attachmentUrl) {
+          return null;
+        }
+
+        return (
+          <a href={attachmentUrl} target="_blank" rel="noreferrer noopener">
+            {attachmentUrl}
+          </a>
+        );
+      },
+    },
+    {
+      title: 'Grade',
+      render: (_value, record) => {
+        const grade = record.user.submissions.nodes?.[0]?.grade;
+
+        if (!grade) {
+          return <Tag color="processing">Not graded</Tag>;
+        }
+
+        return <>{grade.value * 100} / 100</>;
+      },
+    },
+    {
       key: 'action',
       fixed: 'right',
       align: 'right',
-      render: record => {
+      render: (_value, record) => {
+        const submission = record.user.submissions.nodes?.[0];
+        const grade = submission?.grade?.value;
+
+        if (grade) {
+          return null;
+        }
+
         return (
           <Button
             id={`add-grade-button-${record.user.id}`}
             style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
             icon={<CheckCircleOutlined />}
+            disabled={!submission}
+            onClick={() => {
+              if (!submission) {
+                return;
+              }
+
+              setFocusedUserSubmissionId(submission.id);
+            }}
           >
             Add grade
           </Button>
@@ -159,6 +213,7 @@ export default function DeliverableShow() {
         <Table
           dataSource={students as DeliverableShowQuery_deliverable_offering_students_nodes[]}
           columns={columns}
+          pagination={false}
         />
       </>
     ) : null;
@@ -222,6 +277,12 @@ export default function DeliverableShow() {
         deliverableId={deliverable.id}
         visible={submissionCreateModalVisible}
         onRequestClose={() => setSubmissionCreateModalVisible(false)}
+      />
+
+      <GradeCreateModal
+        submissionId={focusedUserSubmissionId!}
+        visible={!!focusedUserSubmissionId}
+        onRequestClose={() => setFocusedUserSubmissionId(undefined)}
       />
     </>
   );
