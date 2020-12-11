@@ -83,6 +83,7 @@ export default function EnrollmentShow() {
   const getSelectedKey = () => {
     if (pathnameMatches('/participants')) return 'participants';
     if (pathnameMatches('/grades')) return 'grades';
+    if (pathnameMatches('/deliverables')) return undefined;
 
     return 'dashboard';
   };
@@ -98,6 +99,7 @@ export default function EnrollmentShow() {
   return (
     <Page
       title={`${courseCode} ${section}`}
+      onBack={() => history.push('/courses')}
       subtitle={`${createTermName(startDate, endDate)} term`}
       groups={groups}
       selectedItemId={getSelectedKey()}
