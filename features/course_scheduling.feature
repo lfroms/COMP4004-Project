@@ -9,10 +9,10 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-    And I enter section "A"
-    And I enter capacity 200
-    And I select course "COMP 4004"
     And I select term "Jan 2021 - Apr 2021"
+    And I select course "COMP 4004"
+    And I enter section "A"
+    And I enter capacity 2
     And I click the "Create" button
     Then there now exists a course offering for course with code "COMP 4004" section "A" term "Jan 2021 - Apr 2021"
 
@@ -22,9 +22,9 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-    And I enter capacity 200
-    And I select course "COMP 4004"
     And I select term "Jan 2021 - Apr 2021"
+    And I select course "COMP 4004"
+    And I enter capacity 2
     And I click the "Create" button
     Then I receive a message saying "You must enter a section"
 
@@ -34,9 +34,9 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-    And I enter section "A"
-    And I select course "COMP 4004"
     And I select term "Jan 2021 - Apr 2021"
+    And I select course "COMP 4004"
+    And I enter section "A"
     And I click the "Create" button
     Then I receive a message saying "You must enter a capacity"
 
@@ -46,10 +46,10 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
+   And I select term "Jan 2021 - Apr 2021"
+    And I select course "COMP 4004"
     And I enter section "A"
     And I enter capacity 0
-    And I select course "COMP 4004"
-    And I select term "Jan 2021 - Apr 2021"
     And I click the "Create" button
     Then I receive a message saying "Capacity must be between 1 and 400"
 
@@ -59,10 +59,10 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
+   And I select term "Jan 2021 - Apr 2021"
+    And I select course "COMP 4004"
     And I enter section "A"
     And I enter capacity 401
-    And I select course "COMP 4004"
-    And I select term "Jan 2021 - Apr 2021"
     And I click the "Create" button
     Then I receive a message saying "Capacity must be between 1 and 400"
 
@@ -72,9 +72,9 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-    And I enter section "A"
-    And I enter capacity 200
     And I select term "Jan 2021 - Apr 2021"
+    And I enter section "A"
+    And I enter capacity 2
     And I click the "Create" button
     Then I receive a message saying "You must select a course"
 
@@ -84,9 +84,9 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-    And I enter section "A"
-    And I enter capacity 200
     And I select course "COMP 4004"
+    And I enter section "A"
+    And I enter capacity 2
     And I click the "Create" button
     Then I receive a message saying "You must select a term"
 
@@ -98,7 +98,7 @@ Feature: Course Scheduling
     And I am on the course offering index
     When I click the "New course offering" button
     And I enter section "A"
-    And I enter capacity 200
+    And I enter capacity 2
     And I select course "COMP 4004"
     And I select term "Jan 2021 - Apr 2021"
     And I click the "Create" button
