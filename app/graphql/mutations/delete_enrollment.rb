@@ -45,13 +45,13 @@ module Mutations
           errors: Types::UserError.from(enrollment.errors_hash),
         }
       end
+    end
 
-      def delete_or_drop(enrollment)
-        if Time.zone.now < enrollment.offering.term.withdrawal_deadline
-          enrollment.destroy
-        else
-          enrollment.update(deleted_at: Time.zone.now, final_grade: 'WDN')
-        end
+    def delete_or_drop(enrollment)
+      if Time.zone.now < enrollment.offering.term.withdrawal_deadline
+        enrollment.destroy
+      else
+        enrollment.update(deleted_at: Time.zone.now, final_grade: 'WDN')
       end
     end
   end
