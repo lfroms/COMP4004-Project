@@ -34,25 +34,24 @@ module Mutations
         }
       end
 
-      begin
-        enrollment.transaction do
-          term = enrollment.offering.term
-          if Time.zone.now < term.withdrawal_deadline
-            enrollment.destroy!
-          else
-            enrollment.update!(deleted_at: Time.zone.now, final_grade: 'WDN')
-          end
-
-          return {
-            enrollment: enrollment,
-            errors: [],
-          }
-        end
-      rescue ActiveRecord::RecordInvalid => error
+      if delete_or_drop(enrollment)
+        {
+          enrollment: enrollment,
+          errors: [],
+        }
+      else
         {
           enrollment: nil,
-          errors: Types::UserError.from(error.record.errors_hash),
+          errors: Types::UserError.from(enrollment.errors_hash),
         }
+      end
+
+      def delete_or_drop(enrollment)
+        if Time.zone.now < enrollment.offering.term.withdrawal_deadline
+          enrollment.destroy
+        else
+          enrollment.update(deleted_at: Time.zone.now, final_grade: 'WDN')
+        end
       end
     end
   end

@@ -22,7 +22,7 @@ module Mutations
         }
       end
 
-      if enrollment.save!
+      if enrollment.save
         {
           enrollment: enrollment,
           errors: [],
@@ -30,7 +30,7 @@ module Mutations
       else
         {
           enrollment: nil,
-          errors: Types::UserError.from(error.record.errors_hash),
+          errors: Types::UserError.from(enrollment.errors_hash),
         }
       end
     end
