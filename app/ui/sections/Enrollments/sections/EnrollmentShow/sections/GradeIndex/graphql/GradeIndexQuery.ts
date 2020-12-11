@@ -3,9 +3,25 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { EnrollmentRole } from "./../../../../../../../graphql/global-types";
+
 // ====================================================
 // GraphQL query operation: GradeIndexQuery
 // ====================================================
+
+export interface GradeIndexQuery_offering_currentEnrollment_nodes {
+  __typename: "Enrollment";
+  id: string;
+  role: EnrollmentRole;
+}
+
+export interface GradeIndexQuery_offering_currentEnrollment {
+  __typename: "EnrollmentConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (GradeIndexQuery_offering_currentEnrollment_nodes | null)[] | null;
+}
 
 export interface GradeIndexQuery_offering_deliverables_nodes_submissions_nodes_grade {
   __typename: "Grade";
@@ -46,6 +62,7 @@ export interface GradeIndexQuery_offering_deliverables {
 export interface GradeIndexQuery_offering {
   __typename: "Offering";
   id: string;
+  currentEnrollment: GradeIndexQuery_offering_currentEnrollment;
   deliverables: GradeIndexQuery_offering_deliverables;
 }
 

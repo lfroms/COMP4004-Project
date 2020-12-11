@@ -9,6 +9,7 @@ export interface Group {
   title: string;
   items?: Item[];
   onSelect?(): void;
+  hidden?: boolean;
 }
 
 interface Item {
@@ -31,6 +32,10 @@ export default function Page(props: Props) {
   const { title, subtitle, onBack, groups, selectedItemId, initialOpenGroupIds, children } = props;
 
   const submenus = groups.map(group => {
+    if (group.hidden) {
+      return null;
+    }
+
     if (!group.items) {
       return (
         <Menu.Item key={group.id} icon={group.icon} onClick={group.onSelect}>

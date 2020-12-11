@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { NavigationGroup, Page } from 'components';
 import { CheckCircleOutlined, DashboardOutlined, TeamOutlined } from '@ant-design/icons';
@@ -7,22 +7,14 @@ import { Dashboard, DeliverableShow, GradeIndex, ParticipantIndex } from './sect
 import { createTermName } from 'helpers';
 
 import { EnrollmentShowQuery, EnrollmentShowQueryVariables } from './graphql/EnrollmentShowQuery';
+import { CurrentUserContext } from 'foundation';
 
 interface ParamType {
   offeringId: string;
 }
 
 const ENROLLMENT = gql`
-  query EnrollmentShowQuery($offeringId: ID!) {
-    currentUser {
-      id
-      enrollments(offeringId: $offeringId) {
-        nodes {
-          id
-          role
-        }
-      }
-    }
+  query EnrollmentShowQuery($offeringId: ID!, $userId: ID!) {
     offering(id: $offeringId) {
       id
       section
@@ -36,18 +28,27 @@ const ENROLLMENT = gql`
         startDate
         endDate
       }
+      currentEnrollment: enrollments(userId: $userId) {
+        nodes {
+          id
+          role
+        }
+      }
     }
   }
 `;
 
 export default function EnrollmentShow() {
+  const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
   const history = useHistory();
   const location = useLocation();
 
   const { data } = useQuery<EnrollmentShowQuery, EnrollmentShowQueryVariables>(ENROLLMENT, {
+    skip: !user,
     variables: {
       offeringId,
+      userId: user?.id ?? '0',
     },
   });
 
@@ -77,6 +78,7 @@ export default function EnrollmentShow() {
       title: 'Grades',
       icon: <CheckCircleOutlined />,
       onSelect: () => history.push(`/courses/${offeringId}/grades`),
+      hidden: data.offering.currentEnrollment.nodes?.[0]?.role === 'professor',
     },
   ];
 
