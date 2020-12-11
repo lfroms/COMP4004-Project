@@ -1,0 +1,35 @@
+import React from 'react';
+import { Form, Select } from 'antd';
+
+interface Props {
+  name: string;
+  onSubmit(): void;
+}
+
+const GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'WDN'];
+
+export default function FinalGradeForm({ name, onSubmit }: Props) {
+  const { Option } = Select;
+
+  return (
+    <Form name={name} onFinish={onSubmit}>
+      <Form.Item
+        name="finalGrade"
+        hasFeedback
+        rules={[
+          {
+            type: 'string',
+          },
+        ]}
+      >
+        <Select id="final_grade_select" mode="multiple" placeholder="Final Grade">
+          {GRADES.map((grade, index) => (
+            <Option key={`prerequisite-select-${index}`} value={grade}>
+              {grade}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+    </Form>
+  );
+}
