@@ -11,7 +11,7 @@ Given('there exists a term {string}') do |string|
     end_date: Time.zone.parse(dates.last),
     registration_deadline: Time.zone.parse(dates.first),
     withdrawal_deadline: Time.zone.parse(dates.first) + 5,
-    per_credit_fee: float,
+    per_credit_fee: 1000,
   )
 end
 
