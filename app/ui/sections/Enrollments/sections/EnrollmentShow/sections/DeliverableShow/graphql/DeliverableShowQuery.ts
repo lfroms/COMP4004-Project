@@ -45,12 +45,14 @@ export interface DeliverableShowQuery_deliverable_offering_currentEnrollment {
 
 export interface DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes_grade {
   __typename: "Grade";
+  id: string;
   value: number;
   comment: string;
 }
 
 export interface DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes {
   __typename: "Submission";
+  id: string;
   attachmentUrl: string;
   grade: DeliverableShowQuery_deliverable_offering_students_nodes_user_submissions_nodes_grade | null;
 }

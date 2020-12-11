@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { CurrentUserContext } from 'foundation';
 import { Loading, TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
-import { Button, Descriptions, Space, Table, Typography, message } from 'antd';
+import { Button, Descriptions, Space, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import {
   CheckCircleOutlined,
@@ -62,12 +62,12 @@ const DELIVERABLE = gql`
             user {
               id
               name
-
               submissions(deliverableId: $deliverableId) {
                 nodes {
                   id
                   attachmentUrl
                   grade {
+                    id
                     value
                     comment
                   }
@@ -147,28 +147,56 @@ export default function DeliverableShow() {
     },
     {
       title: 'Submission URL',
-      dataIndex: ['user', 'submissions', 'nodes'],
-      render: record => (record.length > 0 ? <p>{record[0].attachmentUrl}</p> : null),
+      render: (_value, record) => {
+        const attachmentUrl = record.user.submissions.nodes?.[0]?.attachmentUrl;
+
+        if (!attachmentUrl) {
+          return null;
+        }
+
+        return (
+          <a href={attachmentUrl} target="_blank" rel="noreferrer noopener">
+            {attachmentUrl}
+          </a>
+        );
+      },
+    },
+    {
+      title: 'Grade',
+      render: (_value, record) => {
+        const grade = record.user.submissions.nodes?.[0]?.grade;
+
+        if (!grade) {
+          return <Tag color="processing">Not graded</Tag>;
+        }
+
+        return <>{grade.value * 100} / 100</>;
+      },
     },
     {
       key: 'action',
       fixed: 'right',
       align: 'right',
-      render: record => {
-        const recordSubmission = record.user.submissions.nodes[0];
+      render: (_value, record) => {
+        const submission = record.user.submissions.nodes?.[0];
+        const grade = submission?.grade?.value;
 
-        if (recordSubmission) {
-          return <p>Grade: {recordSubmission.grade.value * 100}%</p>;
+        if (grade) {
+          return null;
         }
 
         return (
           <Button
             id={`add-grade-button-${record.user.id}`}
-            style={recordSubmission ? { color: '#6BCC3C', borderColor: '#6BCC3C' } : {}}
+            style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
             icon={<CheckCircleOutlined />}
-            disabled={!recordSubmission}
+            disabled={!submission}
             onClick={() => {
-              setFocusedUserSubmissionId(recordSubmission.id);
+              if (!submission) {
+                return;
+              }
+
+              setFocusedUserSubmissionId(submission.id);
             }}
           >
             Add grade
