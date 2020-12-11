@@ -97,7 +97,7 @@ export default function EnrollmentIndex() {
             )})`}
             role={role}
             confirmMessage={
-              new Date() < enrollment?.offering.term.registrationDeadline
+              new Date() < new Date(enrollment?.offering.term.registrationDeadline)
                 ? 'Are you sure you want to drop this course? You will receive a refund and your gpa will not be affected.'
                 : 'Are you sure you want to drop this course? You will not receive a refund and you will have a final grade of WDN.'
             }
