@@ -13,7 +13,7 @@ class Offering < ApplicationRecord
   has_many :deliverables, dependent: :destroy
 
   def maximum_capacity
-    if full?
+    if student_count > capacity
       errors.add(:base, 'This course is at maximum capacity.')
     end
   end
@@ -25,6 +25,6 @@ class Offering < ApplicationRecord
   private
 
   def student_count
-    enrollments.student.count
+    enrollments.where(deleted_at: nil).student.count
   end
 end

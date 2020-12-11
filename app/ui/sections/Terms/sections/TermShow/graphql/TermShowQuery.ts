@@ -27,6 +27,7 @@ export interface TermShowQuery_terms_nodes_offerings_nodes_enrollments_nodes_use
 
 export interface TermShowQuery_terms_nodes_offerings_nodes_enrollments_nodes {
   __typename: "Enrollment";
+  deletedAt: any | null;
   user: TermShowQuery_terms_nodes_offerings_nodes_enrollments_nodes_user;
 }
 

@@ -18,6 +18,12 @@ future_enrollment:
   offering: future_offering
   user: not_admin
 
+dropped:
+  role: student
+  offering: quality_assurance_section_b
+  user: not_admin
+  final_grade: WDN
+
 prof:
   role: professor
   offering: object_oriented_section_a

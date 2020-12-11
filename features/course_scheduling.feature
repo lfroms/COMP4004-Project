@@ -7,7 +7,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I enter capacity 200
@@ -20,7 +20,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter capacity 200
     And I select course "COMP 4004"
@@ -32,7 +32,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I select course "COMP 4004"
@@ -44,7 +44,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I enter capacity 0
@@ -57,7 +57,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I enter capacity 401
@@ -70,7 +70,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I enter capacity 200
@@ -82,7 +82,7 @@ Feature: Course Scheduling
     Given I successfully log in as an administrator
     And I am on the course offering index
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
     And I enter section "A"
     And I enter capacity 200
@@ -93,7 +93,7 @@ Feature: Course Scheduling
   Scenario: An administrator attemps to create a section that already exists
     Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"
-    And there exists a term "Jan 2021 - Apr 2021"
+    And the current term is "Jan 2021 - Apr 2021"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And I am on the course offering index
     When I click the "New course offering" button

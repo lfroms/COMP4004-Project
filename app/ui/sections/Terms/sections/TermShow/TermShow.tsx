@@ -46,6 +46,7 @@ const TERMS = gql`
             }
             enrollments {
               nodes {
+                deletedAt
                 user {
                   id
                 }
@@ -100,7 +101,9 @@ export default function TermShow() {
   ) => {
     return (
       enrollments.nodes &&
-      enrollments.nodes.find(enrollment => enrollment?.user.id == current_user.id)
+      enrollments.nodes.find(
+        enrollment => enrollment?.user.id == current_user.id && !enrollment?.deletedAt
+      )
     );
   };
   const groups: NavigationGroup[] =
@@ -160,14 +163,14 @@ export default function TermShow() {
       fixed: 'right',
       align: 'right',
       render: (_text, record) => {
-        if (record.full) {
-          return <Tag color="red">Full</Tag>;
-        } else if (
+        if (
           record.enrollments &&
           data.currentUser &&
           alreadyEnrolled(record.enrollments, data.currentUser)
         ) {
           return <Tag color="green">Enrolled</Tag>;
+        } else if (record.full) {
+          return <Tag color="red">Full</Tag>;
         } else {
           return (
             <Popconfirm

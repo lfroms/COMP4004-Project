@@ -20,10 +20,12 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
-  test 'default balance is 0' do
-    user = User.new(name: 'Lukas', email: 'example@example.com', password: '123456', admin: true, approved: true)
+  test 'fees correctly calculates amount owed' do
+    fall_fee = terms(:fall).per_credit_fee
+    future_fee = terms(:future).per_credit_fee
 
-    assert_equal 0, user.balance
+    assert_equal (4 * fall_fee + future_fee), users(:not_admin).fees
+    assert_equal 0, users(:bob).fees
   end
 
   test 'email must be valid' do

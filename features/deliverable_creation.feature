@@ -5,7 +5,7 @@ Feature: Deliverable Creation
 
   Scenario: A professor successfully creates deliverables for a course
     Given I successfully log in as a professor with email "prof@email.com"
-    And there exists a term "Aug 2020 - Dec 2020"
+    And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
@@ -19,7 +19,7 @@ Feature: Deliverable Creation
 
   Scenario: A field was left blank
     Given I successfully log in as a professor with email "prof@email.com"
-    And there exists a term "Aug 2020 - Dec 2020"
+    And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A"
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
