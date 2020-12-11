@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   def fees
     enrollments.student.includes(offering: :term).reduce(0) do |sum, enrollment|
-    sum += enrollment.offering.term.per_credit_fee
+      sum + enrollment.offering.term.per_credit_fee
     end
   end
 end
