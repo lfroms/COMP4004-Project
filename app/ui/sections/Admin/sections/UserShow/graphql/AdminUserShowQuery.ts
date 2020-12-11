@@ -7,6 +7,19 @@
 // GraphQL query operation: AdminUserShowQuery
 // ====================================================
 
+export interface AdminUserShowQuery_user_enrollments_nodes {
+  __typename: "Enrollment";
+  id: string;
+}
+
+export interface AdminUserShowQuery_user_enrollments {
+  __typename: "EnrollmentConnection";
+  /**
+   * A list of nodes.
+   */
+  nodes: (AdminUserShowQuery_user_enrollments_nodes | null)[] | null;
+}
+
 export interface AdminUserShowQuery_user {
   __typename: "User";
   id: string;
@@ -15,6 +28,7 @@ export interface AdminUserShowQuery_user {
   approved: boolean;
   admin: boolean;
   balance: number;
+  enrollments: AdminUserShowQuery_user_enrollments;
 }
 
 export interface AdminUserShowQuery {
