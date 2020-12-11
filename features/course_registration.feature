@@ -28,7 +28,7 @@ Feature: Course Registration
     And I click the "Confirm" button
     Then I receive a message saying "Enrolled"
 
-  Scenario: A student attempts to register in a course with unearned prerequisites
+  Scenario: A student attempts to register in a course with not-taken prerequisites
     Given I successfully log in as a student with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And there exists a term "Jan 2021 - Apr 2021"
@@ -40,6 +40,29 @@ Feature: Course Registration
     When I click the enroll button
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
+
+  Scenario: A student attempts to register in a course with failed prerequisites
+    Given I successfully log in as a student with email "student@email.com"
+    And student with email "student@email.com" is a self-enrolling user
+    And there exists a term "Jan 2021 - Apr 2021"
+    And there exists a course with code "COMP 3004"
+    And there exists a course with code "COMP 4004"
+    And course with code "COMP 4004" has prerequisite "COMP 3004"
+    And there exists a course offering for course with code "COMP 4004" section "A"
+    And student with email "student@email.com" has failed course with code "COMP 3004"
+    And I am viewing the list of offered courses for term "Jan 2021 - Apr 2021"
+    When I click the enroll button
+    And I click the "Confirm" button
+    Then I receive a message saying "You do not have the required prerequisites."
+
+Scenario: Registration deadline has passed
+    Given I successfully log in as a student with email "student@email.com"
+    And student with email "student@email.com" is a self-enrolling user
+    And there exists a term "Jan 2021 - Apr 2021" with registration deadline earlier than today
+    And there exists a course with code "COMP 4004"
+    And there exists a course offering for course with code "COMP 4004" section "A" capacity 1
+    And I am viewing the list of offered courses for term "Jan 2021 - Apr 2021"
+    Then there are no enroll buttons
 
   Scenario: A course is already full
     Given I successfully log in as a student with email "student@email.com"
