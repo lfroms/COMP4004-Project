@@ -101,7 +101,7 @@ Given('I am viewing the deliverable creation form for course offering for course
 end
 
 Given('there exists a user with email {string} name {string}') do |string, string2|
-  User.create(name: string2, email: string, password: "123456", approved: true)
+  User.create(name: string2, email: string, password: '123456', approved: true)
 end
 
 When('I enter section {string}') do |string|
@@ -113,7 +113,7 @@ When('I enter capacity {int}') do |int|
   field.fill_in(with: int)
 end
 
-When('I select course {string}') do |string|
+When('I select course {string}') do |_string|
   pending
   # find('#offering_course_select', visible: false).click
   # find('.offering_form_course_option', text: string).click
@@ -136,7 +136,7 @@ end
 
 When('I select the user with name {string}') do |string|
   find('input', text: 'Select a professor').click
-  find('.ant-select-item', text: "#{string}").click
+  find('.ant-select-item', text: string.to_s).click
 end
 
 Then('there now exists a course offering for course with code {string} section {string} term {string}') do |string, string2, string3|
