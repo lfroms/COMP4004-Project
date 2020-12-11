@@ -69,9 +69,13 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Select id="course_prerequisites_select" mode="multiple" placeholder="Prerequisites">
+        <Select mode="multiple" placeholder="Prerequisites">
           {data?.courses.nodes?.map((prerequisite, index) => (
-            <Option key={`prerequisite-select-${index}`} value={prerequisite?.id ?? 0}>
+            <Option
+              key={`prerequisite-select-${index}`}
+              class="prerequisite_option"
+              value={prerequisite?.id ?? 0}
+            >
               {prerequisite?.code}
             </Option>
           ))}

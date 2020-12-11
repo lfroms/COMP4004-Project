@@ -14,6 +14,7 @@ Feature: Course Creation
 
  Scenario: An administrator successfully creates a course with prerequisites
     Given I successfully log in as an administrator
+    And there exists a course with code "COMP 3004"
     And I am on the course index
     When I click the "New course" button
     And I enter code "COMP 4004"
@@ -21,7 +22,7 @@ Feature: Course Creation
     And I select prerequisite "COMP 3004"
     And I click the "Create" button
     Then there now exists a course with code "COMP 4004" name "Software Quality Assurance"
-    And course with code "COMP 4004" has prerequisite "COMP 3004"
+    And new course with code "COMP 4004" has prerequisite "COMP 3004"
 
   Scenario: Name field was left blank during course creation
     Given I successfully log in as an administrator

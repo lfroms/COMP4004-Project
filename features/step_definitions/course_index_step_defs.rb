@@ -16,6 +16,11 @@ When('I enter name {string}') do |string|
   fill_in('course_name_field', with: string)
 end
 
+When('I select prerequisite {string}') do |string|
+  find('span', text: 'Prerequisites').click
+  find('.ant-select-item', text: "#{string}").click
+end
+
 When('I click the delete course button') do
   click_button('delete_course')
 end
@@ -34,4 +39,9 @@ end
 Then('there no longer exists a course with code {string}') do |string|
   index = find('#course_index')              # from Capybara::Node::Finders
   refute index.has_content?(string)
+end
+
+Then('new course with code {string} has prerequisite {string}') do |string, string2|
+  click_link("#{string}")
+  assert_text string2
 end
