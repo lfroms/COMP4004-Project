@@ -36,6 +36,20 @@ Then('there is no unenroll button') do
   assert has_no_button?("unenroll_button")
 end
 
+Then('student with email {string} now has an account balance of {int}') do |string, int|
+  #LOGOUT FIRST
+  student = User.find_by(email: string)
+  email = 'admin@example.com'
+  password = '123456'
+  User.create(name: 'admin', email: email, password: password, admin: true, approved: true)
+  visit('/')
+  fill_in('login_email_field', with: email)
+  fill_in('login_password_field', with: password)
+  click_button('login')
+  visit("/admin/users/#{student.id}")
+  assert has_text?("$#{int}")
+end
+
 Then('student with email {string} has no final grade for the enrollment') do |string|
   pending # Write code here that turns the phrase above into concrete actions
 end
