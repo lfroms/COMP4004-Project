@@ -37,7 +37,7 @@ Then('there is no unenroll button') do
 end
 
 Then('student with email {string} now has an account balance of {int}') do |string, int|
-  # LOGOUT FIRST
+  visit('/logout')
   student = User.find_by(email: string)
   email = 'admin@example.com'
   password = '123456'
