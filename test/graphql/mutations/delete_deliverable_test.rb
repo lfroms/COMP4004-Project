@@ -6,12 +6,16 @@ module Mutations
     test '#resolve deletes a deliverable' do
       offering = offerings(:object_oriented_section_a)
       deliverable = offering.deliverables.first
+      deliverable.submissions.destroy_all
 
       query = <<~EOF
         mutation DeleteDeliverable($id: ID!) {
           deleteDeliverable(input: {id: $id}) {
             deliverable {
               id
+            }
+            errors {
+              message
             }
           }
         }
@@ -20,7 +24,39 @@ module Mutations
       result = CmsSchema.execute(query, context: { current_user: users(:bob) }, variables: { id: deliverable.id }).to_h
       id = result.dig('data', 'deleteDeliverable', 'deliverable', 'id')
 
+      assert_not_nil id
       assert_nil Deliverable.find_by(id: id)
+    end
+
+    test '#resolve does not delete a deliverable if the deliverable has submissions' do
+      offering = offerings(:object_oriented_section_a)
+      deliverable = offering.deliverables.first
+
+      query = <<~EOF
+        mutation DeleteDeliverable($id: ID!) {
+          deleteDeliverable(input: {id: $id}) {
+            deliverable {
+              id
+            }
+            errors {
+              message
+            }
+          }
+        }
+      EOF
+
+      result = CmsSchema.execute(
+        query,
+        context: { current_user: users(:bob) },
+        variables: {
+          id: deliverable.id,
+        }
+      ).to_h
+
+      error_message = result.dig('data', 'deleteDeliverable', 'errors', 0, 'message')
+
+      assert_not_nil Deliverable.find_by(id: deliverable.id)
+      assert_equal 'This deliverable cannot be deleted as it has submissions.', error_message
     end
 
     test '#resolve does not delete a deliverable if the user is not enrolled as a professor in the offering' do
