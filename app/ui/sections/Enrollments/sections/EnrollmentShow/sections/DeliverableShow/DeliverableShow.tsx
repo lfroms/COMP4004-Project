@@ -38,6 +38,7 @@ const DELIVERABLE = gql`
       description
       dueDate
       dueDatePassed
+      hasSubmissions
       weight
       currentSubmission: submissions(userId: $userId) {
         nodes {
@@ -245,6 +246,7 @@ export default function DeliverableShow() {
             type: 'default',
             danger: true,
             hidden: !isProfessor,
+            disabled: deliverable.hasSubmissions,
             popConfirm: {
               placement: 'bottomRight',
               title: 'Are you sure you want to delete this deliverable?',
