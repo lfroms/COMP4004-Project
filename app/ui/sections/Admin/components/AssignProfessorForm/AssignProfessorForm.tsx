@@ -28,7 +28,11 @@ export default function AssignProfessorForm(props: Props) {
   const { data } = useQuery<AssignProfessorFormQuery>(USERS);
 
   const professorOptions = data?.users.nodes?.map((user, index) => (
-    <Select.Option key={`user-select-${index}`} value={user?.id ?? 0}>
+    <Select.Option
+      key={`user-select-${index}`}
+      value={user?.id ?? 0}
+      className="assign_professor_option"
+    >
       {user?.name}
     </Select.Option>
   ));
@@ -36,7 +40,9 @@ export default function AssignProfessorForm(props: Props) {
   return (
     <Form name={name} onFinish={onSubmit}>
       <Form.Item name="userId" rules={[{ required: true, message: 'You must select a professor' }]}>
-        <Select placeholder="Select a professor">{professorOptions}</Select>
+        <Select id="assign_professor_select" placeholder="Select a professor">
+          {professorOptions}
+        </Select>
       </Form.Item>
     </Form>
   );
