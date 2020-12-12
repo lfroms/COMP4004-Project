@@ -50,3 +50,9 @@ end
 Then('there is no unenroll button') do
   assert has_no_button?('unenroll_button')
 end
+
+### DELIVERABLES ###
+
+Then('there does not exist a deliverable with title {string}') do |title|
+  assert_no_text title
+end
