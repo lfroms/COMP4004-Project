@@ -9,8 +9,8 @@ Feature: Submission Grading
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
-    And there exists a deliverable called "Final exam" for course offering for course with code "COMP 4004" section "A"
-    And a student with email "student@example.com" has created a submission "http://example.com/doc.pdf" for deliverable "Final exam" for course offering "COMP 4004" section "A"
+    And there exists a deliverable called "Final exam" for course offering for course with code "COMP 4004" section "A" for the current term
+    And a student with email "student@example.com" has created a submission "http://example.com/doc.pdf" for deliverable "Final exam" for course offering "COMP 4004" section "A" for the current term
     When I navigate to the deliverable show page for the "Final exam"
     And I click the "Add grade" button
     And I enter a grade of "0.9"

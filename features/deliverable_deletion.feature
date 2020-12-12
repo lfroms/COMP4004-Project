@@ -9,7 +9,7 @@ Feature: Deliverable Deletion
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
-    And there exists a deliverable called "Some deliverable" for course offering for course with code "COMP 4004" section "A"
+    And there exists a deliverable called "Some deliverable" for course offering for course with code "COMP 4004" section "A" for the current term
     When I navigate to the deliverable show page for the "Some deliverable"
     And I click the "Delete deliverable" button
     And I click the "Confirm" button
@@ -22,7 +22,7 @@ Feature: Deliverable Deletion
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
-    And there exists a deliverable called "Some deliverable" for course offering for course with code "COMP 4004" section "A"
-    And a student with email "student@email.com" has created a submission "http://example.com" for deliverable "Some deliverable" for course offering "COMP 4004" section "A"
+    And there exists a deliverable called "Some deliverable" for course offering for course with code "COMP 4004" section "A" for the current term
+    And a student with email "student@email.com" has created a submission "http://example.com/doc.pdf" for deliverable "Some deliverable" for course offering "COMP 4004" section "A" for the current term
     When I navigate to the deliverable show page for the "Some deliverable"
     Then the "Delete deliverable" button is disabled

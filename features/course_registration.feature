@@ -82,7 +82,7 @@ Feature: Course Registration
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
-    And student with email "student@example.com" is enrolled in course with code "COMP 4004" section "A"
+    And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am viewing the list of offered courses for the current term
     Then I receive a message saying "Enrolled"
 

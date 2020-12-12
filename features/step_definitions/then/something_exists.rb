@@ -12,8 +12,17 @@ Then('the user has an approved status') do
   assert has_content?('Approved', count: 2) # New approval + existing admin
 end
 
+Then('the user has a pending status') do
+  assert has_content?('Pending', count: 1)
+end
+
 Then('there still exists a user with email {string}') do |email|
   assert_text email
+end
+
+Then('the approve button for user with email {string} exists') do |email|
+  user_id = User.find_by(email: email).id
+  assert has_button?("approve_user_id_#{user_id}")
 end
 
 ### COURSES ###
@@ -68,8 +77,20 @@ Then('enrollment in course with code {string} section {string} still appears in 
   assert has_text?("#{code} #{section}")
 end
 
-Then('student with email {string} has final grade {string} for the enrollment') do |_email, _grade|
-  pending # Write code here that turns the phrase above into concrete actions
+Then('student with email {string} has final grade {string} for the enrollment') do |email, grade|
+  visit('/logout')
+  student = User.find_by(email: email)
+  offering_id = @enrollment.offering.id
+  email = 'admin@example.com'
+  password = '123456'
+  User.create(name: 'admin', email: email, password: password, admin: true, approved: true)
+  visit('/')
+  fill_in('login_email_field', with: email)
+  fill_in('login_password_field', with: password)
+  click_button('login')
+  visit("/admin/offerings/#{offering_id}")
+  assert_text student.name
+  assert_text grade
 end
 
 ### PROFESSOR ASSIGNMENT ###

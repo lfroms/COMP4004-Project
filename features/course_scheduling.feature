@@ -46,7 +46,7 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And there exists a term "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-   And I select term "Jan 2021 - Apr 2021"
+    And I select term "Jan 2021 - Apr 2021"
     And I select course "COMP 4004"
     And I enter section "A"
     And I enter capacity 0
@@ -59,7 +59,7 @@ Feature: Course Scheduling
     And there exists a course with code "COMP 4004"
     And there exists a term "Jan 2021 - Apr 2021"
     When I click the "New course offering" button
-   And I select term "Jan 2021 - Apr 2021"
+    And I select term "Jan 2021 - Apr 2021"
     And I select course "COMP 4004"
     And I enter section "A"
     And I enter capacity 401
