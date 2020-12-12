@@ -3,6 +3,7 @@ Feature: Submission Creation
   I want to create submissions
   So that I can be evaluated
 
+  @SubCreateSuccess
   Scenario: A student successfully creates a submission
     Given I successfully log in as a user with email "student@email.com"
     And the current term is "Jan 2021 - Apr 2021"
