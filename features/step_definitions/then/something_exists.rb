@@ -20,10 +20,6 @@ Then('there still exists a user with email {string}') do |email|
   assert_text email
 end
 
-Then('the user with email {string} no longer exists') do |email|
-  assert_no_text email
-end
-
 Then('the approve button for user with email {string} exists') do |email|
   user_id = User.find_by(email: email).id
   assert has_button?("approve_user_id_#{user_id}")
