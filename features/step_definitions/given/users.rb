@@ -6,12 +6,12 @@ end
 
 Given('there exists a user with email {string} and approved status {string}') do |email, approved_string|
   approved = approved_string == 'true' ? true : false
-  User.create!(name: 'Not Approved', email: email, password: '123456', approved: approved)
+  User.create!(name: 'New User', email: email, password: '123456', approved: approved)
 end
 
 Given('there exists a user with email {string} password {string} approved status {string}') do |email, password, approved_string|
   approved = approved_string == 'true' ? true : false
-  User.create(name: 'Not Approved', email: email, password: password, approved: approved)
+  User.create(name: 'New User', email: email, password: password, approved: approved)
 end
 
 Given('there exists a user with email {string} name {string}') do |email, name|

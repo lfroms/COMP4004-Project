@@ -12,8 +12,21 @@ Then('the user has an approved status') do
   assert has_content?('Approved', count: 2) # New approval + existing admin
 end
 
+Then('the user has a pending status') do
+  assert has_content?('Pending', count: 1)
+end
+
 Then('there still exists a user with email {string}') do |email|
   assert_text email
+end
+
+Then('the user with email {string} no longer exists') do |email|
+  assert_no_text email
+end
+
+Then('the approve button for user with email {string} exists') do |email|
+  user_id = User.find_by(email: email).id
+  assert has_button?("#approve_user_id_#{user_id}")
 end
 
 ### COURSES ###

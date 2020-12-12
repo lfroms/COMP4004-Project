@@ -12,10 +12,15 @@ Then('the user with email {string} no longer exists') do |email|
   assert_no_text email
 end
 
+Then('the approve button for user with email {string} does not exist') do |email|
+  user_id = User.find_by(email: email).id
+  assert has_no_button?("#approve_user_id_#{user_id}")
+end
+
 ### COURSES ###
 
 Then('there no longer exists a course with code {string}') do |code|
-  index = find('#course_index') # from Capybara::Node::Finders
+  index = find('#course_index')
   refute index.has_content?(code)
 end
 
