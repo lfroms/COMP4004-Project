@@ -2,7 +2,7 @@ import React from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { Descriptions, Tag } from 'antd';
-import { Loading, TitleBar } from 'components';
+import { TitleBar } from 'components';
 
 import { AdminUserShowQuery } from './graphql/AdminUserShowQuery';
 
@@ -31,15 +31,11 @@ const SINGLE_USER = gql`
 export default function UserDetails() {
   const { userId } = useParams<ParamType>();
 
-  const { data, loading } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
+  const { data } = useQuery<AdminUserShowQuery>(SINGLE_USER, {
     variables: { id: userId },
   });
 
   const user = data?.user;
-
-  if (loading) {
-    return <Loading />;
-  }
 
   if (!user) {
     return null;

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useHistory, useParams } from 'react-router-dom';
 import { CurrentUserContext } from 'foundation';
-import { Loading, TitleBar } from 'components';
+import { TitleBar } from 'components';
 import { createFriendlyDate } from 'helpers';
 import { Button, Descriptions, Space, Table, Tag, Typography, message } from 'antd';
 import { ColumnType } from 'antd/lib/table';
@@ -130,10 +130,6 @@ export default function DeliverableShow() {
 
   const deliverable = data?.deliverable;
 
-  if (loading || !user) {
-    return <Loading />;
-  }
-
   if (!deliverable) {
     return null;
   }
@@ -189,7 +185,6 @@ export default function DeliverableShow() {
         return (
           <Button
             id={`add-grade-button-${record.user.id}`}
-            style={{ color: '#6BCC3C', borderColor: '#6BCC3C' }}
             icon={<CheckCircleOutlined />}
             disabled={!submission}
             onClick={() => {
@@ -209,14 +204,15 @@ export default function DeliverableShow() {
 
   const studentTableMarkup =
     currentUserRole === 'professor' ? (
-      <>
+      <div>
         <TitleBar.Secondary title="Student submissions" />
         <Table
           dataSource={students as DeliverableShowQuery_deliverable_offering_students_nodes[]}
           columns={columns}
           pagination={false}
+          loading={loading}
         />
-      </>
+      </div>
     ) : null;
 
   const grade = deliverable.currentSubmission.nodes?.[0]?.grade;
@@ -260,8 +256,8 @@ export default function DeliverableShow() {
         ]}
       />
 
-      <Space size="small" direction="vertical">
-        <Typography.Text>{deliverable.description}</Typography.Text>
+      <Space size="middle" direction="vertical">
+        <Typography.Paragraph>{deliverable.description}</Typography.Paragraph>
 
         <Descriptions bordered>
           <Descriptions.Item label="Due date">
@@ -272,9 +268,9 @@ export default function DeliverableShow() {
             <Descriptions.Item label="Grade">{grade.value}</Descriptions.Item>
           )}
         </Descriptions>
-      </Space>
 
-      {studentTableMarkup}
+        {studentTableMarkup}
+      </Space>
 
       <SubmissionCreateModal
         deliverableId={deliverable.id}
