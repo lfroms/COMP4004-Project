@@ -159,7 +159,7 @@ export default function UserIndex() {
             title="Are you sure you want to delete this user?"
             onConfirm={handleConfirmDelete(record.id)}
             okText="Confirm"
-            okButtonProps={{ id: 'confirm_user_approval', loading: deleteUserLoading }}
+            okButtonProps={{ loading: deleteUserLoading }}
             cancelText="Cancel"
           >
             <Button id={`delete_user_id_${record.id}`} danger icon={<DeleteOutlined />} />
