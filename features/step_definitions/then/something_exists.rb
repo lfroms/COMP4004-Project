@@ -25,11 +25,6 @@ Then('the approve button for user with email {string} exists') do |email|
   assert has_button?("approve_user_id_#{user_id}")
 end
 
-Then('the approve button for user with email {string} exists') do |email|
-  user_id = User.find_by(email: email).id
-  assert has_button?("#approve_user_id_#{user_id}")
-end
-
 ### COURSES ###
 
 Then('there now exists a course with code {string} name {string}') do |code, name|
