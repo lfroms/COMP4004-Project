@@ -10,8 +10,9 @@ module Mutations
     argument :end_date, GraphQL::Types::ISO8601DateTime, required: true
     argument :registration_deadline, GraphQL::Types::ISO8601DateTime, required: true
     argument :withdrawal_deadline, GraphQL::Types::ISO8601DateTime, required: true
+    argument :per_credit_fee, Float, required: true
 
-    def resolve(start_date:, end_date:, registration_deadline:, withdrawal_deadline:)
+    def resolve(start_date:, end_date:, registration_deadline:, withdrawal_deadline:, per_credit_fee:)
       assert_authenticated!
       assert_admin_user!
 
@@ -20,6 +21,7 @@ module Mutations
         end_date: end_date,
         registration_deadline: registration_deadline,
         withdrawal_deadline: withdrawal_deadline,
+        per_credit_fee: per_credit_fee
       )
 
       if term.save
