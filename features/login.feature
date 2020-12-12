@@ -9,7 +9,7 @@ Feature: Login
     When I enter email "myemail@email.com"
     And I enter password "123456"
     And I click the "Log in" button
-    Then I get redirected to courses
+    Then I get redirected to the courses page
 
   Scenario: A user leaves the password field blank
     Given that I am on the login page
