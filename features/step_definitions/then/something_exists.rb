@@ -57,10 +57,6 @@ Then('student with email {string} has final grade {string} for the enrollment') 
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then('there is no unenroll button') do
-  assert has_no_button?('unenroll_button')
-end
-
 ### PROFESSOR ASSIGNMENT ###
 
 Then('the professor for the course offering has name {string}') do |string|

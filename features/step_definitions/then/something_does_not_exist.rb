@@ -46,3 +46,7 @@ end
 Then('there are no enroll buttons') do
   assert has_no_button?('enroll_button')
 end
+
+Then('there is no unenroll button') do
+  assert has_no_button?('unenroll_button')
+end
