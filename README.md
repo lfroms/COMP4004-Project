@@ -19,6 +19,11 @@ The application is seeded with a default admin user, accessible by using the fol
 
 :tada: Congratulations! You can now browse the app.
 
+## Notes
+
+All commits are squashed before merging into master. To see the full commit message with the [CODE]/[TEST]/[REF] labels, you must click on the commit.
+
+
 ## Data Model
 
 <p align="center">
