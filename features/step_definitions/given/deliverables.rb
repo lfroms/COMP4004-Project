@@ -11,5 +11,5 @@ Given('there exists a deliverable called {string} with due date later than today
   course = Course.find_by(code: code)
   offering = Offering.find_by(course: course, section: section, term: @term)
 
-  Deliverable.create!(title: title, weight: 0.15, description: 'this is a deliverable', due_date: Time.zone.today+1, offering: offering)
+  Deliverable.create!(title: title, weight: 0.15, description: 'this is a deliverable', due_date: Time.zone.today + 1, offering: offering)
 end
