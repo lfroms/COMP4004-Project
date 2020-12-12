@@ -16,10 +16,6 @@ Then('there still exists a user with email {string}') do |email|
   assert_text email
 end
 
-Then('the user with email {string} no longer exists') do |email|
-  assert_no_text email
-end
-
 ### COURSES ###
 
 Then('there now exists a course with code {string} name {string}') do |code, name|
@@ -104,4 +100,10 @@ end
 Then('there exists a graded submission with grade {string}% and attachment url {string}') do |grade, attachment_url|
   assert_text "#{grade} / 100"
   assert_text attachment_url
+end
+
+### TERMS ###
+
+Then('there still exists a term with name {string}') do |name|
+  assert_text name
 end

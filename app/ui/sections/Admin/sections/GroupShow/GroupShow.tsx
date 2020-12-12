@@ -112,7 +112,7 @@ export default function GroupShow() {
           title="Are you sure you want to remove this user from the group?"
           onConfirm={handleConfirmRemove(record.id)}
           okText="Confirm"
-          okButtonProps={{ id: 'confirm_user_approval', loading: removeUserLoading }}
+          okButtonProps={{ loading: removeUserLoading }}
           cancelText="Cancel"
         >
           <Button id={`remove_user_id_${record.id}`} danger icon={<UsergroupDeleteOutlined />} />

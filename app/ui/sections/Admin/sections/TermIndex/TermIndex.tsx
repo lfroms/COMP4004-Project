@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { AppstoreAddOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Popconfirm, Table, message } from 'antd';
 import { createFriendlyDate, createTermName } from 'helpers';
 import { ColumnType } from 'antd/lib/table/interface';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,10 @@ import {
   AdminTermIndexQuery,
   AdminTermIndexQuery_terms_nodes,
 } from './graphql/AdminTermIndexQuery';
+import {
+  AdminTermIndexTermDeleteMutation,
+  AdminTermIndexTermDeleteMutationVariables,
+} from './graphql/AdminTermIndexTermDeleteMutation';
 
 const ALL_TERMS = gql`
   query AdminTermIndexQuery {
@@ -27,9 +31,34 @@ const ALL_TERMS = gql`
   }
 `;
 
+const DELETE_TERM = gql`
+  mutation AdminTermIndexTermDeleteMutation($id: ID!) {
+    deleteTerm(input: { id: $id }) {
+      term {
+        id
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 export default function TermIndex() {
   const [termCreateModalVisible, setTermCreateModalVisible] = useState(false);
   const { data, loading } = useQuery<AdminTermIndexQuery>(ALL_TERMS);
+
+  const [deleteTerm, { loading: deleteTermLoading }] = useMutation<
+    AdminTermIndexTermDeleteMutation,
+    AdminTermIndexTermDeleteMutationVariables
+  >(DELETE_TERM, {
+    refetchQueries: [{ query: ALL_TERMS }],
+  });
+
+  const handleConfirmDelete = (id: string) => async () => {
+    const { data } = await deleteTerm({ variables: { id } });
+    data?.deleteTerm?.errors.forEach(error => message.error(error.message));
+  };
 
   const columns: ColumnType<AdminTermIndexQuery_terms_nodes>[] = [
     {
@@ -52,6 +81,23 @@ export default function TermIndex() {
       title: 'End date',
       dataIndex: 'endDate',
       render: value => createFriendlyDate(value),
+    },
+    {
+      key: 'action',
+      fixed: 'right',
+      align: 'right',
+      render: (_value, record) => (
+        <Popconfirm
+          placement="rightBottom"
+          title="Are you sure you want to delete this term?"
+          onConfirm={handleConfirmDelete(record.id)}
+          okText="Confirm"
+          okButtonProps={{ loading: deleteTermLoading }}
+          cancelText="Cancel"
+        >
+          <Button id={`delete_term_id_${record.id}`} danger icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
     },
   ];
 
