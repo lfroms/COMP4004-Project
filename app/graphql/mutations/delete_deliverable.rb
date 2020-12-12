@@ -20,6 +20,13 @@ module Mutations
         }
       end
 
+      if deliverable.has_submissions
+        return {
+          deliverable: nil,
+          errors: Types::UserError.from('This deliverable cannot be deleted as it has submissions.'),
+        }
+      end
+
       if deliverable.destroy
         {
           deliverable: deliverable,

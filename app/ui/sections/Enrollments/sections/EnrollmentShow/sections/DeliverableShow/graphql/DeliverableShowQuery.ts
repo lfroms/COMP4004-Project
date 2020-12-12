@@ -100,6 +100,7 @@ export interface DeliverableShowQuery_deliverable {
   description: string;
   dueDate: any;
   dueDatePassed: boolean;
+  hasSubmissions: boolean;
   weight: number;
   currentSubmission: DeliverableShowQuery_deliverable_currentSubmission;
   offering: DeliverableShowQuery_deliverable_offering;
