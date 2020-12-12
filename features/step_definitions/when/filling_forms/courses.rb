@@ -9,6 +9,6 @@ When('I enter name {string}') do |name|
 end
 
 When('I select prerequisite {string}') do |prerequisite|
-  find('span', text: 'Prerequisites').click
-  find('.ant-select-item', text: prerequisite.to_s).click
+  find('#course_prerequisites_field', visible: false).click
+  find('.prerequisite_option', text: prerequisite).click
 end
