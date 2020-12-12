@@ -29,5 +29,3 @@ Feature: Deliverable Creation
     And I enter deliverable due date "12-15-20"
     And I click the "Create" button
     Then I receive a message saying "You must enter a weight"
-
-#TODO: make sure deliverables add up to 100

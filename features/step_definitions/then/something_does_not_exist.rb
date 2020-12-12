@@ -14,7 +14,7 @@ end
 
 Then('the approve button for user with email {string} does not exist') do |email|
   user_id = User.find_by(email: email).id
-  assert has_no_button?("#approve_user_id_#{user_id}")
+  assert has_no_button?("approve_user_id_#{user_id}")
 end
 
 ### COURSES ###
@@ -42,10 +42,6 @@ end
 
 Then('enrollment in course with code {string} section {string} no longer appears in my enrollments') do |code, section|
   assert has_no_text?("#{code} #{section}")
-end
-
-Then('student with email {string} has no final grade for the enrollment') do |_email|
-  pending # Write code here that turns the phrase above into concrete actions
 end
 
 Then('student with email {string} is no longer enrolled in course offering with code {string} section {string} term {string}') do |email, code, section, term|

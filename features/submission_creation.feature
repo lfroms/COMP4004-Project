@@ -5,14 +5,15 @@ Feature: Submission Creation
 
   Scenario: A student successfully creates a submission
     Given I successfully log in as a user with email "student@email.com"
-    And there exists a term "Fall2020"
-    And there exists a course with code "COMP4004"
-    And there exists a course offering for course with code "COMP4004" with section "A" for the current term
-    And there exists a deliverable with title "Final" offering for course with code "COMP4004" with section "A" and term "Fall2020"
-    And student with email "student@email.com" is enrolled in course offering for course with code "COMP4004" with section "A" and term "Fall2020"
-    And I am viewing the sumission creation form for deliverable with title "Final" for course offering for course with code "COMP4004" with section "A" and term "Fall2020"
-    When I enter attachment "file"
-    And I submit the form
-    Then there exists a submission from user with email "student@email.com" for deliverable with title "final" for course offering for course with code "COMP4004" with section "A" and term "Fall2020"
+    And the current term is "Jan 2021 - Apr 2021"
+    And there exists a course with code "COMP 4004"
+    And there exists a course offering for course with code "COMP 4004" section "A" for the current term
+    And there exists a deliverable called "Final" with due date later than today for course offering for course with code "COMP 4004" section "A" for the current term
+    And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
+    And I navigate to the deliverable show page for the "Final"
+    When I click the "Add submission" button
+    And I enter url "http://example.com/doc.pdf"
+    And I click the "Submit" button
+    Then I receive a message saying "Submitted"
 
 #TODO: add scenario for case when due date has passed

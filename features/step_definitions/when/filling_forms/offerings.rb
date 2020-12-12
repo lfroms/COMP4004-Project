@@ -9,10 +9,9 @@ When('I enter capacity {int}') do |capacity|
   field.fill_in(with: capacity)
 end
 
-When('I select course {string}') do |_course|
-  pending
-  # find('#offering_course_select', visible: false).click
-  # find('.offering_form_course_option', text: string).click
+When('I select course {string}') do |course|
+  find('#offering_course_select', visible: false).click
+  find('.offering_form_course_option', text: course).click
 end
 
 When('I select term {string}') do |term|
