@@ -50,6 +50,6 @@ Feature: Course Dropping
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
-    And student with email "student@email.com" has received a final grade in the enrollment
+    And the student has received a final grade in the enrollment
     And I am on the enrollments index
     Then there is no unenroll button

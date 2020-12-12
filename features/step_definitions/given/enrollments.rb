@@ -16,22 +16,6 @@ Given('a student is already enrolled in course offering with code {string} secti
   Enrollment.create(offering: offering, user: user, role: 'student')
 end
 
-Given('student with email {string} is enrolled in course offering with code {string} section {string} for the current term') do |email, code, section|
-  course = Course.find_by(code: code)
-  offering = Offering.find_by(course: course, section: section, term: @term)
-  user = User.create(name: 'Other User', email: email, password: '123456')
-  group = Group.create!(name: 'more self-enrolling users', can_self_enroll: true)
-  group.users << user
-  Enrollment.create(offering: offering, user: user, role: 'student')
-end
-
-Given('student with email {string} is already enrolled in course with code {string} section {string}') do |email, code, section|
-  course = Course.find_by(code: code)
-  offering = Offering.find_by(course: course, section: section)
-  user = User.find_by(email: email)
-  Enrollment.create(offering: offering, user: user, role: 'student')
-end
-
 # TODO: This step definition should not be creating terms.
 Given('student with email {string} has passed course with code {string}') do |email, code|
   term = Term.create!(
@@ -47,8 +31,7 @@ Given('student with email {string} has passed course with code {string}') do |em
   Enrollment.create!(offering: offering, user: user, role: 'student', final_grade: 'A')
 end
 
-# TODO: Remove email argument.
-Given('student with email {string} has received a final grade in the enrollment') do |_string|
+Given('the student has received a final grade in the enrollment') do
   @enrollment.update(final_grade: 'B')
 end
 
