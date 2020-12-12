@@ -35,4 +35,5 @@ export interface CreateTermModalMutationVariables {
   endDate: any;
   registrationDeadline: any;
   withdrawalDeadline: any;
+  perCreditFee: number;
 }

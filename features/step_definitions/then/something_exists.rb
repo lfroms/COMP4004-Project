@@ -128,3 +128,14 @@ end
 Then('there still exists a term with name {string}') do |name|
   assert_text name
 end
+
+Then('there now exists a term with start date {string} and end date {string}') do |start, end_d|
+  start_date = Date.parse(start)
+  start_date = "#{start_date.strftime('%A')}, #{start_date.strftime('%B')} #{start_date.day}, #{start_date.year}"
+
+  end_date = Date.parse(end_d)
+  end_date = "#{end_date.strftime('%A')}, #{end_date.strftime('%B')} #{end_date.day}, #{end_date.year}"
+
+  assert_text start_date
+  assert_text end_date
+end

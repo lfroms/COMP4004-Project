@@ -11,6 +11,7 @@ module Mutations
             endDate: "2020-12-01T04:05:06Z"
             registrationDeadline: "2020-09-01T04:05:06Z"
             withdrawalDeadline: "2020-09-10T04:05:06Z"
+            perCreditFee: 1000.00
           }) {
             term {
               id
@@ -24,7 +25,7 @@ module Mutations
       result = CmsSchema.execute(query, context: { current_user: users(:admin) }, variables: {}).to_h
       id = result.dig('data', 'createTerm', 'term', 'id')
 
-      term = Term.find(id)
+      term = Term.find_by(id: id)
 
       assert_equal Time.zone.local(2020, 9, 1, 4, 5, 6), term.start_date
       assert_equal Time.zone.local(2020, 12, 1, 4, 5, 6), term.end_date

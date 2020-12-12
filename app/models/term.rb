@@ -16,12 +16,12 @@ class Term < ApplicationRecord
     if start_end_present?
       if withdrawal_deadline > end_date || withdrawal_deadline < start_date
         errors.add(:withdrawal_deadline,
-          'withdrawal_deadline must be within the bounds of start_date to end_date of the term')
+          'must be within the bounds of start date to end date of the term')
       end
 
       if registration_deadline > end_date
         errors.add(:registration_deadline,
-          'registration_deadlne must be before the end_date of the term')
+          'must be before the end date of the term')
       end
     end
   end

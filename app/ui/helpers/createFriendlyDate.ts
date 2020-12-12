@@ -1,6 +1,6 @@
 export default function createFriendlyDate(dateIso: string) {
   const formattedDate = new Date(Date.parse(dateIso)).toLocaleString('default', {
-    month: 'short',
+    month: 'long',
     year: 'numeric',
     day: 'numeric',
     weekday: 'long',
