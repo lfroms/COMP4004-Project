@@ -32,16 +32,25 @@ export default function UserEditForm(props: Props) {
   const { name, onSubmit } = props;
 
   return (
-    <Form name={name} onFinish={onSubmit}>
+    <Form
+      name={name}
+      onFinish={onSubmit}
+      requiredMark={false}
+      labelCol={{ span: 5 }}
+      wrapperCol={{ span: 19 }}
+      colon={false}
+    >
       <Form.Item
+        label="Name"
         name="name"
         hasFeedback
         rules={[{ required: true, message: 'You must enter a name' }]}
       >
-        <Input id="user_name_field" placeholder="Name" />
+        <Input id="user_name_field" placeholder="Jane Appleseed" />
       </Form.Item>
 
       <Form.Item
+        label="Email"
         name="email"
         hasFeedback
         rules={[
@@ -52,10 +61,11 @@ export default function UserEditForm(props: Props) {
           },
         ]}
       >
-        <Input id="user_email_field" placeholder="Email" />
+        <Input id="user_email_field" placeholder="jane@example.com" />
       </Form.Item>
 
       <Form.Item
+        label="Password"
         name="password"
         hasFeedback
         rules={[
@@ -63,10 +73,11 @@ export default function UserEditForm(props: Props) {
           { min: 6, message: 'Password must be at least 6 characters' },
         ]}
       >
-        <Input.Password id="user_password_field" placeholder="Password" />
+        <Input.Password id="user_password_field" />
       </Form.Item>
 
       <Form.Item
+        label="Groups"
         name="groupIds"
         hasFeedback
         rules={[
@@ -75,7 +86,7 @@ export default function UserEditForm(props: Props) {
           },
         ]}
       >
-        <Select id="user_groups_select" mode="multiple" placeholder="Groups" showSearch={false}>
+        <Select id="user_groups_select" mode="multiple" showSearch={false}>
           {data?.groups.nodes?.map((group, index) => (
             <Select.Option key={`group-select-${index}`} value={group?.id ?? 0}>
               {group?.name}
@@ -84,8 +95,8 @@ export default function UserEditForm(props: Props) {
         </Select>
       </Form.Item>
 
-      <Form.Item name="admin" valuePropName="checked" initialValue={false}>
-        <Checkbox id="user_admin_field">Admin</Checkbox>
+      <Form.Item label="Admin" name="admin" valuePropName="checked" initialValue={false}>
+        <Checkbox id="user_admin_field" />
       </Form.Item>
     </Form>
   );

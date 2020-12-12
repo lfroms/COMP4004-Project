@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Popconfirm, Space, Table, Tag, message } from 'antd';
-import { AppstoreAddOutlined, CheckCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, DeleteOutlined, UserAddOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/lib/table';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { TitleBar } from 'components';
@@ -185,7 +185,7 @@ export default function UserIndex() {
         actions={[
           {
             elementId: 'new_course',
-            icon: <AppstoreAddOutlined />,
+            icon: <UserAddOutlined />,
             onClick: () => setUserCreateModalVisible(true),
             text: 'New user',
           },

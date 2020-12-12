@@ -18,18 +18,25 @@ export default function TermEditForm(props: Props) {
   const { name, onSubmit } = props;
 
   return (
-    <Form name={name} onFinish={onSubmit}>
+    <Form
+      name={name}
+      onFinish={onSubmit}
+      requiredMark={false}
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      colon={false}
+    >
       <Form.Item
+        label="Start and end dates"
         name="startToEnd"
-        label="Start date - End date"
         rules={[{ type: 'array', required: true, message: 'You must select a start and end date' }]}
       >
         <RangePicker format="MM-DD-YY" />
       </Form.Item>
 
       <Form.Item
+        label="Registration deadline"
         name="registrationDeadline"
-        label="Registration Deadline"
         rules={[
           { type: 'object', required: true, message: 'You must select a registration deadline' },
         ]}
@@ -38,8 +45,8 @@ export default function TermEditForm(props: Props) {
       </Form.Item>
 
       <Form.Item
+        label="Withdrawal deadline"
         name="withdrawalDeadline"
-        label="Withdrawal Deadline"
         rules={[
           { type: 'object', required: true, message: 'You must select a withdrawal deadline' },
         ]}
@@ -48,11 +55,11 @@ export default function TermEditForm(props: Props) {
       </Form.Item>
 
       <Form.Item
-        name="perCreditFee"
         label="Per credit fee"
+        name="perCreditFee"
         rules={[{ required: true, type: 'number', message: 'You must enter a fee' }]}
       >
-        <InputNumber id="term_fee_field" placeholder="Per credit fee" min={0} />
+        <InputNumber id="term_fee_field" min={0} placeholder="0" />
       </Form.Item>
     </Form>
   );

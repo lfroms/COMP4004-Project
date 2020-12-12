@@ -61,30 +61,40 @@ export default function OfferingEditForm(props: Props) {
   ));
 
   return (
-    <Form name={name} onFinish={onSubmit}>
+    <Form
+      name={name}
+      onFinish={onSubmit}
+      requiredMark={false}
+      labelCol={{ span: 5 }}
+      wrapperCol={{ span: 19 }}
+      colon={false}
+    >
       <Form.Item
+        label="Term"
         name="termId"
         hasFeedback
         initialValue={initialTermId}
         rules={[{ required: true, message: 'You must select a term' }]}
       >
-        <Select id="offering_term_select" placeholder="Select a term">
+        <Select id="offering_term_select" placeholder="Sep 2020 - Dec 2020">
           {termOptions}
         </Select>
       </Form.Item>
 
       <Form.Item
+        label="Course"
         name="courseId"
         hasFeedback
         initialValue={initialCourseId}
         rules={[{ required: true, message: 'You must select a course' }]}
       >
-        <Select id="offering_course_select" placeholder="Select a course">
+        <Select id="offering_course_select" placeholder="ABCD 1234">
           {courseOptions}
         </Select>
       </Form.Item>
 
       <Form.Item
+        label="Section"
         name="section"
         hasFeedback
         rules={[
@@ -98,10 +108,11 @@ export default function OfferingEditForm(props: Props) {
           },
         ]}
       >
-        <Input id="offering_section_field" placeholder="Section" />
+        <Input id="offering_section_field" placeholder="A" />
       </Form.Item>
 
       <Form.Item
+        label="Capacity"
         name="capacity"
         rules={[
           {
@@ -116,7 +127,7 @@ export default function OfferingEditForm(props: Props) {
           },
         ]}
       >
-        <InputNumber id="offering_capacity_field" placeholder="Capacity" />
+        <InputNumber id="offering_capacity_field" placeholder="1 - 400" />
       </Form.Item>
     </Form>
   );
