@@ -3,6 +3,7 @@ Feature: Course Unscheduling
   I want to delete courses offerings
   So that students can no longer enroll in them
 
+  @OfferingDeleteSuccess
   Scenario: An administrator deletes a course offering
     Given I successfully log in as an administrator
     And the current term is "Jan 2021 - Apr 2021"
@@ -15,6 +16,7 @@ Feature: Course Unscheduling
     Then there no longer exists a course offering for course with code "COMP 4004" section "A" term "Jan 2021 - Apr 2021"
     And student with email "student@example.com" is no longer enrolled in course offering with code "COMP 4004" section "A" term "Jan 2021 - Apr 2021"
 
+  @OfferingDeleteCancel
   Scenario: An administrator cancels deletion of a course offering
     Given I successfully log in as an administrator
     And the current term is "Jan 2021 - Apr 2021"

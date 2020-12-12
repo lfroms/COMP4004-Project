@@ -3,6 +3,7 @@ Feature: Professor Assignment
   I want to assign professors to course offerings
   So that they create and submit deliverables
 
+  @ProfAssign
   Scenario: An administrator assigns a professor to an offering
     Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" name "John Smith"

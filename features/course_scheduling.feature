@@ -3,6 +3,7 @@ Feature: Course Scheduling
   I want to create courses offerings
   So that students can enroll in them
 
+  @OfferingCreateSuccess
   Scenario: An administrator successfully creates a course offering
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -16,6 +17,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then there now exists a course offering for course with code "COMP 4004" section "A" term "Jan 2021 - Apr 2021"
 
+  @OfferingCreateMissingSection
   Scenario: Section field was left blank
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -28,6 +30,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "You must enter a section"
 
+  @OfferingCreateMissingCapacity
   Scenario: Capacity field was left blank
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -40,6 +43,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "You must enter a capacity"
 
+  @OfferingCreateCapacityTooLow
   Scenario: Capacity is below 1
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -53,6 +57,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "Capacity must be between 1 and 400"
 
+  @OfferingCreateCapacityTooHigh
   Scenario: Capacity is above 400
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -66,6 +71,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "Capacity must be between 1 and 400"
 
+  @OfferingCreateMissingCourse
   Scenario: Course was not selected
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -78,6 +84,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "You must select a course"
 
+  @OfferingCreateMissingTerm
   Scenario: Term was not selected
     Given I successfully log in as an administrator
     And I am on the course offering index
@@ -90,6 +97,7 @@ Feature: Course Scheduling
     And I click the "Create" button
     Then I receive a message saying "You must select a term"
 
+  @OfferingCreateDup
   Scenario: An administrator attemps to create a section that already exists
     Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"
