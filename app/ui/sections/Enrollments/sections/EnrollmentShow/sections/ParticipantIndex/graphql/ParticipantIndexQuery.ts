@@ -34,6 +34,7 @@ export interface ParticipantIndexQuery_offering_enrollments_nodes {
   id: string;
   role: EnrollmentRole;
   deletedAt: any | null;
+  finalGrade: string | null;
   user: ParticipantIndexQuery_offering_enrollments_nodes_user;
 }
 

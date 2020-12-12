@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { TitleBar } from 'components';
 import { useParams } from 'react-router-dom';
-import { Tag, Typography } from 'antd';
+import { Button, Tag, Typography } from 'antd';
 import Table, { ColumnType } from 'antd/lib/table';
 import { createFriendlyDate } from 'helpers';
+
+import { FinalGradeModal } from 'sections/Enrollments/components';
 
 import {
   ParticipantIndexQuery,
@@ -23,11 +25,12 @@ const PARTICIPANTS = gql`
           role
         }
       }
-      enrollments {
+      enrollments(includingDropped: true) {
         nodes {
           id
           role
           deletedAt
+          finalGrade
           user {
             id
             name
@@ -45,6 +48,7 @@ interface ParamType {
 export default function ParticipantIndex() {
   const { user } = useContext(CurrentUserContext);
   const { offeringId } = useParams<ParamType>();
+  const [focusedEnrollmentId, setFocusedEnrollmentId] = useState<string | undefined>(undefined);
 
   const { data, loading } = useQuery<ParticipantIndexQuery, ParticipantIndexQueryVariables>(
     PARTICIPANTS,
@@ -78,6 +82,31 @@ export default function ParticipantIndex() {
       sorter: (first, second) => second.role.localeCompare(first.role),
       sortDirections: ['ascend', 'descend'],
     },
+    {
+      key: 'action',
+      fixed: 'right',
+      align: 'right',
+      render: (_value, record) => {
+        if (record.role === 'professor') {
+          return null;
+        }
+
+        if (record.finalGrade) {
+          return <>Final grade: {record.finalGrade}</>;
+        }
+
+        return (
+          <Button
+            id={`add-final-grade-${record.user.id}`}
+            onClick={() => {
+              setFocusedEnrollmentId(record.id);
+            }}
+          >
+            Add final grade
+          </Button>
+        );
+      },
+    },
   ];
 
   if (currentUserEnrollment?.role === 'professor') {
@@ -109,6 +138,7 @@ export default function ParticipantIndex() {
       <TitleBar title="Participants" />
 
       <Table
+        id="participant_index"
         columns={columns}
         dataSource={
           (data?.offering?.enrollments.nodes ??
@@ -116,6 +146,12 @@ export default function ParticipantIndex() {
         }
         pagination={false}
         loading={loading}
+      />
+
+      <FinalGradeModal
+        visible={!!focusedEnrollmentId}
+        enrollmentId={focusedEnrollmentId!}
+        onRequestClose={() => setFocusedEnrollmentId(undefined)}
       />
     </>
   );

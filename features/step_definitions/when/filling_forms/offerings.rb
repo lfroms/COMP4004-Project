@@ -19,3 +19,8 @@ When('I select term {string}') do |term|
   find('#offering_term_select', visible: false).click
   find('.offering_form_term_option', text: term).click
 end
+
+When('I enter grade {string}') do |grade|
+  find('#final_grade_select', visible: false).click
+  find(".final_grade_select_#{grade}", text: grade).click
+end

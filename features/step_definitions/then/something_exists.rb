@@ -48,6 +48,11 @@ Then('there still exists a course offering for course with code {string} section
   assert index.has_content?(term)
 end
 
+Then('there exists a participant with a final grade of {string}') do |grade|
+  index = find('#participant_index')
+  assert index.has_content?("Final grade: #{grade}")
+end
+
 ### DELIVERABLES ###
 
 Then('there exists a deliverable with title {string} with the description {string}') do |title, description|
