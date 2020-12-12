@@ -254,6 +254,7 @@ export default function DeliverableShow() {
               okText: 'Confirm',
               okButtonProps: { loading: deleteLoading },
               cancelText: 'Cancel',
+              disabled: deliverable.hasSubmissions,
             },
           },
         ]}
