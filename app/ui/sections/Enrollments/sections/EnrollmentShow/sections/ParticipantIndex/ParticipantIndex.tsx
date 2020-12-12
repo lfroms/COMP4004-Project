@@ -25,7 +25,7 @@ const PARTICIPANTS = gql`
           role
         }
       }
-      enrollments {
+      enrollments(includingDropped: true) {
         nodes {
           id
           role
@@ -98,7 +98,6 @@ export default function ParticipantIndex() {
         return (
           <Button
             id={`add-final-grade-${record.user.id}`}
-            type="primary"
             onClick={() => {
               setFocusedEnrollmentId(record.id);
             }}
@@ -139,6 +138,7 @@ export default function ParticipantIndex() {
       <TitleBar title="Participants" />
 
       <Table
+        id="participant_index"
         columns={columns}
         dataSource={
           (data?.offering?.enrollments.nodes ??
