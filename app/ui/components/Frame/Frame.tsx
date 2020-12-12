@@ -81,6 +81,7 @@ export default function Frame(props: Props) {
             <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
               <Menu.Item
                 key={MenuItem.logout}
+                id="global_log_out"
                 icon={<LogoutOutlined />}
                 onClick={() => history.push('/logout')}
               >

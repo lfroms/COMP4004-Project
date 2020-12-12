@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+### GLOBAL ###
+
+Then('there is no {string} button') do |text|
+  assert has_no_button?(text)
+end
+
 ### COURSES ###
 
 Then('there no longer exists a course with code {string}') do |code|
@@ -49,4 +55,10 @@ end
 
 Then('there is no unenroll button') do
   assert has_no_button?('unenroll_button')
+end
+
+### DELIVERABLES ###
+
+Then('there does not exist a deliverable with title {string}') do |title|
+  assert_no_text title
 end

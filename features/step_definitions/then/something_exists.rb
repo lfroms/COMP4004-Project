@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+### GLOBAL ###
+
+Then('the {string} button is disabled') do |text|
+  assert has_button?(text, disabled: true)
+end
+
 ### USERS ###
 
 Then('the user has an approved status') do
