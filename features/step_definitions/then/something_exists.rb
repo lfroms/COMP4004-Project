@@ -2,8 +2,8 @@
 
 ### USERS ###
 
-Then('the user has an approved status') do
-  assert has_content?('Approved', count: 2) # New approval + existing admin
+Then('the approve button for user with email {string} still exists') do |string|
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 ### COURSES ###
@@ -53,14 +53,18 @@ Then('enrollment in course with code {string} section {string} still appears in 
   assert has_text?("#{code} #{section}")
 end
 
-Then('student with email {string} has final grade {string} for the enrollment') do |_email, _grade|
-  pending # Write code here that turns the phrase above into concrete actions
+Then('student with email {string} has final grade {string} for the enrollment') do |email, grade|
+  user_name = User.find_by(email: email).name
+  offering_id = @enrollment.offering.id
+  visit('/offerings/#{offering_id}')
+  assert_text user_name
+  assert_text grade
 end
 
 ### PROFESSOR ASSIGNMENT ###
 
-Then('the professor for the course offering has name {string}') do |string|
-  assert_text string
+Then('the professor for the course offering has name {string}') do |name|
+  assert_text name
 end
 
 ### FEES AND BALANCE ###

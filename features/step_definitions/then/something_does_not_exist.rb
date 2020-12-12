@@ -15,6 +15,7 @@ end
 ### OFFERINGS ###
 
 Then('there no longer exists a course offering for course with code {string} section {string} term {string}') do |code, section, term|
+  visit('admin/offerings')
   index = find('#offering_index')
   refute index.has_content?(code)
   refute index.has_content?(section)
@@ -49,4 +50,8 @@ end
 
 Then('there is no unenroll button') do
   assert has_no_button?('unenroll_button')
+end
+
+Then('the approve button for user with email {string} disappears') do |string|
+  pending # Write code here that turns the phrase above into concrete actions
 end

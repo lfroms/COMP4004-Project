@@ -4,7 +4,7 @@ Given('there exists a user with email {string}') do |email|
   User.create(name: 'Existant User', email: email, password: '123456')
 end
 
-Given('there exists a user with email {string} and approved status {string}') do |email, approved_string|
+Given('there exists a user with email {string} status {string}') do |email, approved_string|
   approved = approved_string == 'true' ? true : false
   User.create!(name: 'Not Approved', email: email, password: '123456', approved: approved)
 end
