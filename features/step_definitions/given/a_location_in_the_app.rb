@@ -26,7 +26,7 @@ end
 
 ### COURSES FROM STUDENT PERSPECTIVE ###
 
-Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section|
+Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string}') do |code, section|
   course = Course.find_by(code: code)
   offering = Offering.find_by(course_id: course.id, section: section, term: @term)
 
