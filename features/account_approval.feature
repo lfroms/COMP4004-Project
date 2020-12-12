@@ -3,6 +3,7 @@ Feature: Account Approval
   I want to approve pending accounts
   So that other users can access the system
 
+  @AccountApprovalSuccess
   Scenario: An administrator approves a pending user account
     Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" and approved status "false"
@@ -12,6 +13,7 @@ Feature: Account Approval
     Then the user has an approved status
     And the approve button for user with email "myemail@email.com" does not exist
 
+  @AccountApprovalCancel
   Scenario: An administrator cancels approval of a pending user account
     Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" and approved status "false"

@@ -17,6 +17,7 @@ Feature: Submission Creation
     And I click the "Submit" button
     Then I receive a message saying "Submitted"
 
+  @SubCreateTooLate
   Scenario: A student successfully creates a submission
     Given I successfully log in as a user with email "student@email.com"
     And the current term is "Jan 2021 - Apr 2021"

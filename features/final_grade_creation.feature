@@ -3,6 +3,7 @@ Feature: Final grade creation
   I want to assign a final grade to a student
   So that the student can be evaluated for the course
 
+  @FinalGradeCreateSuccess
   Scenario: A professor successfully assigns a final grade
     Given I successfully log in as a user with email "prof@email.com"
     And there exists a user with email "student@email.com" password "123456" approved status "true"
