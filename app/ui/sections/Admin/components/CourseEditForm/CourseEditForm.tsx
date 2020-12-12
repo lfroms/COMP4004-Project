@@ -32,8 +32,16 @@ export default function CourseEditForm(props: Props) {
   const { Option } = Select;
 
   return (
-    <Form name={name} onFinish={onSubmit}>
+    <Form
+      name={name}
+      onFinish={onSubmit}
+      requiredMark={false}
+      labelCol={{ span: 5 }}
+      wrapperCol={{ span: 19 }}
+      colon={false}
+    >
       <Form.Item
+        label="Code"
         name="code"
         hasFeedback
         rules={[
@@ -44,10 +52,11 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Input id="course_code_field" placeholder="Code" />
+        <Input id="course_code_field" placeholder="ABCD 1234" />
       </Form.Item>
 
       <Form.Item
+        label="Name"
         name="name"
         hasFeedback
         rules={[
@@ -57,10 +66,11 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Input id="course_name_field" placeholder="Name" />
+        <Input id="course_name_field" placeholder="Intro to Knowledge" />
       </Form.Item>
 
       <Form.Item
+        label="Prerequisites"
         name="prerequisiteIds"
         hasFeedback
         rules={[
@@ -69,7 +79,7 @@ export default function CourseEditForm(props: Props) {
           },
         ]}
       >
-        <Select mode="multiple" placeholder="Prerequisites">
+        <Select mode="multiple" showSearch={false}>
           {data?.courses.nodes?.map((prerequisite, index) => (
             <Option
               key={`prerequisite-select-${index}`}

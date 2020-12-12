@@ -22,7 +22,7 @@ export default function FinalGradeForm({ name, onSubmit }: Props) {
         hasFeedback
         rules={[{ required: true, message: 'You must select a grade' }]}
       >
-        <Select id="final_grade_select" placeholder="Final Grade">
+        <Select id="final_grade_select" placeholder="Select a grade">
           {GRADES.map((grade, index) => (
             <Option
               key={`grade-select-${index}`}

@@ -14,5 +14,5 @@ Feature: Final grade creation
     And I visit the participants page for course with code "COMP 4004" section "A" for the current term
     And I click the "Add final grade" button
     And I enter grade "A"
-    And I click the "Create" button
+    And I click the "Assign" button
     Then there exists a participant with a final grade of "A"

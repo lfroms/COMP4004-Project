@@ -53,7 +53,7 @@ export default function FinalGradeModal({ enrollmentId, visible, onRequestClose 
 
   return (
     <Modal
-      title="New submission grade"
+      title="Assign final grade"
       visible={visible}
       onCancel={() => onRequestClose()}
       destroyOnClose
@@ -62,7 +62,7 @@ export default function FinalGradeModal({ enrollmentId, visible, onRequestClose 
           Cancel
         </Button>,
         <Button form={FORM_NAME} key="submit" htmlType="submit" type="primary" loading={loading}>
-          Create
+          Assign
         </Button>,
       ]}
     >
