@@ -26,10 +26,9 @@ end
 
 ### COURSES FROM STUDENT PERSPECTIVE ###
 
-# TODO: Term argument is unused.
-Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section, _term|
+Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string} and term {string}') do |code, section|
   course = Course.find_by(code: code)
-  offering = Offering.find_by(course_id: course.id, section: section)
+  offering = Offering.find_by(course_id: course.id, section: section, term: @term)
 
   visit("/courses/#{offering.id}")
   click_button('add_deliverable_button')
