@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Popconfirm, Table, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { AppstoreAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { ColumnType } from 'antd/lib/table';
 import { TitleBar } from 'components';
@@ -101,7 +101,7 @@ export default function GroupIndex() {
         actions={[
           {
             elementId: 'create_group',
-            icon: <AppstoreAddOutlined />,
+            icon: <UsergroupAddOutlined />,
             text: 'New group',
             onClick: () => setGroupCreateModalVisible(true),
           },
