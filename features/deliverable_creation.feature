@@ -8,7 +8,7 @@ Feature: Deliverable Creation
     And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
-    And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
+    And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     When I enter deliverable title "final"
     And I enter deliverable description "final examination"
@@ -22,7 +22,7 @@ Feature: Deliverable Creation
     And the current term is "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
-    And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
+    And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
     And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A" and term "Aug 2020 - Dec 2020"
     When I enter deliverable title "final"
     And I enter deliverable description "final examination"
