@@ -16,6 +16,13 @@ Given('a student is already enrolled in course offering with code {string} secti
   Enrollment.create(offering: offering, user: user, role: 'student')
 end
 
+Given('professor with email {string} is enrolled in course with code {string} section {string}') do |email, course, section|
+  user = User.find_by(email: email)
+  course = Course.find_by(code: course)
+  offering = Offering.find_by(course: course, term: @term, section: section)
+  @enrollment = Enrollment.create(user: user, offering: offering, role: 'professor')
+end
+
 # TODO: This step definition should not be creating terms.
 Given('student with email {string} has passed course with code {string}') do |email, code|
   term = Term.create!(
