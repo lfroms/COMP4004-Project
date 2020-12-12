@@ -27,6 +27,7 @@ export interface AdminOfferingShowQuery_offering_enrollments_nodes_user {
   __typename: "User";
   id: string;
   name: string;
+  email: string;
 }
 
 export interface AdminOfferingShowQuery_offering_enrollments_nodes {

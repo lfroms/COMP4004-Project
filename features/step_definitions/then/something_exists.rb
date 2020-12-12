@@ -6,6 +6,14 @@ Then('the user has an approved status') do
   assert has_content?('Approved', count: 2) # New approval + existing admin
 end
 
+Then('there still exists a user with email {string}') do |email|
+  assert_text email
+end
+
+Then('the user with email {string} no longer exists') do |email|
+  assert_no_text email
+end
+
 ### COURSES ###
 
 Then('there now exists a course with code {string} name {string}') do |code, name|

@@ -42,6 +42,7 @@ const OFFERING = gql`
           user {
             id
             name
+            email
           }
         }
       }
@@ -75,6 +76,12 @@ export default function OfferingShow() {
       dataIndex: ['user', 'name'],
       render: (text, record) => <Link to={`/admin/users/${record.user.id}`}>{text}</Link>,
       sorter: (first, second) => first.user.name.localeCompare(second.user.name),
+      sortDirections: ['ascend', 'descend'],
+    },
+    {
+      title: 'Email',
+      dataIndex: ['user', 'email'],
+      sorter: (first, second) => first.user.email.localeCompare(second.user.email),
       sortDirections: ['ascend', 'descend'],
     },
     {
