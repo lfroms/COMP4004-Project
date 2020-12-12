@@ -9,4 +9,8 @@ class Deliverable < ApplicationRecord
   def due_date_passed
     Time.zone.now > due_date
   end
+
+  def has_submissions
+    submissions.count > 0
+  end
 end
