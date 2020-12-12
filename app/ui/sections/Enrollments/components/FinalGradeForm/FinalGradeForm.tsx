@@ -17,16 +17,8 @@ export default function FinalGradeForm({ name, onSubmit }: Props) {
 
   return (
     <Form name={name} onFinish={onSubmit}>
-      <Form.Item
-        name="finalGrade"
-        hasFeedback
-        rules={[
-          {
-            type: 'string',
-          },
-        ]}
-      >
-        <Select id="final_grade_select" mode="multiple" placeholder="Final Grade">
+      <Form.Item name="finalGrade" hasFeedback>
+        <Select id="final_grade_select" placeholder="Final Grade">
           {GRADES.map((grade, index) => (
             <Option key={`prerequisite-select-${index}`} value={grade}>
               {grade}

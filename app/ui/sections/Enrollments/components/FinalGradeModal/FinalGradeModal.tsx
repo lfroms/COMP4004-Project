@@ -36,6 +36,7 @@ export default function FinalGradeModal({ enrollmentId, visible, onRequestClose 
   >(FINAL_GRADE);
 
   const handleFormSubmit = async (formData: FinalGradeFormData) => {
+    console.log(formData)
     const { data } = await updateFinalGrade({
       variables: {
         enrollmentId: enrollmentId,

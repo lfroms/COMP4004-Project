@@ -30,6 +30,7 @@ const PARTICIPANTS = gql`
           id
           role
           deletedAt
+          finalGrade
           user {
             id
             name
@@ -86,6 +87,14 @@ export default function ParticipantIndex() {
       fixed: 'right',
       align: 'right',
       render: (_value, record) => {
+        if (record.role === 'professor') {
+          return null;
+        }
+
+        if (record.finalGrade) {
+          return <>Final grade: {record.finalGrade}</>;
+        }
+
         return (
           <Button
             id={`add-final-grade-${record.user.id}`}
