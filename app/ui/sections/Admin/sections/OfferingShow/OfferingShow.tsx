@@ -33,7 +33,7 @@ const OFFERING = gql`
         startDate
         endDate
       }
-      enrollments {
+      enrollments(includingDropped: true) {
         nodes {
           id
           role
