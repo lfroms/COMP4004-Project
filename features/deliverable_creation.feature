@@ -3,6 +3,7 @@ Feature: Deliverable Creation
   I want to create deliverables
   So that students can be evaluated
 
+  @DelivCreateSuccess
   Scenario: A professor successfully creates deliverables for a course
     Given I successfully log in as a user with email "prof@email.com"
     And the current term is "Aug 2020 - Dec 2020"
@@ -17,6 +18,7 @@ Feature: Deliverable Creation
     And I click the "Create" button
     Then there exists a deliverable with title "final" with the description "final examination"
 
+  @DelivCreateMissingWeight
   Scenario: A field was left blank
     Given I successfully log in as a user with email "prof@email.com"
     And the current term is "Aug 2020 - Dec 2020"

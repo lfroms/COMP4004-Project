@@ -3,6 +3,7 @@ Feature: Logout
   I want to log out of my account
   So that I terminate my session
 
+  @LogoutSuccess
   Scenario: A user clicks the logout button
     Given I successfully log in as a user with email "student@email.com"
     When I click the log out button

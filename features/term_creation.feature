@@ -3,6 +3,7 @@ Feature: Term Creation
   I want to create terms
   So that deadlines can be enforced
 
+  @TermCreateSucess
   Scenario: An administrator successfully creates a term
     Given I successfully log in as an administrator
     And I am on the term index
@@ -14,6 +15,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then there now exists a term with start date "September 1 2020" and end date "December 15 2020"
 
+  @TermCreateMissingStartEnd
   Scenario: Start date and end date left blank
     Given I successfully log in as an administrator
     And I am on the term index
@@ -24,6 +26,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then I receive a message saying "You must select a start and end date"
 
+  @TermCreateMissingReg
   Scenario: Registration deadline left blank
     Given I successfully log in as an administrator
     And I am on the term index
@@ -33,6 +36,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then I receive a message saying "You must select a registration deadline"
 
+  @TermCreateMissingWdl
   Scenario: Withdrawal deadline left blank
     Given I successfully log in as an administrator
     And I am on the term index
@@ -42,6 +46,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then I receive a message saying "You must select a withdrawal deadline"
 
+  @TermCreateNegFee
   Scenario: Per credit fee is negative
     Given I successfully log in as an administrator
     And I am on the term index
@@ -53,6 +58,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then there now exists a term with start date "September 1 2020" and end date "December 15 2020"
 
+  @TermCreateRegTooLate
   Scenario: Registration is after end date
     Given I successfully log in as an administrator
     And I am on the term index
@@ -65,6 +71,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then I receive a message saying "Registration deadline must be before the end date of the term"
 
+  @TermCreateWdlTooLate
   Scenario: Withdrawal is after end date
     Given I successfully log in as an administrator
     And I am on the term index
@@ -77,6 +84,7 @@ Feature: Term Creation
     And I click the "Create" button
     Then I receive a message saying "Withdrawal deadline must be within the bounds of start date to end date of the term"
 
+  @TermCreateWdlTooEarly
   Scenario: Withdrawal is before start date
     Given I successfully log in as an administrator
     And I am on the term index

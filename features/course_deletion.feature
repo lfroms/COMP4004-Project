@@ -3,6 +3,7 @@ Feature: Course Deletion
   I want to delete courses
   So that students can no longer enroll in them
 
+  @CourseDeleteSuccess
   Scenario: An administrator deletes a course
     Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"
@@ -11,6 +12,7 @@ Feature: Course Deletion
     And I click the "Confirm" button
     Then there no longer exists a course with code "COMP 4004"
 
+  @CourseDeleteCancel
   Scenario: An administrator cancels deletion of a course
     Given I successfully log in as an administrator
     And there exists a course with code "COMP 4004"

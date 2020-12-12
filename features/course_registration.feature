@@ -3,6 +3,7 @@ Feature: Course Registration
   I want to register in courses
   So that I can earn credit
 
+  @CourseRegSuccessNoPrereq
   Scenario: A student successfully registers in a course with no prerequisites
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -15,6 +16,7 @@ Feature: Course Registration
     Then I receive a message saying "Enrolled"
     And student with email "student@email.com" now owes 1000 in fees
 
+  @CourseRegSuccessPrereq
   Scenario: A student successfully registers in a course with prerequisites
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -30,6 +32,7 @@ Feature: Course Registration
     Then I receive a message saying "Enrolled"
     And student with email "student@email.com" now owes 1000 in fees
 
+  @CourseRegMissingPrereq
   Scenario: A student attempts to register in a course with not-taken prerequisites
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -43,6 +46,7 @@ Feature: Course Registration
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
 
+  @CourseRegFailedPrereq
   Scenario: A student attempts to register in a course with failed prerequisites
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -57,6 +61,7 @@ Feature: Course Registration
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
 
+  @CourseRegTooLate
   Scenario: Registration deadline has passed
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -66,6 +71,7 @@ Feature: Course Registration
     And I am viewing the list of offered courses for the current term
     Then there are no enroll buttons
 
+  @CourseRegFull
   Scenario: A course is already full
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
@@ -76,6 +82,7 @@ Feature: Course Registration
     And I am viewing the list of offered courses for the current term
     Then I receive a message saying "Full"
 
+  @CourseRegDup
   Scenario: Student is already enrolled in course
     Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user

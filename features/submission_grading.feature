@@ -3,6 +3,7 @@ Feature: Submission Grading
   I want to grade submissions
   So that students can be evaluated
 
+  @SubGradeSuccess
   Scenario: A professor successfully grades a student submission for a deliverable
     Given I successfully log in as a user with email "prof@email.com"
     And the current term is "Aug 2020 - Dec 2020"

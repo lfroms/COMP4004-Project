@@ -3,6 +3,7 @@ Feature: User Deletion
   I want to delete users
   So that they can no longer access the system
 
+  @UserDeleteSuccess
   Scenario: An administrator deletes a user
     Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" and approved status "true"
@@ -11,6 +12,7 @@ Feature: User Deletion
     And I click the "Confirm" button
     Then the user with email "myemail@email.com" no longer exists
 
+  @UserDeleteCancel
   Scenario: An administrator cancels deletion of a user
     Given I successfully log in as an administrator
     And there exists a user with email "myemail@email.com" and approved status "true"
@@ -19,6 +21,7 @@ Feature: User Deletion
     And I click the "Cancel" button
     Then there still exists a user with email "myemail@email.com"
 
+  @StudentDeleteSuccess
   Scenario: An administrator deletes a student that is enrolled in a course
     Given I successfully log in as an administrator
     And there exists a user with email "student@email.com" and approved status "true"
@@ -32,6 +35,7 @@ Feature: User Deletion
     And I visit the show page for for course with code "COMP 4004" section "A" for the current term
     Then the user with email "student@email.com" no longer exists
 
+  @ProfDeleteSuccess
   Scenario: An administrator deletes a professor that is enrolled in a course
     Given I successfully log in as an administrator
     And there exists a user with email "professor@email.com" name "John Smith"
