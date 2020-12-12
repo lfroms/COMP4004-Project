@@ -10,3 +10,7 @@ Then('I get redirected to the show page for course with code {string} section {s
 
   assert_current_path "/courses/#{offering.id}"
 end
+
+Then('I get redirected to the login page') do
+  assert_current_path '/login'
+end

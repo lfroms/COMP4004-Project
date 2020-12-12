@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+### GLOBAL ###
+
+Then('there is no {string} button') do |text|
+  assert has_no_button?(text)
+end
+
 ### COURSES ###
 
 Then('there no longer exists a course with code {string}') do |code|
