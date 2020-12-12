@@ -9,7 +9,7 @@ Feature: Deliverable Creation
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
-    And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A"
+    And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" section "A"
     When I enter deliverable title "final"
     And I enter deliverable description "final examination"
     And I enter deliverable weight "0.25"
@@ -23,7 +23,7 @@ Feature: Deliverable Creation
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And user with email "prof@email.com" is the professor for course offering for course with code "COMP 4004" section "A"
-    And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" with section "A"
+    And I am viewing the deliverable creation form for course offering for course with code "COMP 4004" section "A"
     When I enter deliverable title "final"
     And I enter deliverable description "final examination"
     And I enter deliverable due date "12-15-20"
