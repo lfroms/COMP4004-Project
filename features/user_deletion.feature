@@ -34,16 +34,13 @@ Feature: User Deletion
 
   Scenario: An administrator deletes a professor that is enrolled in a course
     Given I successfully log in as an administrator
-    And there exists a user with email "myemail@email.com" name "John Smith"
+    And there exists a user with email "professor@email.com" name "John Smith"
     And there exists a course with code "COMP 4004"
     And the current term is "Jan 2021 - Apr 2021"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
-    When I visit the show page for for course with code "COMP 4004" section "A" for the current term
-    And I click the "Assign prof" button
-    And I select the user with name "John Smith"
-    And I click the "Assign" button
+    And professor with email "professor@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the user index
-    And I click the delete button next to the user with email "myemail@email.com"
+    When I click the delete button next to the user with email "professor@email.com"
     And I click the "Confirm" button
     And I visit the show page for for course with code "COMP 4004" section "A" for the current term
-    Then the user with email "myemail@email.com" no longer exists
+    Then the user with email "professor@email.com" no longer exists
