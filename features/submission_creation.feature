@@ -4,7 +4,7 @@ Feature: Submission Creation
   So that I can be evaluated
 
   Scenario: A student successfully creates a submission
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And there exists a term "Fall2020"
     And there exists a course with code "COMP4004"
     And there exists a course offering for course with code "COMP4004" with section "A"  for the current term

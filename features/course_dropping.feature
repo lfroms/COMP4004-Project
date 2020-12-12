@@ -4,7 +4,7 @@ Feature: Course Dropping
   So that I no longer have to participate in the course
 
   Scenario: A student successfully drops a course before withdrawal deadline
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
@@ -18,7 +18,7 @@ Feature: Course Dropping
     And student with email "student@email.com" now owes 0 in fees
 
   Scenario: A student successfully drops a course after withdrawal deadline
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline earlier than today
     And there exists a course with code "COMP 4004"
@@ -31,8 +31,8 @@ Feature: Course Dropping
     # And student with email "student@email.com" has final grade "WDN" for the enrollment
     And student with email "student@email.com" now owes 1000 in fees
 
-Scenario: A student cancels decision to drop a course
-    Given I successfully log in as a student with email "student@email.com"
+  Scenario: A student cancels decision to drop a course
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"
@@ -44,7 +44,7 @@ Scenario: A student cancels decision to drop a course
     Then enrollment in course with code "COMP 4004" section "A" still appears in my enrollments
 
   Scenario: A student attempts to drop a course after receiving final grade
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 withdrawal deadline later than today
     And there exists a course with code "COMP 4004"

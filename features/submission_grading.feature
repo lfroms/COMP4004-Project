@@ -4,7 +4,7 @@ Feature: Submission Grading
   So that students can be evaluated
 
   Scenario: A professor successfully grades a student submission for a deliverable
-    Given I successfully log in as a professor with email "prof@email.com"
+    Given I successfully log in as a user with email "prof@email.com"
     And there exists a term "Aug 2020 - Dec 2020"
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term

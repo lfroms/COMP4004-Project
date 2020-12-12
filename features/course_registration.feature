@@ -4,7 +4,7 @@ Feature: Course Registration
   So that I can earn credit
 
   Scenario: A student successfully registers in a course with no prerequisites
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
@@ -16,7 +16,7 @@ Feature: Course Registration
     And student with email "student@email.com" now owes 1000 in fees
 
   Scenario: A student successfully registers in a course with prerequisites
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 3004"
@@ -31,7 +31,7 @@ Feature: Course Registration
     And student with email "student@email.com" now owes 1000 in fees
 
   Scenario: A student attempts to register in a course with not-taken prerequisites
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 3004"
@@ -44,7 +44,7 @@ Feature: Course Registration
     Then I receive a message saying "You do not have the required prerequisites."
 
   Scenario: A student attempts to register in a course with failed prerequisites
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 3004"
@@ -57,8 +57,8 @@ Feature: Course Registration
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
 
-Scenario: Registration deadline has passed
-    Given I successfully log in as a student with email "student@email.com"
+  Scenario: Registration deadline has passed
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has registration deadline earlier than today
     And there exists a course with code "COMP 4004"
@@ -67,7 +67,7 @@ Scenario: Registration deadline has passed
     Then there are no enroll buttons
 
   Scenario: A course is already full
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
@@ -77,7 +77,7 @@ Scenario: Registration deadline has passed
     Then I receive a message saying "Full"
 
   Scenario: Student is already enrolled in course
-    Given I successfully log in as a student with email "student@email.com"
+    Given I successfully log in as a user with email "student@email.com"
     And student with email "student@email.com" is a self-enrolling user
     And the current term has per credit fee 1000 registration deadline later than today
     And there exists a course with code "COMP 4004"
