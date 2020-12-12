@@ -4,6 +4,7 @@ import { Layout, Menu, Typography } from 'antd';
 import { BookOutlined, CalendarOutlined, ControlOutlined, LogoutOutlined } from '@ant-design/icons';
 import { CurrentUserContext } from 'foundation';
 
+import carletonLogo from './images/carleton.png';
 import * as styles from './Frame.module.scss';
 
 interface Props {
@@ -52,7 +53,9 @@ export default function Frame(props: Props) {
       <Layout.Sider collapsed theme="dark" className={styles.GlobalNav}>
         <div className={styles.MenuContainer}>
           <div>
-            <div className={styles.Logo} />
+            <div className={styles.LogoContainer}>
+              <img src={carletonLogo} className={styles.Logo} />
+            </div>
 
             <Menu theme="dark" mode="vertical" selectedKeys={[getSelectedKey().toString()]}>
               {adminItem}

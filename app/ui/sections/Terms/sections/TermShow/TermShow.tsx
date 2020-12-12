@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { NavigationGroup, Page, TitleBar } from 'components';
+import { Loading, NavigationGroup, Page, TitleBar } from 'components';
 import { Button, Descriptions, Empty, Popconfirm, Table, Tag, message } from 'antd';
 import { CalendarOutlined, UserAddOutlined } from '@ant-design/icons';
 import { createFriendlyDate, createTermName } from 'helpers';
@@ -82,6 +82,10 @@ export default function TermShow() {
     TermShowEnrollmentCreationMutation,
     TermShowEnrollmentCreationMutationVariables
   >(CREATE_ENROLLMENT);
+
+  if (!data && loading) {
+    return <Loading />;
+  }
 
   if (!data?.currentUser) {
     return null;
