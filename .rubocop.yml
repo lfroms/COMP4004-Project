@@ -38,7 +38,7 @@ Rails:
 Layout/LineLength:
   Enabled: true
   Exclude:
-    - 'features/step_definitions/**'
+    - 'features/step_definitions/**/*'
 
 Style/Documentation:
   Enabled: false
