@@ -6,6 +6,12 @@ Then('there is no {string} button') do |text|
   assert has_no_button?(text)
 end
 
+### USERS ###
+
+Then('the user with email {string} no longer exists') do |email|
+  assert_no_text email
+end
+
 ### COURSES ###
 
 Then('there no longer exists a course with code {string}') do |code|
@@ -61,4 +67,10 @@ end
 
 Then('there does not exist a deliverable with title {string}') do |title|
   assert_no_text title
+end
+
+### TERMS ###
+
+Then('the term with name {string} no longer exists') do |name|
+  assert_no_text name
 end

@@ -24,6 +24,10 @@ Given('I am on the user index') do
   visit('/admin/users')
 end
 
+Given('I am on the term index') do
+  visit('/admin/terms')
+end
+
 ### COURSES FROM STUDENT PERSPECTIVE ###
 
 Given('I am viewing the deliverable creation form for course offering for course with code {string} with section {string}') do |code, section|
