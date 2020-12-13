@@ -248,6 +248,11 @@ When('S1 registers in C2, S1 registers in C3, S2 registers in C3') do
     offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 4004'), section: 'A').id
     S1.click_button("enroll_button_#{offering_id}")
     S1.click_button('Confirm')
+
+    S1.visit('/terms/1/courses')
+    offering_id = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A').id
+    S1.click_button("enroll_button_#{offering_id}")
+    S1.click_button('Confirm')
   end
 
   s2_procedure = Thread.new do
@@ -257,16 +262,8 @@ When('S1 registers in C2, S1 registers in C3, S2 registers in C3') do
     S2.click_button('Confirm')
   end
 
-  s3_procedure = Thread.new do
-    S3.visit('/terms/1/courses')
-    offering_id = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A').id
-    S3.click_button("enroll_button_#{offering_id}")
-    S3.click_button('Confirm')
-  end
-
   s1_procedure.join
   s2_procedure.join
-  s3_procedure.join
 end
 
 When('P1 creates deliverable for C1, P2 creates deliverable for C3') do
@@ -351,11 +348,23 @@ When('S1 submits C3 while S2 submits C3') do
 end
 
 When('P1 submits marks for deliverable in C1') do
-  pending # Write code here that turns the phrase above into concrete actions
+  offering = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A')
+  deliverable = offering.deliverables.first
+  P1.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+  P1.click_button("add-grade-button-#{User.find_by(email: 'student2@example.com').id}")
+  P1.fill_in('grade_value_field', with: '0.5')
+  P1.fill_in('grade_comment_field', with: 'Great')
+  P1.click_button('Create')
 end
 
 When('P2 submits marks for deliverable in C3') do
-  pending # Write code here that turns the phrase above into concrete actions
+  offering = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A')
+  deliverable = offering.deliverables.first
+  P2.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+  P2.click_button("add-grade-button-#{User.find_by(email: 'student1@example.com').id}")
+  P2.fill_in('grade_value_field', with: '0.5')
+  P2.fill_in('grade_comment_field', with: 'Great')
+  P2.click_button('Create')
 end
 
 When('P1 and P2 simultaneously submit final grades for C1 and C3') do
