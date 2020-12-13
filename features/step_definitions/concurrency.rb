@@ -398,33 +398,99 @@ When('all users log out') do
   P2.find('#global_log_out').click
 end
 
-Given('there is a course with a seat limit of {int}') do |_int|
-  # Given('there is a course with a seat limit of {float}') do |float|
-  pending # Write code here that turns the phrase above into concrete actions
+Given('there is a course with a seat limit of {int}') do |capacity|
+  today = Time.zone.today
+  term = Term.create!(
+    start_date: today + 14,
+    end_date: today + 130,
+    registration_deadline: today + 30,
+    withdrawal_deadline: today + 50,
+    per_credit_fee: 1000,
+  )
+
+  course = Course.create!(name: 'Test', code: 'COMP 4004')
+  Offering.create!(term: term, course: course, section: 'A', capacity: capacity)
 end
 
-Given('there are {int} users') do |_int|
-  # Given('there are {float} users') do |float|
-  pending # Write code here that turns the phrase above into concrete actions
+Given('there are three users') do
+  self_enrolling = Group.create(name: 'Self enroll', can_self_enroll: true)
+  user1 = User.create(name: 'Student 1', email: 'student1@example.com', password: '123456', approved: true)
+  user2 = User.create(name: 'Student 2', email: 'student2@example.com', password: '123456', approved: true)
+  user3 = User.create(name: 'Student 3', email: 'student3@example.com', password: '123456', approved: true)
+
+  self_enrolling.users << user1
+  self_enrolling.users << user2
+  self_enrolling.users << user3
 end
 
-When('all {int} users log in') do |_int|
-  # When('all {float} users log in') do |float|
-  pending # Write code here that turns the phrase above into concrete actions
+When('all three users log in') do
+  S1.driver.quit
+  S2.driver.quit
+  S3.driver.quit
+  P1.driver.quit
+  P2.driver.quit
+
+  S1.current_window.resize_to(1200, 940)
+  S1.visit('/login')
+  S1.fill_in('login_email_field', with: 'student1@example.com')
+  S1.fill_in('login_password_field', with: '123456')
+  S1.click_button('Log in')
+
+  S2.current_window.resize_to(1000, 750)
+  S2.visit('/login')
+  S2.fill_in('login_email_field', with: 'student2@example.com')
+  S2.fill_in('login_password_field', with: '123456')
+  S2.click_button('Log in')
+
+  S3.current_window.resize_to(800, 550)
+  S3.visit('/login')
+  S3.fill_in('login_email_field', with: 'student3@example.com')
+  S3.fill_in('login_password_field', with: '123456')
+  S3.click_button('Log in')
 end
 
 When('S1 registers in the course') do
-  pending # Write code here that turns the phrase above into concrete actions
+  S1.visit('/terms/1/courses')
+  S1.click_button("enroll_button_#{Offering.first.id}")
+  S1.click_button('Confirm')
 end
 
 When('S2 and S3 simultaneously register in the course') do
-  pending # Write code here that turns the phrase above into concrete actions
+  s2_procedure = Thread.new do
+    S2.visit('/terms/1/courses')
+    S2.click_button("enroll_button_#{Offering.first.id}")
+    S2.click_button('Confirm')
+  end
+
+  s3_procedure = Thread.new do
+    S3.visit('/terms/1/courses')
+    S3.click_button("enroll_button_#{Offering.first.id}")
+    S3.click_button('Confirm')
+  end
+
+  s2_procedure.join
+  s3_procedure.join
 end
 
 When('S2 registers in the course') do
-  pending # Write code here that turns the phrase above into concrete actions
+  S2.visit('/terms/1/courses')
+  S2.click_button("enroll_button_#{Offering.first.id}")
+  S2.click_button('Confirm')
 end
 
 When('S2 drops the course while S3 registers in the course') do
-  pending # Write code here that turns the phrase above into concrete actions
+  s2_procedure = Thread.new do
+    S2.visit('/courses')
+    S2.find("#unenroll_button_#{Offering.first.id}").click
+    S2.click_button('Confirm')
+  end
+
+  s3_procedure = Thread.new do
+    S3.visit('/terms/1/courses')
+    S3.click_button("enroll_button_#{Offering.first.id}")
+    S3.click_button('Confirm')
+  end
+
+  s2_procedure.join
+  s3_procedure.join
 end

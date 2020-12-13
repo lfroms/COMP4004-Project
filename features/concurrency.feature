@@ -26,14 +26,14 @@ Feature: Concurrency
 
   Scenario: Resource contention 1
     Given there is a course with a seat limit of 2
-    And there are 3 users
-    When all 3 users log in
+    And there are three users
+    When all three users log in
     And S1 registers in the course
     And S2 and S3 simultaneously register in the course
 
   Scenario: Resource contention 2
     Given there is a course with a seat limit of 2
-    And there are 3 users
-    When all 3 users log in
+    And there are three users
+    When all three users log in
     And S2 registers in the course
     And S2 drops the course while S3 registers in the course
