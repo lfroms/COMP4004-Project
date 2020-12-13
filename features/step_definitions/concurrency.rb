@@ -368,11 +368,34 @@ When('P2 submits marks for deliverable in C3') do
 end
 
 When('P1 and P2 simultaneously submit final grades for C1 and C3') do
-  pending # Write code here that turns the phrase above into concrete actions
+  p1_procedure = Thread.new do
+    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A').id
+    P1.visit("/courses/#{offering_id}/participants")
+    P1.click_button("add-final-grade-#{User.find_by(email: 'student2@example.com').id}")
+    P1.find('#final_grade_select', visible: false).click
+    P1.find('.final_grade_select_A', text: 'A').click
+    P1.click_button('Assign')
+  end
+
+  p2_procedure = Thread.new do
+    offering_id = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A').id
+    P2.visit("/courses/#{offering_id}/participants")
+    P2.click_button("add-final-grade-#{User.find_by(email: 'student2@example.com').id}")
+    P2.find('#final_grade_select', visible: false).click
+    P2.find('.final_grade_select_A', text: 'A').click
+    P2.click_button('Assign')
+  end
+
+  p1_procedure.join
+  p2_procedure.join
 end
 
 When('all users log out') do
-  pending # Write code here that turns the phrase above into concrete actions
+  S1.find('#global_log_out').click
+  S2.find('#global_log_out').click
+  S3.find('#global_log_out').click
+  P1.find('#global_log_out').click
+  P2.find('#global_log_out').click
 end
 
 Given('there is a course with a seat limit of {int}') do |_int|
