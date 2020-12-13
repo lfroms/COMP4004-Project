@@ -4,6 +4,7 @@ import { Card, Popconfirm, Space, Tag } from 'antd';
 import { createCourseColor } from 'helpers';
 
 interface Props {
+  entityId: string;
   title?: string;
   subtitle?: string;
   role?: string;
@@ -17,6 +18,7 @@ interface Props {
 export default function EnrollmentCard(props: Props) {
   const {
     title,
+    entityId,
     subtitle,
     role,
     canUnenroll = false,
@@ -53,7 +55,7 @@ export default function EnrollmentCard(props: Props) {
                   okButtonProps={{ loading }}
                   cancelText="Cancel"
                 >
-                  <UserDeleteOutlined id="unenroll_button" />
+                  <UserDeleteOutlined id={`unenroll_button_${entityId}`} />
                 </Popconfirm>
               </div>,
             ]

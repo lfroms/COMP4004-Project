@@ -82,27 +82,32 @@ export default function EnrollmentIndex() {
   }
 
   const items = data.currentUser?.enrollments.nodes?.map((enrollment, index) => {
-    const role = `${enrollment?.role[0].toUpperCase()}${enrollment?.role.substr(1).toLowerCase()}`;
+    if (!enrollment) {
+      return null;
+    }
+
+    const role = `${enrollment.role[0].toUpperCase()}${enrollment.role.substr(1).toLowerCase()}`;
 
     return (
       <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
         <EnrollmentCard
-          title={enrollment?.offering.course.name}
-          subtitle={`${enrollment?.offering.course.code} ${
-            enrollment?.offering.section
+          entityId={enrollment.id}
+          title={enrollment.offering.course.name}
+          subtitle={`${enrollment.offering.course.code} ${
+            enrollment.offering.section
           } (${createTermName(
-            enrollment?.offering.term.startDate,
-            enrollment?.offering.term.endDate
+            enrollment.offering.term.startDate,
+            enrollment.offering.term.endDate
           )})`}
           role={role}
           confirmMessage={
-            new Date() < new Date(enrollment?.offering.term.registrationDeadline)
+            new Date() < new Date(enrollment.offering.term.registrationDeadline)
               ? 'Are you sure you want to drop this course? You will receive a refund and your gpa will not be affected.'
               : 'Are you sure you want to drop this course? You will not receive a refund and you will have a final grade of WDN.'
           }
-          onClick={() => history.push(`/courses/${enrollment?.offering.id}`)}
-          canUnenroll={enrollment?.role === 'student' && !enrollment?.finalGrade}
-          onConfirmUnenroll={handleConfirmUnenroll(enrollment?.id)}
+          onClick={() => history.push(`/courses/${enrollment.offering.id}`)}
+          canUnenroll={enrollment.role === 'student' && !enrollment.finalGrade}
+          onConfirmUnenroll={handleConfirmUnenroll(enrollment.id)}
           loading={unenrollLoading}
         />
       </Col>

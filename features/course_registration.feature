@@ -69,7 +69,7 @@ Feature: Course Registration
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" capacity 1 for the current term
     And I am viewing the list of offered courses for the current term
-    Then there are no enroll buttons
+    Then there is no enroll button for course code "COMP 4004" section "A"
 
   @CourseRegFull
   Scenario: A course is already full

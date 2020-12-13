@@ -56,12 +56,16 @@ Then('student with email {string} is no longer enrolled in course offering with 
   assert has_no_text?("$#{code} #{section} (#{term})")
 end
 
-Then('there are no enroll buttons') do
-  assert has_no_button?('enroll_button')
+Then('there is no enroll button for course code {string} section {string}') do |code, section|
+  course = Course.find_by(code: code)
+  offering = Offering.find_by(course: course, section: section, term: @term)
+  assert has_no_button?("enroll_button#{offering.id}")
 end
 
-Then('there is no unenroll button') do
-  assert has_no_button?('unenroll_button')
+Then('there is no unenroll button for course code {string} section {string}') do |code, section|
+  course = Course.find_by(code: code)
+  offering = Offering.find_by(course: course, section: section, term: @term)
+  assert has_no_button?("unenroll_button#{offering.id}")
 end
 
 ### DELIVERABLES ###
