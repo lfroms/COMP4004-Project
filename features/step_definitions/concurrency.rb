@@ -251,15 +251,61 @@ When('S2 and S3 simultaneously register in C1') do
 end
 
 When('S1 registers in C2, S1 registers in C3, S2 registers in C3') do
-  pending # Write code here that turns the phrase above into concrete actions
+  s1_procedure = Thread.new do
+    S1.visit('/terms/1/courses')
+    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 4004'), section: 'A').id
+    S1.click_button("enroll_button_#{offering_id}")
+    S1.click_button('Confirm')
+  end
+
+  s2_procedure = Thread.new do
+    S2.visit('/terms/1/courses')
+    offering_id = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A').id
+    S2.click_button("enroll_button_#{offering_id}")
+    S2.click_button('Confirm')
+  end
+
+  s3_procedure = Thread.new do
+    S3.visit('/terms/1/courses')
+    offering_id = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A').id
+    S3.click_button("enroll_button_#{offering_id}")
+    S3.click_button('Confirm')
+  end
+
+  s1_procedure.join
+  s2_procedure.join
+  s3_procedure.join
 end
 
 When('P1 creates deliverable for C1, P2 creates deliverable for C3') do
-  pending # Write code here that turns the phrase above into concrete actions
+  p1_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A')
+    P1.visit("/courses/#{offering.id}")
+    P1.click_button('add_deliverable_button')
+    P1.fill_in('deliverable_title_field', with: 'Project')
+    P1.fill_in('deliverable_description_field', with: 'A project')
+    P1.fill_in('deliverable_weight_field', with: '0.5')
+    P1.fill_in('deliverable_due_date_field', with: '12-15-23')
+    P1.click_button('Create')
+  end
+
+  p2_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A')
+    P1.visit("/courses/#{offering.id}")
+    P1.click_button('add_deliverable_button')
+    P1.fill_in('deliverable_title_field', with: 'Essay')
+    P1.fill_in('deliverable_description_field', with: 'An essay')
+    P1.fill_in('deliverable_weight_field', with: '0.5')
+    P1.fill_in('deliverable_due_date_field', with: '12-15-23')
+    P1.click_button('Create')
+  end
+
+  p1_procedure.join
+  p2_procedure.join
 end
 
 When('S1 drops C2') do
-  pending # Write code here that turns the phrase above into concrete actions
+  S1.visit('/courses')
 end
 
 When('S2 and S3 simultaneously submit C1 project') do
