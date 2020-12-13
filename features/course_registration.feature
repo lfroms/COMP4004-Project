@@ -11,7 +11,7 @@ Feature: Course Registration
     And there exists a course with code "COMP 4004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And I am viewing the list of offered courses for the current term
-    When I click the enroll button
+    When I click the enroll button next to course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then I receive a message saying "Enrolled"
     And student with email "student@email.com" now owes 1000 in fees
@@ -27,7 +27,7 @@ Feature: Course Registration
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" has passed course with code "COMP 3004"
     And I am viewing the list of offered courses for the current term
-    When I click the enroll button
+    When I click the enroll button next to course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then I receive a message saying "Enrolled"
     And student with email "student@email.com" now owes 1000 in fees
@@ -42,7 +42,7 @@ Feature: Course Registration
     And course with code "COMP 4004" has prerequisite "COMP 3004"
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And I am viewing the list of offered courses for the current term
-    When I click the enroll button
+    When I click the enroll button next to course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
 
@@ -57,7 +57,7 @@ Feature: Course Registration
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" has failed course with code "COMP 3004"
     And I am viewing the list of offered courses for the current term
-    When I click the enroll button
+    When I click the enroll button next to course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then I receive a message saying "You do not have the required prerequisites."
 
