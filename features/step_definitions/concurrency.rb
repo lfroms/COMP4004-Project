@@ -11,6 +11,7 @@ Given('an administrator user is logged in') do
   password = '123456'
   @self_enrolling = Group.create(name: 'Self enroll', can_self_enroll: true)
   User.create(name: 'admin', email: email, password: password, admin: true, approved: true)
+  current_window.resize_to(1300, 950)
   visit('/')
   fill_in('login_email_field', with: email)
   fill_in('login_password_field', with: password)
@@ -32,7 +33,8 @@ end
 
 When('S1 requests creation while the administrator creates C2') do
   s1_procedure = Thread.new do
-    S1.current_window.resize_to(500, 500)
+    S1.current_window.resize_to(1200, 940)
+
     S1.visit('/registration')
     S1.fill_in('user_name_field', with: 'Student 1')
     S1.fill_in('user_email_field', with: 'student1@example.com')
@@ -67,7 +69,8 @@ end
 
 When('P1 and P2 simultaneously request creation') do
   p1_procedure = Thread.new do
-    P1.current_window.resize_to(900, 900)
+    P1.current_window.resize_to(1100, 800)
+
     P1.visit('/registration')
     P1.fill_in('user_name_field', with: 'Professor 1')
     P1.fill_in('user_email_field', with: 'prof1@example.com')
@@ -76,7 +79,8 @@ When('P1 and P2 simultaneously request creation') do
   end
 
   p2_procedure = Thread.new do
-    P2.current_window.resize_to(600, 600)
+    P2.current_window.resize_to(1000, 700)
+
     P2.visit('/registration')
     P2.fill_in('user_name_field', with: 'Professor 2')
     P2.fill_in('user_email_field', with: 'prof2@example.com')
@@ -85,6 +89,7 @@ When('P1 and P2 simultaneously request creation') do
   end
 
   p1_procedure.join
+  sleep 0.3
   p2_procedure.join
 end
 
@@ -127,7 +132,8 @@ end
 
 When('S2 and S3 simultaneously request creation') do
   s2_procedure = Thread.new do
-    S2.current_window.resize_to(300, 500)
+    S2.current_window.resize_to(900, 600)
+
     S2.visit('/registration')
     S2.fill_in('user_name_field', with: 'Student 2')
     S2.fill_in('user_email_field', with: 'student2@example.com')
@@ -138,7 +144,8 @@ When('S2 and S3 simultaneously request creation') do
   end
 
   s3_procedure = Thread.new do
-    S3.current_window.resize_to(800, 800)
+    S3.current_window.resize_to(800, 500)
+
     S3.visit('/registration')
     S3.fill_in('user_name_field', with: 'Student 3')
     S3.fill_in('user_email_field', with: 'student3@example.com')
@@ -149,6 +156,7 @@ When('S2 and S3 simultaneously request creation') do
   end
 
   s2_procedure.join
+  sleep 0.3
   s3_procedure.join
 end
 
@@ -189,59 +197,43 @@ When('the administrator approves all users') do
 end
 
 When('all users log in') do
-  s1_procedure = Thread.new do
-    S1.visit('/login')
-    S1.fill_in('login_email_field', with: 'student1@example.com')
-    S1.fill_in('login_password_field', with: '123456')
-    S1.click_button('Log in')
-  end
+  S1.visit('/login')
+  S1.fill_in('login_email_field', with: 'student1@example.com')
+  S1.fill_in('login_password_field', with: '123456')
+  S1.click_button('Log in')
 
-  s2_procedure = Thread.new do
-    S2.visit('/login')
-    S2.fill_in('login_email_field', with: 'student2@example.com')
-    S2.fill_in('login_password_field', with: '123456')
-    S2.click_button('Log in')
-  end
+  S2.visit('/login')
+  S2.fill_in('login_email_field', with: 'student2@example.com')
+  S2.fill_in('login_password_field', with: '123456')
+  S2.click_button('Log in')
 
-  s3_procedure = Thread.new do
-    S3.visit('/login')
-    S3.fill_in('login_email_field', with: 'student3@example.com')
-    S3.fill_in('login_password_field', with: '123456')
-    S3.click_button('Log in')
-  end
+  S3.visit('/login')
+  S3.fill_in('login_email_field', with: 'student3@example.com')
+  S3.fill_in('login_password_field', with: '123456')
+  S3.click_button('Log in')
 
-  p1_procedure = Thread.new do
-    P1.visit('/login')
-    P1.fill_in('login_email_field', with: 'student2@example.com')
-    P1.fill_in('login_password_field', with: '123456')
-    P1.click_button('Log in')
-  end
+  P1.visit('/login')
+  P1.fill_in('login_email_field', with: 'prof1@example.com')
+  P1.fill_in('login_password_field', with: '123456')
+  P1.click_button('Log in')
 
-  p2_procedure = Thread.new do
-    P2.visit('/login')
-    P2.fill_in('login_email_field', with: 'student3@example.com')
-    P2.fill_in('login_password_field', with: '123456')
-    P2.click_button('Log in')
-  end
-
-  s1_procedure.join
-  s2_procedure.join
-  s3_procedure.join
-  p1_procedure.join
-  p2_procedure.join
+  P2.visit('/login')
+  P2.fill_in('login_email_field', with: 'prof2@example.com')
+  P2.fill_in('login_password_field', with: '123456')
+  P2.click_button('Log in')
 end
 
 When('S2 and S3 simultaneously register in C1') do
   s2_procedure = Thread.new do
     S2.visit('/terms/1/courses')
-    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 4004'), section: 'A').id
+    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A').id
     S2.click_button("enroll_button_#{offering_id}")
     S2.click_button('Confirm')
   end
 
   s3_procedure = Thread.new do
     S3.visit('/terms/1/courses')
-    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 4004'), section: 'A').id
+    offering_id = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A').id
     S3.click_button("enroll_button_#{offering_id}")
     S3.click_button('Confirm')
   end
@@ -291,13 +283,13 @@ When('P1 creates deliverable for C1, P2 creates deliverable for C3') do
 
   p2_procedure = Thread.new do
     offering = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A')
-    P1.visit("/courses/#{offering.id}")
-    P1.click_button('add_deliverable_button')
-    P1.fill_in('deliverable_title_field', with: 'Essay')
-    P1.fill_in('deliverable_description_field', with: 'An essay')
-    P1.fill_in('deliverable_weight_field', with: '0.5')
-    P1.fill_in('deliverable_due_date_field', with: '12-15-23')
-    P1.click_button('Create')
+    P2.visit("/courses/#{offering.id}")
+    P2.click_button('add_deliverable_button')
+    P2.fill_in('deliverable_title_field', with: 'Essay')
+    P2.fill_in('deliverable_description_field', with: 'An essay')
+    P2.fill_in('deliverable_weight_field', with: '0.5')
+    P2.fill_in('deliverable_due_date_field', with: '12-15-23')
+    P2.click_button('Create')
   end
 
   p1_procedure.join
@@ -306,14 +298,56 @@ end
 
 When('S1 drops C2') do
   S1.visit('/courses')
+  assert '/courses', S1.current_path # Wait for load
+  offering = Offering.find_by(course: Course.find_by(code: 'COMP 4004'), section: 'A')
+  S1.find("#unenroll_button_#{offering.id}").click
+  S1.click_button('Confirm')
 end
 
 When('S2 and S3 simultaneously submit C1 project') do
-  pending # Write code here that turns the phrase above into concrete actions
+  s2_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A')
+    deliverable = offering.deliverables.first
+    S2.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+    S2.click_button('Add submission')
+    S2.fill_in('submission_url_field', with: 'http://example.com')
+    S2.click_button('Submit')
+  end
+
+  s3_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'COMP 3004'), section: 'A')
+    deliverable = offering.deliverables.first
+    S3.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+    S3.click_button('Add submission')
+    S3.fill_in('submission_url_field', with: 'http://example.com')
+    S3.click_button('Submit')
+  end
+
+  s2_procedure.join
+  s3_procedure.join
 end
 
 When('S1 submits C3 while S2 submits C3') do
-  pending # Write code here that turns the phrase above into concrete actions
+  s1_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A')
+    deliverable = offering.deliverables.first
+    S1.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+    S1.click_button('Add submission')
+    S1.fill_in('submission_url_field', with: 'http://example.com')
+    S1.click_button('Submit')
+  end
+
+  s2_procedure = Thread.new do
+    offering = Offering.find_by(course: Course.find_by(code: 'MUSI 1002'), section: 'A')
+    deliverable = offering.deliverables.first
+    S2.visit("/courses/#{offering.id}/deliverables/#{deliverable.id}")
+    S2.click_button('Add submission')
+    S2.fill_in('submission_url_field', with: 'http://example.com')
+    S2.click_button('Submit')
+  end
+
+  s1_procedure.join
+  s2_procedure.join
 end
 
 When('P1 submits marks for deliverable in C1') do

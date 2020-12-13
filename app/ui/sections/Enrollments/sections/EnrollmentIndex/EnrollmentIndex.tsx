@@ -91,7 +91,7 @@ export default function EnrollmentIndex() {
     return (
       <Col key={`enrollment-${index}`} xs={24} sm={24} md={12} lg={12} xl={8} xxl={6}>
         <EnrollmentCard
-          entityId={enrollment.id}
+          entityId={enrollment.offering.id}
           title={enrollment.offering.course.name}
           subtitle={`${enrollment.offering.course.code} ${
             enrollment.offering.section
