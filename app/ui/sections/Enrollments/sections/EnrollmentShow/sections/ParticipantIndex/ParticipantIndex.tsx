@@ -110,7 +110,7 @@ export default function ParticipantIndex() {
             fixed: 'right',
             align: 'right',
             render: (_value, record) => {
-              if (record.role !== 'professor') {
+              if (record.role === 'professor') {
                 return null;
               }
 

@@ -12,7 +12,7 @@ Feature: Course Dropping
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
-    When I click the unenroll button
+    When I click the unenroll button for course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then enrollment in course with code "COMP 4004" section "A" no longer appears in my enrollments
     And student with email "student@email.com" now owes 0 in fees
@@ -26,7 +26,7 @@ Feature: Course Dropping
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
-    When I click the unenroll button
+    When I click the unenroll button for course code "COMP 4004" section "A"
     And I click the "Confirm" button
     Then enrollment in course with code "COMP 4004" section "A" no longer appears in my enrollments
     And student with email "student@email.com" has final grade "WDN" for the enrollment
@@ -41,7 +41,7 @@ Feature: Course Dropping
     And there exists a course offering for course with code "COMP 4004" section "A" for the current term
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And I am on the enrollments index
-    When I click the unenroll button
+    When I click the unenroll button for course code "COMP 4004" section "A"
     And I click the "Cancel" button
     Then enrollment in course with code "COMP 4004" section "A" still appears in my enrollments
 
@@ -55,4 +55,4 @@ Feature: Course Dropping
     And student with email "student@email.com" is enrolled in course with code "COMP 4004" section "A"
     And the student has received a final grade in the enrollment
     And I am on the enrollments index
-    Then there is no unenroll button
+    Then there is no unenroll button for course code "COMP 4004" section "A"

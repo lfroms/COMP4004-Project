@@ -197,7 +197,7 @@ export default function TermShow() {
             cancelText="Cancel"
             okButtonProps={{ loading: enrollLoading }}
           >
-            <Button id="enroll_button" icon={<UserAddOutlined />} />
+            <Button id={`enroll_button_${record.id}`} icon={<UserAddOutlined />} />
           </Popconfirm>
         );
       },
