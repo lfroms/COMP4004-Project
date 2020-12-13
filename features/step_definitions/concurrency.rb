@@ -424,12 +424,6 @@ Given('there are three users') do
 end
 
 When('all three users log in') do
-  S1.driver.quit
-  S2.driver.quit
-  S3.driver.quit
-  P1.driver.quit
-  P2.driver.quit
-
   S1.current_window.resize_to(1200, 940)
   S1.visit('/login')
   S1.fill_in('login_email_field', with: 'student1@example.com')
@@ -493,4 +487,12 @@ When('S2 drops the course while S3 registers in the course') do
 
   s2_procedure.join
   s3_procedure.join
+end
+
+When('the test session is completed') do
+  S1.driver.quit
+  S2.driver.quit
+  S3.driver.quit
+  P1.driver.quit
+  P2.driver.quit
 end

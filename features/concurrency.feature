@@ -24,6 +24,7 @@ Feature: Concurrency
     And P2 submits marks for deliverable in C3
     And P1 and P2 simultaneously submit final grades for C1 and C3
     And all users log out
+    And the test session is completed
 
   @ResourceContentionA
   Scenario: Resource contention 1
@@ -32,6 +33,7 @@ Feature: Concurrency
     When all three users log in
     And S1 registers in the course
     And S2 and S3 simultaneously register in the course
+    And the test session is completed
 
   @ResourceContentionB
   Scenario: Resource contention 2
@@ -40,3 +42,4 @@ Feature: Concurrency
     When all three users log in
     And S2 registers in the course
     And S2 drops the course while S3 registers in the course
+    And the test session is completed
