@@ -3,6 +3,7 @@ Feature: Concurrency
   I want to be able to use the system at the same time as other users
   So that multiple users can use the system simultaneously
 
+  @UseCaseDependencies
   Scenario: Use case dependencies
     Given an administrator user is logged in
     When the administrator creates the term
@@ -24,6 +25,7 @@ Feature: Concurrency
     And P1 and P2 simultaneously submit final grades for C1 and C3
     And all users log out
 
+  @ResourceContentionA
   Scenario: Resource contention 1
     Given there is a course with a seat limit of 2
     And there are three users
@@ -31,6 +33,7 @@ Feature: Concurrency
     And S1 registers in the course
     And S2 and S3 simultaneously register in the course
 
+  @ResourceContentionB
   Scenario: Resource contention 2
     Given there is a course with a seat limit of 2
     And there are three users
