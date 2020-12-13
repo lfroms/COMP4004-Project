@@ -1,6 +1,6 @@
 # Course Management System
 
-Final Project for COMP4004, designed and built by Gaby Pancu, Mitchell Soares, and Lukas Romsicki.
+Final project for COMP 4004, designed and built by Gaby Pancu, Mitchell Soares, and Lukas Romsicki.
 
 ## Table of Contents
 * [Getting Started](#getting-started)
@@ -50,8 +50,10 @@ There are a few ways to run the unit, integration, and system/acceptance tests f
 * System tests: `./system-tests`
 
 ### Windows
-* Unit tests: `docker-compose run --rm web bash -c "rails db:setup && rails db:migrate && rails test"`
+* Unit tests: `docker-compose run --rm web bash -c "rails db:create && rails db:schema:load && rails test"`
 * System tests: `docker-compose -f docker-compose.test.yml up --abort-on-container-exit`
+
+> Note: On Windows, you will not be able to watch the system/acceptance tests as they run automatically. To do this, start a VNC session into `vnc://user:secret@localhost:5900`.
 
 ## Commits
 

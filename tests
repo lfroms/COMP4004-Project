@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm web bash -c "rails db:setup && rails db:migrate && rails test"
+docker-compose run --rm web bash -c "rails db:create && rails db:schema:load && rails test"
