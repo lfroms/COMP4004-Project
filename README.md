@@ -53,6 +53,8 @@ There are a few ways to run the unit, integration, and system/acceptance tests f
 * Unit tests: `docker-compose run --rm web bash -c "rails db:create && rails db:schema:load && rails test"`
 * System tests: `docker-compose -f docker-compose.test.yml up --abort-on-container-exit`
 
+> Note: On Windows, you will not be able to watch the system/acceptance tests as they run automatically. To do this, start a VNC session into `vnc://user:secret@localhost:5900`.
+
 ## Commits
 
 All commits are squashed before merging into master. To see the full commit message with the `[CODE]`/`[TEST]`/`[ACCEPTANCE-TEST]`/`[REF]` labels, you must click on the commit.
